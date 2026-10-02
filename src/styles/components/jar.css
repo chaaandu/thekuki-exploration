@@ -1,0 +1,388 @@
+/* A jar: the summary is the button (lid art + paper tag), the panel is the back of the tag. */
+
+.jar {
+  position: relative;
+  flex: 0 0 auto;
+  width: var(--jar-w);
+  container-type: inline-size;
+  transition: opacity var(--dur-3) var(--ease-out);
+}
+
+.jar__summary {
+  transition:
+    translate var(--dur-4) var(--ease-spring),
+    scale var(--dur-4) var(--ease-spring);
+}
+
+.jar__details {
+  position: static;
+}
+
+.jar__summary {
+  position: relative;
+  display: block;
+  list-style: none;
+  cursor: pointer;
+  border-radius: var(--r-l);
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.jar__summary::-webkit-details-marker {
+  display: none;
+}
+
+.jar__summary::marker {
+  content: '';
+}
+
+.jar__summary:focus-visible {
+  outline-offset: 6px;
+}
+
+.jar__button {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: inherit;
+}
+
+/* ---------- 2D jar art ---------- */
+
+.jar-art {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 140 / 190;
+}
+
+.jar-art__body,
+.jar-art__lid {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.jar-art__lid-base {
+  fill: var(--flavour);
+  stroke: rgb(42 18 7 / 0.35);
+  stroke-width: 1.2;
+}
+
+.jar-art__lid-band {
+  fill: rgb(0 0 0 / 0.2);
+}
+
+.jar-art__lid-shine {
+  fill: rgb(255 255 255 / 0.32);
+}
+
+.jar-art__ridges {
+  transform-box: view-box;
+}
+
+.jar-art__lid-group {
+  transform-box: view-box;
+  transform-origin: 108px 34px;
+  transition: transform var(--dur-3) var(--ease-spring);
+}
+
+.jar__summary:hover .jar-art__lid-group {
+  transform: translateY(-1.5px);
+}
+
+/* Open (no-JS and reduced-motion state; the islands animate the twist on the way here). */
+.jar__details[open] .jar-art__lid-group,
+.jar-art--open .jar-art__lid-group,
+.jar[data-state='open'] .jar-art__lid-group {
+  transform: translate(10px, -30px) rotate(24deg);
+}
+
+/* ---------- The tag on the jar (front) ---------- */
+
+.tag__string {
+  position: absolute;
+  left: 63%;
+  top: 21%;
+  width: 1.5px;
+  height: 30%;
+  background: var(--kraft-3);
+  transform: rotate(-24deg);
+  transform-origin: top center;
+  border-radius: 1px;
+  pointer-events: none;
+}
+
+.jar .tag--front {
+  position: absolute;
+  left: 52%;
+  top: 46%;
+  width: 66%;
+  transform: rotate(calc(-5deg + var(--i, 0) * 2.3deg));
+  transform-origin: 50% 0;
+}
+
+.jar:nth-child(even) .tag--front {
+  transform: rotate(calc(4deg - var(--i, 0) * 0.6deg));
+}
+
+.tag {
+  color: var(--ink);
+}
+
+.tag--front {
+  display: grid;
+  justify-items: center;
+  gap: 0.1rem;
+  padding: 1.15rem 0.45rem 0.55rem;
+  background: var(--card);
+  clip-path: polygon(16% 0, 84% 0, 100% 18%, 100% 100%, 0 100%, 0 18%);
+  text-align: center;
+  filter: drop-shadow(0 4px 5px rgb(59 26 12 / 0.24));
+}
+
+.tag--front::before {
+  /* the punched hole */
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0.38rem;
+  width: 0.55rem;
+  height: 0.55rem;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: var(--wall, var(--paper));
+  box-shadow: 0 0 0 2px rgb(200 155 104 / 0.65);
+}
+
+.tag__name {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: clamp(0.82rem, 10.5cqi, 1.2rem);
+  line-height: 1.02;
+}
+
+.tag__price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.28em;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: clamp(0.92rem, 12cqi, 1.4rem);
+  line-height: 1.1;
+  color: var(--orange-ink);
+}
+
+.tag__size {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: 0.6em;
+  color: var(--ink-2);
+}
+
+/* "Twist" chip: shows on hover, focus, and on the centred jar on phones. */
+.jar__twist {
+  position: absolute;
+  left: 50%;
+  top: -0.35rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.6rem 0.15rem 0.45rem;
+  border-radius: var(--r-pill);
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  font-size: var(--step--2);
+  white-space: nowrap;
+  translate: -50% -100%;
+  opacity: 0;
+  transform: translateY(4px);
+  transition:
+    opacity var(--dur-2) var(--ease-out),
+    transform var(--dur-2) var(--ease-out);
+  pointer-events: none;
+}
+
+.jar__twist .icon {
+  width: 1em;
+  height: 1em;
+}
+
+.jar__summary:hover .jar__twist,
+.jar__summary:focus-visible .jar__twist,
+.jar[data-centred] .jar__twist {
+  opacity: 1;
+  transform: none;
+}
+
+.jar__details[open] .jar__twist,
+.jar[data-state='open'] .jar__twist {
+  opacity: 0 !important;
+}
+
+/* Chai-time picks slide forward with a handwritten note (4–7pm only). */
+.jar__chai-tag {
+  display: none;
+}
+
+[data-daypart='chai'] .jar--chai .jar__summary {
+  translate: 0 0.6rem;
+  scale: 1.07;
+}
+
+[data-daypart='chai'] .jar__chai-tag {
+  display: block;
+  position: absolute;
+  left: -10%;
+  top: -13%;
+  padding: 0.1rem 0.4rem;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: clamp(0.78rem, 9cqi, 1rem);
+  line-height: 1.05;
+  color: var(--orange-ink);
+  background: var(--card);
+  border-radius: 3px;
+  transform: rotate(-9deg);
+  box-shadow: 0 2px 4px rgb(59 26 12 / 0.18);
+  max-width: 7.5em;
+  text-align: center;
+}
+
+/* ---------- The back of the tag: the jar's panel ---------- */
+
+.jar__panel {
+  position: absolute;
+  z-index: var(--z-jar-open);
+  top: calc(100% + var(--plank-h, 1.5rem) + 0.5rem);
+  left: 50%;
+  width: min(20rem, 86vw);
+  translate: -50% 0;
+}
+
+.jar__details:not([open]) > .jar__panel {
+  display: none;
+}
+
+.jar:has(.jar__details[open]) {
+  z-index: var(--z-jar-open);
+}
+
+.shelf__row:has(.jar__details[open]) > .jar:not(:has(.jar__details[open])) {
+  opacity: 0.5;
+}
+
+.tag--back {
+  position: relative;
+  display: grid;
+  gap: 0.6rem;
+  padding: 1.6rem 1.15rem 1.1rem;
+  background:
+    linear-gradient(var(--card), var(--card)) padding-box;
+  border-radius: 10px;
+  box-shadow: var(--shadow-lift);
+  transform-origin: 50% 0;
+  animation: kuki-tag-flip var(--dur-3) var(--ease-out) both;
+}
+
+.tag--back::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0.55rem;
+  width: 0.65rem;
+  height: 0.65rem;
+  translate: -50% 0;
+  border-radius: 50%;
+  background: var(--paper-3);
+  box-shadow: 0 0 0 2px rgb(200 155 104 / 0.6);
+}
+
+@keyframes kuki-tag-flip {
+  from {
+    opacity: 0;
+    transform: perspective(700px) rotateY(-70deg) translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.tag__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  line-height: 1.05;
+}
+
+.tag__title-link {
+  text-decoration: none;
+}
+
+.tag__memory {
+  font-family: var(--font-hand);
+  font-size: var(--step-1);
+  line-height: 1.3;
+  color: var(--ink);
+}
+
+.tag__pairing {
+  font-weight: 600;
+  font-size: var(--step--1);
+  color: var(--ink-2);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.tag__pairing::before {
+  content: '';
+  width: 1.1rem;
+  height: 2px;
+  background: var(--flavour);
+  border-radius: 2px;
+  flex: none;
+}
+
+.tag__more {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  justify-self: start;
+  min-height: 44px;
+  font-weight: 600;
+  font-size: var(--step--1);
+  color: var(--orange-ink);
+}
+
+.tag__more .icon {
+  width: 1em;
+  height: 1em;
+}
+
+/* Phones and tablets: the open tag spans the screen under the shelf instead of hanging off one jar. */
+@media (max-width: 63.99rem) {
+  .jar {
+    position: static;
+  }
+
+  .jar__summary {
+    position: relative;
+  }
+
+  .jar__panel {
+    left: var(--gutter);
+    right: var(--gutter);
+    width: auto;
+    translate: none;
+    top: calc(100% + 0.75rem);
+  }
+}

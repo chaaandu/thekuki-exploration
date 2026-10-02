@@ -1,0 +1,14 @@
+{%- doc -%}
+  Prints a variant's size label. Bare numbers get a unit ("100" → "100g") so a variant
+  named without the "g" still reads correctly; anything else prints as it is in Shopify.
+
+  @param {string} title - The variant title / option value
+{%- enddoc -%}
+{%- liquid
+  assign as_number = title | plus: 0 | append: ''
+  if as_number == title
+    echo 'product.grams' | t: amount: title
+  else
+    echo title
+  endif
+-%}

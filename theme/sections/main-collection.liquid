@@ -1,0 +1,55 @@
+{%- paginate collection.products by 24 -%}
+  <section class="counter section" aria-labelledby="collection-title-{{ section.id }}">
+    <div class="section-head">
+      <h1 class="section-head__title section-head__title--page" id="collection-title-{{ section.id }}">
+        {%- if collection.handle == 'all' and section.settings.all_heading != blank -%}
+          {{ section.settings.all_heading }}
+        {%- else -%}
+          {{ collection.title }}
+        {%- endif -%}
+      </h1>
+      {%- if collection.description != blank -%}
+        <div class="section-head__intro rte">{{ collection.description }}</div>
+      {%- elsif section.settings.intro != blank -%}
+        <div class="section-head__intro">{{ section.settings.intro }}</div>
+      {%- endif -%}
+    </div>
+
+    {%- if collection.products.size > 0 -%}
+      <ul class="counter__grid" role="list">
+        {%- for product in collection.products -%}
+          {%- assign card_loading = 'lazy' -%}
+          {%- if forloop.index <= 2 -%}{%- assign card_loading = 'eager' -%}{%- endif -%}
+          {%- render 'flavour-card', product: product, image_index: section.settings.image_index, source: 'collection', heading_level: 'h2', loading: card_loading -%}
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <p class="empty-note">{{ 'collection.empty' | t }}</p>
+    {%- endif -%}
+
+    {%- if paginate.pages > 1 -%}
+      <nav class="pager" aria-label="{{ 'general.pagination' | t }}">
+        {%- if paginate.previous -%}<a class="btn btn--ghost" href="{{ paginate.previous.url }}">{{ 'general.previous' | t }}</a>{%- endif -%}
+        <span class="pager__count">{{ 'general.page_of' | t: page: paginate.current_page, pages: paginate.pages }}</span>
+        {%- if paginate.next -%}<a class="btn btn--ghost" href="{{ paginate.next.url }}">{{ 'general.next' | t }}</a>{%- endif -%}
+      </nav>
+    {%- endif -%}
+  </section>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Collection",
+  "tag": "div",
+  "class": "section-collection",
+  "settings": [
+    { "type": "text", "id": "all_heading", "label": "Heading on the all-flavours page", "default": "All six flavours" },
+    { "type": "richtext", "id": "intro", "label": "Intro (when the collection has no description)", "default": "<p>Pick a size and add it to the bag.</p>" },
+    { "type": "select", "id": "image_index", "label": "Photo to show", "default": "3", "options": [
+      { "value": "1", "label": "1st product photo" },
+      { "value": "2", "label": "2nd product photo" },
+      { "value": "3", "label": "3rd product photo" }
+    ] }
+  ]
+}
+{% endschema %}

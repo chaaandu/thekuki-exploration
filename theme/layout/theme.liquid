@@ -1,0 +1,50 @@
+<!doctype html>
+<html
+  lang="{{ request.locale.iso_code }}"
+  class="no-js"
+  data-page="{{ request.page_type }}"
+  data-template="{{ template.name }}"
+>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#fbf4e6">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="canonical" href="{{ canonical_url }}">
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
+    {%- endif -%}
+
+    {%- render 'meta-tags' -%}
+    {%- render 'fonts' -%}
+    {%- render 'critical-css' -%}
+    {%- render 'boot-script' -%}
+
+    <link rel="stylesheet" href="{{ 'kuki.css' | asset_url }}" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="{{ 'kuki.css' | asset_url }}"></noscript>
+    <script type="module" src="{{ 'kuki-core.js' | asset_url }}"></script>
+
+    {{ content_for_header }}
+
+    {%- if request.page_type == 'index' -%}
+      {%- render 'jsonld-organization' -%}
+    {%- endif -%}
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main">{{ 'accessibility.skip_to_content' | t }}</a>
+    {%- render 'svg-sprite' -%}
+
+    {% sections 'header-group' %}
+
+    <main id="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {% section 'paper-bag' %}
+
+    <div id="kuki-announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+  </body>
+</html>

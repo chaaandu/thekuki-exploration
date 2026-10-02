@@ -1,0 +1,14 @@
+node_modules/
+.DS_Store
+*.log
+
+# local dev emulator state (carts, contact submissions)
+dev/.data/
+
+# test + screenshot output
+artifacts/
+test-results/
+playwright-report/
+
+# Shopify CLI
+.shopify/

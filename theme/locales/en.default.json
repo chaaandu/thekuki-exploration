@@ -1,0 +1,140 @@
+{
+  "general": {
+    "price": "₹{{ amount }}",
+    "page_title": "{{ title }} – {{ shop }}",
+    "page_title_paged": "{{ title }}, page {{ page }}",
+    "home": "Home",
+    "all_flavours": "All six flavours",
+    "announcements": "Announcements",
+    "main_menu": "Main menu",
+    "menu": "Menu",
+    "close": "Close",
+    "veg_mark": "Vegetarian",
+    "veg_label": "100% veg",
+    "todo": "To fill in: {{ field }}",
+    "todo_photo": "To fill in: a real photo",
+    "whatsapp_us": "WhatsApp us",
+    "whatsapp_label": "WhatsApp {{ number }}",
+    "call_label": "Call {{ number }}",
+    "instagram_label": "@{{ handle }} on Instagram",
+    "policies": "Policies",
+    "fssai": "FSSAI licence no. {{ number }}",
+    "copyright": "© {{ year }} {{ shop }}",
+    "pagination": "Pages",
+    "previous": "Previous",
+    "next": "Next",
+    "page_of": "Page {{ page }} of {{ pages }}",
+    "search_label": "Search the flavours",
+    "search_placeholder": "Masala, Boost, gifting…",
+    "search_submit": "Search"
+  },
+  "accessibility": {
+    "skip_to_content": "Skip to content",
+    "opens_new_window": "(opens in a new window)"
+  },
+  "product": {
+    "size": "Size",
+    "grams": "{{ amount }}g",
+    "was": "Was",
+    "cookie_count": {
+      "one": "about {{ count }} cookie",
+      "other": "about {{ count }} cookies"
+    },
+    "sold_out": "Sold out",
+    "add_size_price": "Add {{ size }} · {{ price }}",
+    "adding": "Adding…",
+    "added": "In the bag",
+    "add_again": "Add another",
+    "add_failed": "Couldn't add that. Try again?",
+    "free_delivery_line": "Free delivery above {{ amount }}",
+    "facts_veg": "100% vegetarian",
+    "facts_eggless_label": "Eggless",
+    "facts_eggless": "Made without egg",
+    "facts_allergens": "Allergens",
+    "facts_shelf_life": "Shelf life",
+    "facts_word": "The word",
+    "todo_eggless": "whether it's eggless",
+    "todo_allergens": "allergens",
+    "todo_shelf_life": "shelf life"
+  },
+  "shelf": {
+    "twist": "Twist",
+    "twist_to_open": "Twist to open",
+    "twist_jar": "Twist open the {{ flavour }} jar",
+    "close_jar": "Close the {{ flavour }} jar",
+    "jar_open": "{{ flavour }} jar open.",
+    "lid_turn": "Quarter turn {{ count }} of 6",
+    "more_about": "More about {{ flavour }}",
+    "todo_memory": "memory line",
+    "todo_pairing": "best with",
+    "controls_label": "Shelf controls",
+    "sound": "Sound",
+    "reduce_motion": "Reduce motion",
+    "just_shelf": "Just the shelf",
+    "show_everything": "Show everything"
+  },
+  "bag": {
+    "title": "Your bag",
+    "button_label": {
+      "one": "Open bag, {{ count }} item, {{ total }}",
+      "other": "Open bag, {{ count }} items, {{ total }}"
+    },
+    "button_empty": "Your bag is empty",
+    "close": "Close the bag",
+    "quantity": "Quantity",
+    "quantity_for": "Quantity of {{ title }}",
+    "increase": "One more {{ title }}",
+    "decrease": "One less {{ title }}",
+    "remove": "Remove",
+    "subtotal": "Subtotal",
+    "meter_label": "Free delivery",
+    "meter_remaining": "{{ amount }} away from free delivery",
+    "meter_reached": "Free delivery",
+    "meter_progress": "{{ percent }}% of the way to free delivery",
+    "suggest_heading": "One tap gets you there:",
+    "suggest_add": "Add {{ flavour }} {{ size }} · {{ price }}",
+    "gift_box": "Gift box",
+    "note_saved": "Saved",
+    "item_added": "{{ title }} added. Bag total {{ total }}.",
+    "updated": "Bag updated. Total {{ total }}.",
+    "free_reached": "That's free delivery.",
+    "error": "Something went wrong. Your bag hasn't changed.",
+    "checkout_wait": "Opening checkout…",
+    "open": "Open bag",
+    "update": "Update bag",
+    "continue": "Keep shopping"
+  },
+  "contact": {
+    "whatsapp": "WhatsApp",
+    "call": "Call",
+    "name": "Your name",
+    "email": "Email, so we can reply",
+    "required": "(required)",
+    "phone": "Phone",
+    "message": "Message",
+    "error_heading": "Please check these:"
+  },
+  "collection": {
+    "empty": "No flavours here right now."
+  },
+  "search": {
+    "results_for": "Results for “{{ terms }}”",
+    "no_results": "Nothing matched “{{ terms }}”. Try a flavour name."
+  },
+  "password": {
+    "label": "Password",
+    "enter": "Enter",
+    "wrong": "That password didn't work."
+  },
+  "gift_card": {
+    "title": "Your {{ shop }} gift card",
+    "heading": "A {{ shop }} gift card",
+    "balance": "Balance: {{ amount }}",
+    "expired": "This gift card has expired.",
+    "shop": "Choose your cookies"
+  },
+  "date_formats": {
+    "abbreviated_date": "%-d %b %Y",
+    "trays_date": "%A, %-d %B"
+  }
+}

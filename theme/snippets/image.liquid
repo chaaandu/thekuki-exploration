@@ -1,0 +1,69 @@
+{%- doc -%}
+  Responsive image from Shopify's image CDN (it negotiates WebP/AVIF itself).
+  Never upscales; always sets width/height so the layout doesn't shift.
+
+  @param {object} image - Image or media object
+  @param {string} sizes - The sizes attribute
+  @param {string} [widths] - Comma-separated candidate widths (default '360,540,720,960,1200')
+  @param {number} [ratio] - Crop to this width/height ratio, e.g. 0.8 for 4:5
+  @param {boolean} [decorative] - Empty alt, for images that repeat nearby text
+  @param {string} [alt] - Alt text (defaults to the image's alt from Shopify)
+  @param {string} [loading] - 'lazy' (default) | 'eager'
+  @param {boolean} [priority] - Mark as the page's main (LCP) image: eager + fetchpriority=high
+  @param {string} [class] - Extra class
+{%- enddoc -%}
+{%- liquid
+  assign source = image.preview_image | default: image
+  assign candidates = widths | default: '360,540,720,960,1200' | split: ','
+  assign max_w = source.width
+  assign srcset = ''
+  assign largest = 0
+  for candidate in candidates
+    assign w = candidate | plus: 0
+    if w > max_w
+      continue
+    endif
+    if ratio
+      assign h = w | times: 1.0 | divided_by: ratio | round
+      assign url = source | image_url: width: w, height: h, crop: 'center'
+    else
+      assign url = source | image_url: width: w
+    endif
+    if srcset != ''
+      assign srcset = srcset | append: ', '
+    endif
+    assign srcset = srcset | append: url | append: ' ' | append: w | append: 'w'
+    assign largest = w
+  endfor
+  if largest == 0
+    assign largest = max_w
+    assign srcset = blank
+  endif
+  if ratio
+    assign out_h = largest | times: 1.0 | divided_by: ratio | round
+    assign src = source | image_url: width: largest, height: out_h, crop: 'center'
+  else
+    assign out_h = source.height | times: largest | divided_by: max_w
+    assign src = source | image_url: width: largest
+  endif
+  assign alt_text = alt | default: source.alt | default: image.alt
+  if decorative
+    assign alt_text = ''
+  endif
+  assign load = loading | default: 'lazy'
+  if priority
+    assign load = 'eager'
+  endif
+-%}
+<img
+  src="{{ src }}"
+  {% if srcset != blank %}srcset="{{ srcset }}"{% endif %}
+  sizes="{{ sizes }}"
+  width="{{ largest }}"
+  height="{{ out_h }}"
+  alt="{{ alt_text | escape }}"
+  loading="{{ load }}"
+  decoding="async"
+  {% if priority %}fetchpriority="high"{% endif %}
+  {% if class %}class="{{ class }}"{% endif %}
+>

@@ -1,0 +1,79 @@
+{%- liquid
+  assign menu = section.settings.menu
+  assign logo_w = settings.logo_width | default: 128
+  assign logo_w2 = logo_w | times: 2
+  assign wa_digits = settings.whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
+-%}
+<header class="site-header" data-site-header>
+  <div class="site-header__inner">
+    <a class="site-header__logo" href="{{ routes.root_url }}" style="--logo-w: {{ logo_w }}px;">
+      {%- if settings.logo != blank -%}
+        {%- assign logo_h = settings.logo.height | times: logo_w | divided_by: settings.logo.width -%}
+        <img
+          src="{{ settings.logo | image_url: width: logo_w2 }}"
+          srcset="{{ settings.logo | image_url: width: logo_w }} 1x, {{ settings.logo | image_url: width: logo_w2 }} 2x"
+          width="{{ logo_w }}"
+          height="{{ logo_h }}"
+          alt="{{ shop.name | escape }}"
+          fetchpriority="high"
+        >
+      {%- else -%}
+        <img
+          src="{{ 'kuki-logo-280.webp' | asset_url }}"
+          srcset="{{ 'kuki-logo-280.webp' | asset_url }} 1x, {{ 'kuki-logo.webp' | asset_url }} 2x"
+          width="{{ logo_w }}"
+          height="{{ logo_w | times: 230 | divided_by: 512 }}"
+          alt="{{ shop.name | escape }}"
+          fetchpriority="high"
+        >
+      {%- endif -%}
+    </a>
+
+    {%- if menu != blank -%}
+      <nav class="site-nav" aria-label="{{ 'general.main_menu' | t }}">
+        <ul class="site-nav__list" role="list">
+          {%- for link in menu.links -%}
+            <li>
+              <a class="site-nav__link" href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>{{ link.title }}</a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </nav>
+
+      <details class="nav-drawer" data-nav-drawer>
+        <summary class="nav-drawer__toggle">
+          <svg class="icon" aria-hidden="true"><use href="#kuki-icon-menu"/></svg>
+          <span>{{ 'general.menu' | t }}</span>
+        </summary>
+        <div class="nav-drawer__panel">
+          <nav aria-label="{{ 'general.main_menu' | t }}">
+            <ul class="nav-drawer__list" role="list">
+              {%- for link in menu.links -%}
+                <li><a class="nav-drawer__link" href="{{ link.url }}" {% if link.current %}aria-current="page"{% endif %}>{{ link.title }}</a></li>
+              {%- endfor -%}
+            </ul>
+          </nav>
+          {%- if wa_digits != blank -%}
+            <a class="nav-drawer__contact" href="https://wa.me/{{ wa_digits }}" rel="noopener" target="_blank">
+              <svg class="icon" aria-hidden="true"><use href="#kuki-icon-chat"/></svg>
+              {{ 'general.whatsapp_us' | t }}
+              <span class="visually-hidden">{{ 'accessibility.opens_new_window' | t }}</span>
+            </a>
+          {%- endif -%}
+        </div>
+      </details>
+    {%- endif -%}
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header",
+  "tag": "div",
+  "class": "section-header",
+  "enabled_on": { "groups": ["header"] },
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" }
+  ]
+}
+{% endschema %}

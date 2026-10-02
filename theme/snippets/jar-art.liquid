@@ -1,0 +1,34 @@
+{%- doc -%}
+  The 2D jar: cached body art (glass + that flavour's cookies) with an inline lid that takes
+  the flavour colour from the --flavour custom property. The lid is a separate layer so the
+  2D tier can lift, twist (ridges slide) and tilt it with transforms only.
+
+  @param {string} form - cookie_form: thumbprint | malt_round | leaf_crust | chunk | stick | nut_crust | empty
+  @param {string} [loading] - 'eager' | 'lazy' (default 'lazy')
+  @param {boolean} [open] - Render with the lid off (e.g. the 404 jar)
+{%- enddoc -%}
+{%- liquid
+  assign form = form | default: 'empty'
+  assign body = 'jar-' | append: form | append: '.svg' | asset_url
+-%}
+<span class="jar-art{% if open %} jar-art--open{% endif %}" aria-hidden="true">
+  <img
+    class="jar-art__body"
+    src="{{ body }}"
+    width="140"
+    height="190"
+    alt=""
+    loading="{{ loading | default: 'lazy' }}"
+    decoding="async"
+  >
+  <svg class="jar-art__lid" viewBox="0 0 140 190" focusable="false">
+    <g class="jar-art__lid-group">
+      <rect class="jar-art__lid-base" x="28" y="8" width="84" height="30" rx="6"/>
+      <g clip-path="url(#kuki-lid-clip)">
+        <use class="jar-art__ridges" href="#kuki-lid-ridges" x="28" y="8" width="176" height="40"/>
+      </g>
+      <rect class="jar-art__lid-band" x="28" y="31" width="84" height="7" rx="3"/>
+      <rect class="jar-art__lid-shine" x="32" y="11" width="76" height="5" rx="2.5"/>
+    </g>
+  </svg>
+</span>

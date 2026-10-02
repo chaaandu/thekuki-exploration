@@ -1,0 +1,20 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": { "type": "title" },
+        "memory": { "type": "memory" },
+        "buy": { "type": "buy", "settings": { "show_delivery": true } },
+        "pairing": { "type": "pairing" },
+        "gloss": { "type": "gloss" }
+      },
+      "block_order": ["title", "memory", "buy", "pairing", "gloss"],
+      "settings": { "enable_3d": true }
+    },
+    "story": { "type": "product-story", "settings": { "heading": "From the tray" } },
+    "textures": { "type": "texture-strip", "settings": { "heading": "Up close" } },
+    "facts": { "type": "product-facts", "settings": { "heading": "Good to know" } }
+  },
+  "order": ["main", "story", "textures", "facts"]
+}

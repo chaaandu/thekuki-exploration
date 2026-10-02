@@ -1,0 +1,41 @@
+<section class="empty-jar section" aria-labelledby="empty-title-{{ section.id }}">
+  <div class="empty-jar__art" style="--flavour: {{ section.settings.lid_colour }};">
+    {%- render 'jar-art', form: 'empty', loading: 'eager', open: true -%}
+  </div>
+  <div class="empty-jar__text">
+    <h1 class="empty-jar__title" id="empty-title-{{ section.id }}">{{ section.settings.heading }}</h1>
+    {%- if section.settings.text != blank -%}<div class="empty-jar__body rte">{{ section.settings.text }}</div>{%- endif -%}
+    <div class="empty-jar__actions">
+      {%- if section.settings.primary_label != blank -%}
+        <a class="btn btn--primary" href="{{ section.settings.primary_link | default: routes.all_products_collection_url }}">{{ section.settings.primary_label }}</a>
+      {%- endif -%}
+      {%- if section.settings.secondary_label != blank -%}
+        <a class="btn btn--ghost" href="{{ section.settings.secondary_link | default: routes.root_url }}">{{ section.settings.secondary_label }}</a>
+      {%- endif -%}
+    </div>
+    <form class="empty-jar__search" action="{{ routes.search_url }}" method="get" role="search">
+      <label class="visually-hidden" for="empty-search-{{ section.id }}">{{ 'general.search_label' | t }}</label>
+      <input class="field__input" id="empty-search-{{ section.id }}" type="search" name="q" placeholder="{{ 'general.search_placeholder' | t }}">
+      <button class="btn btn--icon" type="submit" aria-label="{{ 'general.search_submit' | t }}">
+        <svg class="icon" aria-hidden="true"><use href="#kuki-icon-search"/></svg>
+      </button>
+    </form>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Not found (404)",
+  "tag": "div",
+  "class": "section-404",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "This jar's empty." },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>The page you were after isn't here. The cookies are.</p>" },
+    { "type": "text", "id": "primary_label", "label": "Main button", "default": "See all six flavours" },
+    { "type": "url", "id": "primary_link", "label": "Main button link" },
+    { "type": "text", "id": "secondary_label", "label": "Second button", "default": "Back to the shelf" },
+    { "type": "url", "id": "secondary_link", "label": "Second button link" },
+    { "type": "color", "id": "lid_colour", "label": "Lid colour", "default": "#e8650a" }
+  ]
+}
+{% endschema %}

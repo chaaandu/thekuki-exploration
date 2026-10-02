@@ -1,0 +1,18 @@
+{
+  "sections": {
+    "about": {
+      "type": "about-story",
+      "blocks": {
+        "t1": { "type": "text", "settings": { "large": true, "text": "<p>Boost after school. Masala and omam with evening chai. Rose gulkand like the sweet paan after dinner. Each Kuki tastes like a moment you already know, and two more, Blueberry and Nutella Chunk, are simply hard to stop at one.</p>" } },
+        "t2": { "type": "text", "settings": { "text": "<p>Every ball of dough is portioned and shaped by hand and baked in small trays through the day. It's slower, but it's the only way to get the texture right: a crisp edge and a chewy middle on the Boost, a jammy centre that holds to the last bite in the Blueberry, curry leaves toasted until they're fragrant on the Masala.</p><p>Nothing is pulled from a freezer. Nothing sits around waiting for you.</p>" } },
+        "photo": { "type": "photo", "settings": { "caption": "" } },
+        "t3": { "type": "text", "settings": { "text": "<p>Gifting is half of what we do: a dabba of six for someone you miss, or boxes with your company's name on the lid. All of it 100% veg.</p>" } },
+        "facts": { "type": "facts", "settings": { "fact_1": "100% veg", "fact_2": "Shaped by hand", "fact_3": "Baked through the day", "fact_4": "Never frozen" } },
+        "more": { "type": "link", "settings": { "label": "See all six flavours", "url": "/collections/all" } }
+      },
+      "block_order": ["t1", "t2", "photo", "t3", "facts", "more"],
+      "settings": { "eyebrow": "About Kuki", "heading": "Six flavours. Each one a memory.", "as_page_title": true, "anchor": "" }
+    }
+  },
+  "order": ["about"]
+}

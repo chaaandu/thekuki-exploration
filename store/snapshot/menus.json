@@ -1,0 +1,48 @@
+{
+  "menus": [
+    {
+      "handle": "main-menu",
+      "title": "Main menu",
+      "links": [
+        {
+          "title": "Home",
+          "url": "/"
+        },
+        {
+          "title": "Catalog",
+          "url": "/collections/all"
+        },
+        {
+          "title": "Contact",
+          "url": "/pages/contact"
+        },
+        {
+          "title": "Corporate Gifting",
+          "url": "/#gifting"
+        },
+        {
+          "title": "About Us",
+          "url": "/#about"
+        }
+      ]
+    },
+    {
+      "handle": "footer",
+      "title": "Footer menu",
+      "links": [
+        {
+          "title": "Home",
+          "url": "/"
+        },
+        {
+          "title": "Catalog",
+          "url": "/collections/all"
+        },
+        {
+          "title": "Contact",
+          "url": "/pages/contact"
+        }
+      ]
+    }
+  ]
+}

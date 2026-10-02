@@ -1,0 +1,10 @@
+{
+  "pages": [
+    {
+      "handle": "contact",
+      "title": "Contact",
+      "body_html": "",
+      "template_suffix": "contact"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{%- liquid
+  assign threshold_paise = settings.free_delivery_threshold | times: 100
+  capture threshold
+    render 'price', amount: threshold_paise
+  endcapture
+  assign messages = section.blocks | where: 'type', 'message'
+-%}
+{%- if messages.size > 0 -%}
+  <div class="announce" role="region" aria-label="{{ 'general.announcements' | t }}">
+    <ul class="announce__list" role="list">
+      {%- for block in messages -%}
+        {%- assign text = block.settings.text | replace: '[threshold]', threshold -%}
+        <li class="announce__item{% unless block.settings.show_on_mobile %} announce__item--wide{% endunless %}" {{ block.shopify_attributes }}>
+          {%- if block.settings.link != blank -%}
+            <a href="{{ block.settings.link }}">{{ text }}</a>
+          {%- else -%}
+            {{ text }}
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Announcement",
+  "tag": "div",
+  "class": "section-announce",
+  "enabled_on": { "groups": ["header"] },
+  "max_blocks": 4,
+  "blocks": [
+    {
+      "type": "message",
+      "name": "Message",
+      "settings": [
+        { "type": "inline_richtext", "id": "text", "label": "Text", "info": "Write [threshold] to show the free-delivery amount from Theme settings › Delivery & bag.", "default": "Free delivery above [threshold]" },
+        { "type": "url", "id": "link", "label": "Link" },
+        { "type": "checkbox", "id": "show_on_mobile", "label": "Show on phones", "default": true }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Announcement", "blocks": [{ "type": "message" }] }]
+}
+{% endschema %}

@@ -1,0 +1,139 @@
+{%- liquid
+  assign wa_digits = settings.whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
+  assign phone_digits = settings.phone_number | remove: ' ' | remove: '-'
+  assign insta = settings.instagram_handle | remove: '@' | strip
+  assign this_year = 'now' | date: '%Y'
+  assign policies_label = 'general.policies' | t
+-%}
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'brand' -%}
+          <div class="site-footer__brand" {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}
+              <p class="site-footer__sign">{{ block.settings.heading }}</p>
+            {%- endif -%}
+            {%- if block.settings.text != blank -%}
+              <div class="site-footer__text">{{ block.settings.text }}</div>
+            {%- endif -%}
+          </div>
+
+        {%- when 'menu' -%}
+          {%- if block.settings.menu != blank -%}
+            <nav class="site-footer__col" aria-label="{{ block.settings.heading | default: block.settings.menu.title | escape }}" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}<h2 class="site-footer__heading">{{ block.settings.heading }}</h2>{%- endif -%}
+              <ul class="site-footer__links" role="list">
+                {%- for link in block.settings.menu.links -%}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            </nav>
+          {%- endif -%}
+
+        {%- when 'contact' -%}
+          <div class="site-footer__col" {{ block.shopify_attributes }}>
+            {%- if block.settings.heading != blank -%}<h2 class="site-footer__heading">{{ block.settings.heading }}</h2>{%- endif -%}
+            <ul class="site-footer__links" role="list">
+              {%- if wa_digits != blank -%}
+                <li>
+                  <a href="https://wa.me/{{ wa_digits }}" rel="noopener" target="_blank">
+                    <svg class="icon" aria-hidden="true"><use href="#kuki-icon-chat"/></svg>
+                    {{- 'general.whatsapp_label' | t: number: settings.whatsapp_number -}}
+                    <span class="visually-hidden">{{ 'accessibility.opens_new_window' | t }}</span>
+                  </a>
+                </li>
+              {%- endif -%}
+              {%- if phone_digits != blank -%}
+                <li>
+                  <a href="tel:{{ phone_digits }}">
+                    <svg class="icon" aria-hidden="true"><use href="#kuki-icon-phone"/></svg>
+                    {{- 'general.call_label' | t: number: settings.phone_number -}}
+                  </a>
+                </li>
+              {%- endif -%}
+              {%- if insta != blank -%}
+                <li>
+                  <a href="https://www.instagram.com/{{ insta }}" rel="noopener" target="_blank">
+                    <svg class="icon" aria-hidden="true"><use href="#kuki-icon-at"/></svg>
+                    {{- 'general.instagram_label' | t: handle: insta -}}
+                    <span class="visually-hidden">{{ 'accessibility.opens_new_window' | t }}</span>
+                  </a>
+                </li>
+              {%- endif -%}
+              {%- if settings.contact_email != blank -%}
+                <li><a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a></li>
+              {%- endif -%}
+            </ul>
+          </div>
+
+        {%- when 'policies' -%}
+          {%- if shop.policies.size > 0 -%}
+            <nav class="site-footer__col" aria-label="{{ block.settings.heading | default: policies_label | escape }}" {{ block.shopify_attributes }}>
+              {%- if block.settings.heading != blank -%}<h2 class="site-footer__heading">{{ block.settings.heading }}</h2>{%- endif -%}
+              <ul class="site-footer__links" role="list">
+                {%- for policy in shop.policies -%}
+                  <li><a href="{{ policy.url }}">{{ policy.title }}</a></li>
+                {%- endfor -%}
+              </ul>
+            </nav>
+          {%- endif -%}
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+
+  <div class="site-footer__legal">
+    {%- render 'veg-mark', size: 'md', labelled: true -%}
+    {%- if settings.fssai_licence != blank -%}
+      <p class="site-footer__fssai">{{ 'general.fssai' | t: number: settings.fssai_licence }}</p>
+    {%- endif -%}
+    <p class="site-footer__copy">{{ 'general.copyright' | t: year: this_year, shop: shop.name }}</p>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "tag": "div",
+  "class": "section-footer",
+  "enabled_on": { "groups": ["footer"] },
+  "max_blocks": 6,
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Brand line",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Big line", "default": "Small batch. Big bite." },
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Every cookie is shaped by hand and baked in small trays through the day. Never pulled from a freezer.</p>" }
+      ]
+    },
+    {
+      "type": "menu",
+      "name": "Menu",
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Kuki" },
+        { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+      ]
+    },
+    {
+      "type": "contact",
+      "name": "Contact",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Say hello" },
+        { "type": "paragraph", "content": "WhatsApp, phone, Instagram and email come from Theme settings › Contact." }
+      ]
+    },
+    {
+      "type": "policies",
+      "name": "Policies",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Policies" },
+        { "type": "paragraph", "content": "Lists every policy you've published in Settings › Policies." }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,42 @@
+{%- paginate blog.articles by 12 -%}
+  <section class="blog section" aria-labelledby="blog-title-{{ section.id }}">
+    <h1 class="section-head__title section-head__title--page" id="blog-title-{{ section.id }}">{{ blog.title }}</h1>
+    {%- if blog.articles.size > 0 -%}
+      <ul class="blog__list" role="list">
+        {%- for article in blog.articles -%}
+          <li class="blog__item">
+            {%- if article.image != blank -%}
+              <a class="blog__photo" href="{{ article.url }}" tabindex="-1" aria-hidden="true">
+                {%- render 'image', image: article.image, widths: '360,540,720', sizes: '(min-width: 900px) 30vw, 92vw', ratio: 1.33, decorative: true -%}
+              </a>
+            {%- endif -%}
+            <h2 class="blog__title"><a href="{{ article.url }}">{{ article.title }}</a></h2>
+            <p class="blog__meta">{{ article.published_at | date: format: 'abbreviated_date' }}</p>
+            {%- if article.excerpt != blank -%}<div class="blog__excerpt rte">{{ article.excerpt }}</div>{%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <p class="empty-note">{{ section.settings.empty }}</p>
+      <p><a class="btn btn--ghost" href="{{ routes.all_products_collection_url }}">{{ 'general.all_flavours' | t }}</a></p>
+    {%- endif -%}
+    {%- if paginate.pages > 1 -%}
+      <nav class="pager" aria-label="{{ 'general.pagination' | t }}">
+        {%- if paginate.previous -%}<a class="btn btn--ghost" href="{{ paginate.previous.url }}">{{ 'general.previous' | t }}</a>{%- endif -%}
+        <span class="pager__count">{{ 'general.page_of' | t: page: paginate.current_page, pages: paginate.pages }}</span>
+        {%- if paginate.next -%}<a class="btn btn--ghost" href="{{ paginate.next.url }}">{{ 'general.next' | t }}</a>{%- endif -%}
+      </nav>
+    {%- endif -%}
+  </section>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Blog",
+  "tag": "div",
+  "class": "section-blog",
+  "settings": [
+    { "type": "text", "id": "empty", "label": "When there are no posts", "default": "Nothing written here yet. The cookies are doing the talking." }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,101 @@
+/* Size toggle + add button (shared by jar tags, product pages and the flavour list). */
+
+.buy {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.size-toggle {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-width: 0;
+}
+
+.size-toggle__option {
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: 0.05rem;
+  min-height: 52px;
+  padding: 0.45rem 0.7rem 0.4rem;
+  border: 2px solid var(--line-2);
+  border-radius: var(--r-m);
+  background: var(--card);
+  cursor: pointer;
+  transition:
+    border-color var(--dur-2) var(--ease-out),
+    background-color var(--dur-2) var(--ease-out);
+}
+
+.size-toggle__option:hover {
+  border-color: var(--ink-3);
+}
+
+.size-toggle__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.size-toggle__option:has(:checked) {
+  border-color: var(--ink);
+  background: var(--paper);
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+.size-toggle__option:has(:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.size-toggle__option.is-sold-out {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.size-toggle__size {
+  font-weight: 700;
+  font-size: var(--step--1);
+  letter-spacing: 0.02em;
+}
+
+.size-toggle__price {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0 0.35rem;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: var(--step-1);
+  line-height: 1.1;
+}
+
+.size-toggle__was {
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: var(--step--2);
+  color: var(--ink-3);
+}
+
+.size-toggle__count,
+.size-toggle__sold {
+  font-size: var(--step--2);
+  color: var(--ink-2);
+}
+
+.size-toggle--compact .size-toggle__option {
+  min-height: 48px;
+  padding: 0.35rem 0.55rem;
+}
+
+.size-toggle--compact .size-toggle__price {
+  font-size: var(--step-0);
+}

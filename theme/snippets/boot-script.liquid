@@ -1,0 +1,71 @@
+{%- doc -%}
+  Tiny inline script that runs before first paint:
+  - swaps no-js for js,
+  - sets data-daypart from India time (Asia/Kolkata) so the shelf light is right on first paint,
+  - applies the saved Reduce motion / Just the shelf preferences,
+  - exposes island URLs (asset_url adds Shopify's cache-busting ?v=) for the island loader.
+  Preview helpers that are safe in production: ?daypart=chai and ?now=2026-10-02T17:30:00+05:30.
+{%- enddoc -%}
+<script>
+  (function (d, w) {
+    var h = d.documentElement;
+    h.classList.remove('no-js');
+    h.classList.add('js');
+    var q = new URLSearchParams(w.location.search);
+    try {
+      var p = JSON.parse(w.localStorage.getItem('kuki:prefs') || '{}');
+      var osReduce = w.matchMedia && w.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (p.motion === 'reduced' || (p.motion !== 'full' && osReduce)) h.dataset.motion = 'reduced';
+      if (p.justShelf) h.dataset.justShelf = 'true';
+    } catch (e) {}
+    var parts = ['night', 'morning', 'day', 'chai', 'evening'];
+    var forced = q.get('daypart');
+    if (forced && parts.indexOf(forced) > -1) {
+      h.dataset.daypart = forced;
+    } else {
+      var now = q.get('now') ? new Date(q.get('now')) : new Date();
+      if (isNaN(now)) now = new Date();
+      var hr = Number(new Intl.DateTimeFormat('en-GB', { hour: 'numeric', hourCycle: 'h23', timeZone: 'Asia/Kolkata' }).format(now));
+      h.dataset.daypart = hr < 6 ? 'night' : hr < 12 ? 'morning' : hr < 16 ? 'day' : hr < 19 ? 'chai' : hr < 21 ? 'evening' : 'night';
+    }
+    w.KUKI = {
+      assets: {
+        shelf2d: {{ 'island-shelf2d.js' | asset_url | json }},
+        shelf3d: {{ 'island-shelf3d.js' | asset_url | json }},
+        tastemap: {{ 'island-tastemap.js' | asset_url | json }},
+        dabba: {{ 'island-dabba.js' | asset_url | json }},
+        gifting: {{ 'island-gifting.js' | asset_url | json }},
+        twistSend: {{ 'island-twist-send.js' | asset_url | json }}
+      },
+      settings: {
+        threshold: {{ settings.free_delivery_threshold | default: 0 | times: 100 | json }},
+        enable3d: {{ settings.enable_3d | json }},
+        soundDefaultOn: {{ settings.sound_default_on | json }},
+        haptics: {{ settings.haptics | json }},
+        publishEvents: {{ settings.publish_events | json }},
+        designMode: {{ request.design_mode | json }}
+      },
+      i18n: {
+        adding: {{ 'product.adding' | t | json }},
+        added: {{ 'product.added' | t | json }},
+        addFailed: {{ 'product.add_failed' | t | json }},
+        itemAdded: {{ 'bag.item_added' | t: title: '%title%', total: '%total%' | json }},
+        updated: {{ 'bag.updated' | t: total: '%total%' | json }},
+        freeReached: {{ 'bag.free_reached' | t | json }},
+        error: {{ 'bag.error' | t | json }},
+        noteSaved: {{ 'bag.note_saved' | t | json }},
+        checkoutWait: {{ 'bag.checkout_wait' | t | json }},
+        jarOpen: {{ 'shelf.jar_open' | t: flavour: '%flavour%' | json }},
+        lidTurn: {{ 'shelf.lid_turn' | t: count: '%count%' | json }},
+        closeJar: {{ 'shelf.close_jar' | t: flavour: '%flavour%' | json }}
+      },
+      routes: {
+        root: {{ routes.root_url | json }},
+        cart: {{ routes.cart_url | json }},
+        cartAdd: {{ routes.cart_add_url | json }},
+        cartChange: {{ routes.cart_change_url | json }},
+        cartUpdate: {{ routes.cart_update_url | json }}
+      }
+    };
+  })(document, window);
+</script>

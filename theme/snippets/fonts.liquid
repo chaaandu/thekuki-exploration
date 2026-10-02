@@ -1,0 +1,26 @@
+{%- doc -%}
+  Self-hosted, subset fonts (Latin + ₹). Only the headline and body faces are preloaded.
+  Each face has a metric-matched local fallback (size-adjust / ascent-override) so the swap
+  doesn't shift layout. Metrics were computed in assets-src/fonts (see docs/plan.md).
+{%- enddoc -%}
+{%- liquid
+  assign rozha = 'kuki-rozha-400.woff2' | asset_url
+  assign mukta_400 = 'kuki-mukta-400.woff2' | asset_url
+  assign mukta_600 = 'kuki-mukta-600.woff2' | asset_url
+  assign mukta_700 = 'kuki-mukta-700.woff2' | asset_url
+  assign kalam_400 = 'kuki-kalam-400.woff2' | asset_url
+  assign kalam_700 = 'kuki-kalam-700.woff2' | asset_url
+-%}
+<link rel="preload" as="font" type="font/woff2" href="{{ rozha }}" crossorigin>
+<link rel="preload" as="font" type="font/woff2" href="{{ mukta_400 }}" crossorigin>
+<style>
+  @font-face { font-family: 'Rozha One'; src: url('{{ rozha }}') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Mukta'; src: url('{{ mukta_400 }}') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Mukta'; src: url('{{ mukta_600 }}') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Mukta'; src: url('{{ mukta_700 }}') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Kalam'; src: url('{{ kalam_400 }}') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Kalam'; src: url('{{ kalam_700 }}') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Rozha One Fallback'; src: local('Georgia'), local('Noto Serif'), local('DejaVu Serif'), local('Times New Roman'); size-adjust: 104.46%; ascent-override: 95.54%; descent-override: 40.4%; line-gap-override: 0%; }
+  @font-face { font-family: 'Mukta Fallback'; src: local('Arial'), local('Helvetica'), local('Roboto'), local('Liberation Sans'); size-adjust: 92.84%; ascent-override: 121.71%; descent-override: 57.3%; line-gap-override: 0%; }
+  @font-face { font-family: 'Kalam Fallback'; src: local('Arial'), local('Helvetica'), local('Roboto'), local('Liberation Sans'); size-adjust: 96.09%; ascent-override: 110.62%; descent-override: 55.26%; line-gap-override: 0%; }
+</style>

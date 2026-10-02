@@ -1,0 +1,60 @@
+{%- doc -%}
+  Organization + WebSite structured data for the home page. Only facts the store already
+  publishes: name, site, logo, Instagram, phone/WhatsApp.
+{%- enddoc -%}
+{%- liquid
+  if settings.logo != blank
+    assign logo = settings.logo | image_url: width: 600
+  else
+    assign logo = 'kuki-logo.webp' | asset_url
+  endif
+  assign head = logo | slice: 0, 2
+  if head == '//'
+    assign logo = logo | prepend: 'https:'
+  else
+    assign head = logo | slice: 0, 1
+    if head == '/'
+      assign logo = logo | prepend: request.origin
+    endif
+  endif
+  assign phone = settings.phone_number | remove: ' '
+  assign insta = settings.instagram_handle | remove: '@' | strip
+-%}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": {{ shop.url | append: '/#organization' | json }},
+        "name": {{ shop.name | json }},
+        "url": {{ shop.url | json }},
+        "logo": {{ logo | json }}
+        {%- if insta != blank -%},
+        "sameAs": [{{ 'https://www.instagram.com/' | append: insta | json }}]
+        {%- endif -%}
+        {%- if phone != blank -%},
+        "contactPoint": [{
+          "@type": "ContactPoint",
+          "telephone": {{ phone | json }},
+          "contactType": "customer service",
+          "areaServed": "IN",
+          "availableLanguage": ["en"]
+        }]
+        {%- endif %}
+      },
+      {
+        "@type": "WebSite",
+        "@id": {{ shop.url | append: '/#website' | json }},
+        "url": {{ shop.url | json }},
+        "name": {{ shop.name | json }},
+        "publisher": { "@id": {{ shop.url | append: '/#organization' | json }} },
+        "potentialAction": {
+          "@type": "SearchAction",
+          "target": {{ shop.url | append: routes.search_url | append: '?q={search_term_string}' | json }},
+          "query-input": "required name=search_term_string"
+        }
+      }
+    ]
+  }
+</script>

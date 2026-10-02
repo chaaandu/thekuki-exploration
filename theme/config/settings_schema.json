@@ -1,0 +1,65 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Kuki",
+    "theme_version": "1.0.0",
+    "theme_author": "Kuki",
+    "theme_documentation_url": "https://www.thekuki.in/pages/contact",
+    "theme_support_url": "https://www.thekuki.in/pages/contact"
+  },
+  {
+    "name": "t:settings_schema.brand.name",
+    "settings": [
+      { "type": "image_picker", "id": "logo", "label": "t:settings_schema.brand.logo", "info": "t:settings_schema.brand.logo_info" },
+      { "type": "range", "id": "logo_width", "label": "t:settings_schema.brand.logo_width", "min": 80, "max": 220, "step": 4, "unit": "px", "default": 128 },
+      { "type": "image_picker", "id": "favicon", "label": "t:settings_schema.brand.favicon" },
+      { "type": "text", "id": "brand_line", "label": "t:settings_schema.brand.brand_line", "default": "Small batch. Big bite." }
+    ]
+  },
+  {
+    "name": "t:settings_schema.delivery.name",
+    "settings": [
+      { "type": "number", "id": "free_delivery_threshold", "label": "t:settings_schema.delivery.threshold", "info": "t:settings_schema.delivery.threshold_info", "default": 599 },
+      { "type": "checkbox", "id": "bag_meter", "label": "t:settings_schema.delivery.bag_meter", "default": true },
+      { "type": "checkbox", "id": "bag_suggestions", "label": "t:settings_schema.delivery.bag_suggestions", "default": true },
+      { "type": "text", "id": "delivery_note", "label": "t:settings_schema.delivery.delivery_note", "info": "t:settings_schema.delivery.delivery_note_info" }
+    ]
+  },
+  {
+    "name": "t:settings_schema.contact.name",
+    "settings": [
+      { "type": "text", "id": "whatsapp_number", "label": "t:settings_schema.contact.whatsapp", "info": "t:settings_schema.contact.whatsapp_info", "default": "+91 98230 12354" },
+      { "type": "text", "id": "phone_number", "label": "t:settings_schema.contact.phone", "default": "+91 98230 12354" },
+      { "type": "text", "id": "instagram_handle", "label": "t:settings_schema.contact.instagram", "info": "t:settings_schema.contact.instagram_info", "default": "getkuki" },
+      { "type": "text", "id": "contact_email", "label": "t:settings_schema.contact.email" }
+    ]
+  },
+  {
+    "name": "t:settings_schema.legal.name",
+    "settings": [
+      { "type": "text", "id": "fssai_licence", "label": "t:settings_schema.legal.fssai", "info": "t:settings_schema.legal.fssai_info" },
+      { "type": "checkbox", "id": "show_veg_mark", "label": "t:settings_schema.legal.veg_mark", "default": true }
+    ]
+  },
+  {
+    "name": "t:settings_schema.motion.name",
+    "settings": [
+      { "type": "checkbox", "id": "enable_3d", "label": "t:settings_schema.motion.enable_3d", "info": "t:settings_schema.motion.enable_3d_info", "default": true },
+      { "type": "checkbox", "id": "sound_default_on", "label": "t:settings_schema.motion.sound_default", "info": "t:settings_schema.motion.sound_default_info", "default": false },
+      { "type": "checkbox", "id": "haptics", "label": "t:settings_schema.motion.haptics", "default": true }
+    ]
+  },
+  {
+    "name": "t:settings_schema.sharing.name",
+    "settings": [
+      { "type": "image_picker", "id": "share_image", "label": "t:settings_schema.sharing.share_image", "info": "t:settings_schema.sharing.share_image_info" },
+      { "type": "textarea", "id": "meta_description", "label": "t:settings_schema.sharing.meta_description", "info": "t:settings_schema.sharing.meta_description_info", "default": "Handmade cookies, baked fresh in small batches through the day. Six flavours, 100% veg. Twist your tastebuds." }
+    ]
+  },
+  {
+    "name": "t:settings_schema.analytics.name",
+    "settings": [
+      { "type": "checkbox", "id": "publish_events", "label": "t:settings_schema.analytics.publish_events", "info": "t:settings_schema.analytics.publish_events_info", "default": true }
+    ]
+  }
+]

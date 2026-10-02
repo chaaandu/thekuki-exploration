@@ -1,0 +1,76 @@
+{%- doc -%}
+  The bag's lines, like a bakery receipt. Shared by the open bag (sheet) and /cart (page).
+  On the sheet, quantity buttons are enhanced by kuki-core; on the page they are plain
+  inputs inside the cart form, so the bag works with JavaScript switched off.
+
+  @param {string} mode - 'sheet' | 'page'
+{%- enddoc -%}
+<ul class="bag-lines bag-lines--{{ mode }}" role="list" data-bag-lines>
+  {%- for item in cart.items -%}
+    {%- liquid
+      assign s = item.product.metafields.custom.flavour_story.value
+      assign flavour = item.product.title
+      if s.tag_name != blank
+        assign flavour = s.tag_name.value
+      endif
+      assign colour = '#c89b68'
+      if s.colour != blank
+        assign colour = s.colour.value
+      endif
+      capture size_text
+        render 'size-label', title: item.variant.title
+      endcapture
+      assign line_title = flavour | append: ' ' | append: size_text
+    -%}
+    <li class="bag-line" style="--flavour: {{ colour }};" data-line-key="{{ item.key }}" data-line-index="{{ forloop.index }}">
+      <div class="bag-line__thumb" aria-hidden="true">
+        {%- assign thumb = item.product.media[2] | default: item.image -%}
+        {%- if thumb != blank -%}
+          <img src="{{ thumb | image_url: width: 120, height: 120, crop: 'center' }}" width="60" height="60" alt="" loading="lazy">
+        {%- endif -%}
+      </div>
+      <div class="bag-line__main">
+        <p class="bag-line__title"><a href="{{ item.url }}">{{ flavour }}</a></p>
+        <p class="bag-line__meta">
+          <span>{{ size_text }}</span>
+          <span aria-hidden="true">·</span>
+          <span>{%- render 'price', amount: item.final_price -%}</span>
+        </p>
+        {%- for property in item.properties -%}
+          {%- assign first_char = property.first | slice: 0 -%}
+          {%- if property.last != blank and first_char != '_' -%}
+            <p class="bag-line__prop">
+              {%- if property.first == 'Gift box' -%}
+                <svg class="icon" aria-hidden="true"><use href="#kuki-icon-gift"/></svg>
+              {%- endif -%}
+              {{ property.first }}: {{ property.last }}
+            </p>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+      <div class="bag-line__qty">
+        {%- if mode == 'page' -%}
+          <label class="visually-hidden" for="qty-{{ item.key }}">{{ 'bag.quantity_for' | t: title: line_title }}</label>
+          <input class="field__input bag-line__input" type="number" inputmode="numeric" min="0" id="qty-{{ item.key }}" name="updates[]" value="{{ item.quantity }}">
+        {%- else -%}
+          <div class="stepper" role="group" aria-label="{{ 'bag.quantity_for' | t: title: line_title }}">
+            <button class="stepper__btn" type="button" data-line-change="{{ item.key }}" data-qty="{{ item.quantity | minus: 1 }}" aria-label="{{ 'bag.decrease' | t: title: line_title }}">
+              <svg class="icon" aria-hidden="true"><use href="#kuki-icon-minus"/></svg>
+            </button>
+            <span class="stepper__value" aria-hidden="true">{{ item.quantity }}</span>
+            <span class="visually-hidden">{{ 'bag.quantity' | t }} {{ item.quantity }}</span>
+            <button class="stepper__btn" type="button" data-line-change="{{ item.key }}" data-qty="{{ item.quantity | plus: 1 }}" aria-label="{{ 'bag.increase' | t: title: line_title }}">
+              <svg class="icon" aria-hidden="true"><use href="#kuki-icon-plus"/></svg>
+            </button>
+          </div>
+        {%- endif -%}
+      </div>
+      <p class="bag-line__total">{%- render 'price', amount: item.final_line_price -%}</p>
+      {%- if mode == 'page' -%}
+        <a class="bag-line__remove" href="{{ routes.cart_change_url }}?line={{ forloop.index }}&amp;quantity=0">{{ 'bag.remove' | t }}<span class="visually-hidden"> {{ line_title }}</span></a>
+      {%- else -%}
+        <button class="bag-line__remove" type="button" data-line-change="{{ item.key }}" data-qty="0">{{ 'bag.remove' | t }}<span class="visually-hidden"> {{ line_title }}</span></button>
+      {%- endif -%}
+    </li>
+  {%- endfor -%}
+</ul>

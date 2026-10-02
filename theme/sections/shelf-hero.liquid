@@ -1,0 +1,136 @@
+{%- liquid
+  assign group = 'shelf-' | append: section.id
+  assign chai = section.settings.chai_picks
+  assign overrides = ''
+  if section.settings.subline_morning != blank
+    assign overrides = overrides | append: ' morning'
+  endif
+  if section.settings.subline_chai != blank
+    assign overrides = overrides | append: ' chai'
+  endif
+  if section.settings.subline_evening != blank
+    assign overrides = overrides | append: ' evening'
+  endif
+  if section.settings.subline_night != blank
+    assign overrides = overrides | append: ' night'
+  endif
+  assign jar_count = 0
+  for block in section.blocks
+    if block.type == 'jar' and block.settings.product != blank
+      assign jar_count = jar_count | plus: 1
+    endif
+  endfor
+-%}
+<section
+  class="shelf"
+  data-shelf
+  data-overrides="{{ overrides | strip }}"
+  style="--jar-count: {{ jar_count }};"
+  aria-labelledby="{{ group }}-title"
+>
+  <div class="shelf__wall">
+    <h1 class="shelf__headline" id="{{ group }}-title">{{ section.settings.headline }}</h1>
+    {%- if section.settings.subline != blank -%}
+      <p class="shelf__subline shelf__subline--default">{{ section.settings.subline }}</p>
+    {%- endif -%}
+    {%- if section.settings.subline_morning != blank -%}<p class="shelf__subline" data-for="morning">{{ section.settings.subline_morning }}</p>{%- endif -%}
+    {%- if section.settings.subline_chai != blank -%}<p class="shelf__subline" data-for="chai">{{ section.settings.subline_chai }}</p>{%- endif -%}
+    {%- if section.settings.subline_evening != blank -%}<p class="shelf__subline" data-for="evening">{{ section.settings.subline_evening }}</p>{%- endif -%}
+    {%- if section.settings.subline_night != blank -%}<p class="shelf__subline" data-for="night">{{ section.settings.subline_night }}</p>{%- endif -%}
+  </div>
+
+  <div class="shelf__stage" data-shelf-stage>
+    <div class="shelf__light" aria-hidden="true"></div>
+    <ul class="shelf__row" role="list" data-shelf-row>
+      {%- for block in section.blocks -%}
+        {%- if block.type == 'jar' and block.settings.product != blank -%}
+          {%- liquid
+            assign product = block.settings.product
+            assign is_chai = false
+            for pick in chai
+              if pick.id == product.id
+                assign is_chai = true
+              endif
+            endfor
+          -%}
+          {%- render 'shelf-jar',
+            product: product,
+            group: group,
+            index: forloop.index0,
+            chai_pick: is_chai,
+            chai_tag: section.settings.chai_tag,
+            loading: 'eager',
+            source: 'shelf',
+            attributes: block.shopify_attributes
+          -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </ul>
+    <div class="shelf__plank" aria-hidden="true"></div>
+  </div>
+
+  {%- if section.settings.hint != blank -%}
+    <p class="shelf__hint">{{ section.settings.hint }}</p>
+  {%- endif -%}
+
+  {%- if section.settings.show_controls -%}
+    <div class="shelf__controls pill" role="group" aria-label="{{ 'shelf.controls_label' | t }}" data-shelf-controls>
+      <button type="button" class="pill__btn" data-pref="sound" aria-pressed="false">
+        <svg class="icon pill__icon-off" aria-hidden="true"><use href="#kuki-icon-sound-off"/></svg>
+        <svg class="icon pill__icon-on" aria-hidden="true"><use href="#kuki-icon-sound-on"/></svg>
+        <span>{{ 'shelf.sound' | t }}</span>
+      </button>
+      <button type="button" class="pill__btn" data-pref="motion" aria-pressed="false">
+        <svg class="icon" aria-hidden="true"><use href="#kuki-icon-motion"/></svg>
+        <span>{{ 'shelf.reduce_motion' | t }}</span>
+      </button>
+      <button type="button" class="pill__btn" data-pref="justShelf" aria-pressed="false">
+        <svg class="icon" aria-hidden="true"><use href="#kuki-icon-shelf"/></svg>
+        <span>{{ 'shelf.just_shelf' | t }}</span>
+      </button>
+    </div>
+  {%- endif -%}
+
+  <kuki-island data-island="shelf2d" data-load="idle" data-enable-3d="{{ section.settings.enable_3d }}"></kuki-island>
+</section>
+
+{% schema %}
+{
+  "name": "Jar shelf (hero)",
+  "tag": "div",
+  "class": "section-shelf",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "header", "content": "Words" },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "Twist your tastebuds." },
+    { "type": "text", "id": "subline", "label": "Line under the headline", "default": "Small batch. Big bite." },
+    { "type": "text", "id": "hint", "label": "How-to hint", "default": "Drag a lid round, or tap a jar to twist it open." },
+    { "type": "header", "content": "Chai time (4–7pm, India time)" },
+    { "type": "product_list", "id": "chai_picks", "label": "Jars that slide forward at chai time", "limit": 3 },
+    { "type": "text", "id": "chai_tag", "label": "Handwritten note on them", "default": "chai-time picks" },
+    { "type": "header", "content": "Lines for other times of day", "info": "Leave blank to keep the line above. Only write what's true at that hour." },
+    { "type": "text", "id": "subline_morning", "label": "Morning (6am–12pm)" },
+    { "type": "text", "id": "subline_chai", "label": "Chai time (4–7pm)" },
+    { "type": "text", "id": "subline_evening", "label": "Evening (7–9pm)" },
+    { "type": "text", "id": "subline_night", "label": "Night (after 9pm)" },
+    { "type": "header", "content": "Shelf" },
+    { "type": "checkbox", "id": "enable_3d", "label": "Use the 3D shelf on capable phones and computers", "info": "Everyone else gets the 2D shelf. Both can sell every flavour.", "default": true },
+    { "type": "checkbox", "id": "show_controls", "label": "Show the Sound / Reduce motion / Just the shelf controls", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "jar",
+      "name": "Jar",
+      "settings": [
+        { "type": "product", "id": "product", "label": "Flavour" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Jar shelf (hero)",
+      "blocks": [{ "type": "jar" }, { "type": "jar" }, { "type": "jar" }, { "type": "jar" }, { "type": "jar" }, { "type": "jar" }]
+    }
+  ]
+}
+{% endschema %}

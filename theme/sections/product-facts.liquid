@@ -1,0 +1,74 @@
+{%- liquid
+  assign story = product.metafields.custom.flavour_story.value
+  assign has_allergens = false
+  if story.allergens != blank and story.allergens.value.size > 0
+    assign has_allergens = true
+  endif
+  assign has_eggless = false
+  if story.eggless != blank and story.eggless.value == true
+    assign has_eggless = true
+  endif
+  assign has_shelf = false
+  if story.shelf_life != blank
+    assign has_shelf = true
+  endif
+-%}
+<section class="facts section" aria-labelledby="facts-{{ section.id }}">
+  <h2 class="facts__title" id="facts-{{ section.id }}">{{ section.settings.heading }}</h2>
+  <dl class="facts__list">
+    {%- if settings.show_veg_mark -%}
+      <div class="facts__row">
+        <dt>{%- render 'veg-mark', size: 'md' -%}</dt>
+        <dd>{{ 'product.facts_veg' | t }}</dd>
+      </div>
+    {%- endif -%}
+    {%- if has_eggless -%}
+      <div class="facts__row">
+        <dt>{{ 'product.facts_eggless_label' | t }}</dt>
+        <dd>{{ 'product.facts_eggless' | t }}</dd>
+      </div>
+    {%- else -%}
+      {%- render 'design-todo', field: 'product.todo_eggless' -%}
+    {%- endif -%}
+    {%- if has_allergens -%}
+      <div class="facts__row">
+        <dt>{{ 'product.facts_allergens' | t }}</dt>
+        <dd>{{ story.allergens.value | join: ', ' }}</dd>
+      </div>
+    {%- else -%}
+      {%- render 'design-todo', field: 'product.todo_allergens' -%}
+    {%- endif -%}
+    {%- if has_shelf -%}
+      <div class="facts__row">
+        <dt>{{ 'product.facts_shelf_life' | t }}</dt>
+        <dd>{{ story.shelf_life.value }}</dd>
+      </div>
+    {%- else -%}
+      {%- render 'design-todo', field: 'product.todo_shelf_life' -%}
+    {%- endif -%}
+    {%- if story.local_name_gloss != blank -%}
+      <div class="facts__row">
+        <dt>{{ 'product.facts_word' | t }}</dt>
+        <dd>{{ story.local_name_gloss.value }}</dd>
+      </div>
+    {%- endif -%}
+  </dl>
+  {%- if section.settings.note != blank -%}
+    <div class="facts__note rte">{{ section.settings.note }}</div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Product: good to know",
+  "tag": "div",
+  "class": "section-facts",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Good to know" },
+    { "type": "richtext", "id": "note", "label": "Note under the facts" },
+    { "type": "paragraph", "content": "Eggless, allergens and shelf life come from the product's Flavour story. Each one stays hidden until it's filled in." }
+  ],
+  "presets": [{ "name": "Product: good to know" }]
+}
+{% endschema %}

@@ -1,0 +1,21 @@
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "announcement": {
+      "type": "announcement",
+      "blocks": {
+        "veg": { "type": "message", "settings": { "text": "100% veg", "link": "", "show_on_mobile": false } },
+        "fresh": { "type": "message", "settings": { "text": "Baked through the day, never frozen", "link": "/pages/small-batch", "show_on_mobile": false } },
+        "delivery": { "type": "message", "settings": { "text": "Free delivery above [threshold]", "link": "", "show_on_mobile": true } }
+      },
+      "block_order": ["veg", "fresh", "delivery"],
+      "settings": {}
+    },
+    "header": {
+      "type": "header",
+      "settings": { "menu": "main-menu" }
+    }
+  },
+  "order": ["announcement", "header"]
+}

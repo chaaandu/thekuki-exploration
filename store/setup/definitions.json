@@ -1,0 +1,56 @@
+{
+  "$comment": "Single source of truth for store-side custom data. Used by scripts/store-setup.ts (Admin GraphQL via `shopify store execute`) and by the local emulator in dev/. Keys and types here must match what the theme reads.",
+  "metaobjects": [
+    {
+      "type": "flavour_story",
+      "name": "Flavour story",
+      "description": "The story, facts and 3D settings for one flavour. Linked from each product's 'Flavour story' field. Any blank field hides itself on the site.",
+      "displayNameKey": "tag_name",
+      "access": { "storefront": "PUBLIC_READ" },
+      "fields": [
+        { "key": "tag_name", "name": "Name on the tag", "type": "single_line_text_field", "description": "Short name handwritten on the jar tag, e.g. Nutella Chunk. Blank uses the product title." },
+        { "key": "memory_line", "name": "Memory", "type": "multi_line_text_field", "description": "The one specific memory this flavour tastes like. One or two lines." },
+        { "key": "pairing", "name": "Best with", "type": "single_line_text_field", "description": "Reads on its own, e.g. 'Best with evening chai'." },
+        { "key": "colour", "name": "Flavour colour", "type": "color", "description": "The main ingredient's colour. Used for the jar lid and accents." },
+        { "key": "accent_colour", "name": "Second colour", "type": "color", "description": "Optional, e.g. pistachio green for Rose Gulkand." },
+        { "key": "aroma", "name": "Aroma burst", "type": "single_line_text_field", "description": "What rises out of the jar when it opens.", "validations": [{ "name": "choices", "value": "[\"curry_leaf\",\"carom_seed\",\"rose_petal\",\"blueberry\",\"malt_dust\",\"hazelnut_ribbon\"]" }] },
+        { "key": "cookie_form", "name": "Cookie shape (3D)", "type": "single_line_text_field", "description": "Which 3D cookie the jar is filled with. A new flavour can reuse any shape.", "validations": [{ "name": "choices", "value": "[\"thumbprint\",\"malt_round\",\"leaf_crust\",\"chunk\",\"stick\",\"nut_crust\"]" }] },
+        { "key": "taste_sweet_savoury", "name": "Taste map: sweet (0) to savoury (100)", "type": "number_integer", "validations": [{ "name": "min", "value": "0" }, { "name": "max", "value": "100" }] },
+        { "key": "taste_comfort_curious", "name": "Taste map: comfort (0) to curious (100)", "type": "number_integer", "validations": [{ "name": "min", "value": "0" }, { "name": "max", "value": "100" }] },
+        { "key": "cookies_per_100g", "name": "Cookies in 100g (about)", "type": "number_integer", "description": "Blank hides the cookie count.", "validations": [{ "name": "min", "value": "1" }] },
+        { "key": "cookies_per_250g", "name": "Cookies in 250g (about)", "type": "number_integer", "description": "Blank hides the cookie count.", "validations": [{ "name": "min", "value": "1" }] },
+        { "key": "allergens", "name": "Allergens", "type": "list.single_line_text_field", "description": "One per line, e.g. Wheat (gluten), Milk, Tree nuts (pistachio). Blank hides the allergen line." },
+        { "key": "eggless", "name": "Eggless", "type": "boolean", "description": "Leave unset if unsure; unset hides the eggless mark." },
+        { "key": "shelf_life", "name": "Shelf life", "type": "single_line_text_field", "description": "e.g. 'Best within 10 days of baking'. Blank hides it." },
+        { "key": "local_name_gloss", "name": "Local name note", "type": "single_line_text_field", "description": "Glosses a less-known word once, e.g. 'omam, that's ajwain'." },
+        { "key": "texture_photos", "name": "Texture close-ups", "type": "list.file_reference", "description": "Real macro photos. Blank uses the product's own photos.", "validations": [{ "name": "file_type_options", "value": "[\"Image\"]" }] },
+        { "key": "share_image", "name": "Share image", "type": "file_reference", "description": "Image used when this flavour is shared on WhatsApp/Instagram. Blank uses the product photo.", "validations": [{ "name": "file_type_options", "value": "[\"Image\"]" }] }
+      ]
+    },
+    {
+      "type": "todays_trays",
+      "name": "Today's trays",
+      "description": "Update every morning from the Shopify app (Content > Metaobjects). The board on the site only shows when the date is today (India time).",
+      "displayNameKey": "note",
+      "access": { "storefront": "PUBLIC_READ" },
+      "fields": [
+        { "key": "date", "name": "Date", "type": "date", "required": true, "description": "The day these trays are for. The board hides itself on any other day." },
+        { "key": "on_trays", "name": "On the trays today", "type": "list.product_reference" },
+        { "key": "note", "name": "A line from the kitchen", "type": "single_line_text_field", "description": "e.g. 'Rose Gulkand trays out at 3'." },
+        { "key": "photo", "name": "Photo of today's trays", "type": "file_reference", "validations": [{ "name": "file_type_options", "value": "[\"Image\"]" }] }
+      ]
+    }
+  ],
+  "metafields": [
+    {
+      "ownerType": "PRODUCT",
+      "namespace": "custom",
+      "key": "flavour_story",
+      "name": "Flavour story",
+      "description": "Links this product to its flavour story.",
+      "type": "metaobject_reference",
+      "metaobjectType": "flavour_story",
+      "access": { "storefront": "PUBLIC_READ" }
+    }
+  ]
+}

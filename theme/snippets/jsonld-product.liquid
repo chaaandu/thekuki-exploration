@@ -1,0 +1,60 @@
+{%- doc -%}
+  Product + BreadcrumbList structured data. One Offer per size with the live Shopify price
+  and availability. No ratings or reviews: Kuki doesn't collect them, so none are claimed.
+
+  @param {object} product
+{%- enddoc -%}
+{%- liquid
+  assign story = product.metafields.custom.flavour_story.value
+  assign origin = request.origin
+-%}
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Product",
+        "@id": {{ origin | append: product.url | append: '#product' | json }},
+        "name": {{ product.title | json }},
+        "url": {{ origin | append: product.url | json }},
+        "description": {{ product.description | strip_html | strip_newlines | json }},
+        "category": {{ product.type | default: 'Cookies' | json }},
+        "brand": { "@type": "Brand", "name": {{ shop.name | json }} },
+        {%- if product.media.size > 0 %}
+        "image": [
+          {%- for media in product.media limit: 6 -%}
+            {%- assign media_url = media.preview_image | image_url: width: 1200 -%}
+            {%- assign head = media_url | slice: 0, 2 -%}
+            {%- if head == '//' -%}{%- assign media_url = media_url | prepend: 'https:' -%}{%- else -%}{%- assign media_url = media_url | prepend: origin -%}{%- endif -%}
+            {{ media_url | json }}{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ],
+        {%- endif %}
+        "sku": {{ product.selected_or_first_available_variant.sku | json }},
+        "offers": [
+          {%- for variant in product.variants -%}
+          {
+            "@type": "Offer",
+            "name": {{ variant.title | json }},
+            "sku": {{ variant.sku | json }},
+            "price": {{ variant.price | times: 0.01 | round: 2 | json }},
+            "priceCurrency": {{ cart.currency.iso_code | default: 'INR' | json }},
+            "availability": {% if variant.available %}"https://schema.org/InStock"{% else %}"https://schema.org/OutOfStock"{% endif %},
+            "itemCondition": "https://schema.org/NewCondition",
+            "url": {{ origin | append: variant.url | json }},
+            "seller": { "@id": {{ shop.url | append: '/#organization' | json }} }
+          }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": {{ 'general.home' | t | json }}, "item": {{ origin | append: routes.root_url | json }} },
+          { "@type": "ListItem", "position": 2, "name": {{ 'general.all_flavours' | t | json }}, "item": {{ origin | append: routes.all_products_collection_url | json }} },
+          { "@type": "ListItem", "position": 3, "name": {{ product.title | json }}, "item": {{ origin | append: product.url | json }} }
+        ]
+      }
+    ]
+  }
+</script>

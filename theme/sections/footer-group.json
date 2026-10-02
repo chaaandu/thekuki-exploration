@@ -1,0 +1,24 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "brand": {
+          "type": "brand",
+          "settings": {
+            "heading": "Small batch. Big bite.",
+            "text": "<p>Every cookie is shaped by hand and baked in small trays through the day. Never pulled from a freezer.</p>"
+          }
+        },
+        "menu": { "type": "menu", "settings": { "heading": "Kuki", "menu": "footer" } },
+        "contact": { "type": "contact", "settings": { "heading": "Say hello" } },
+        "policies": { "type": "policies", "settings": { "heading": "Policies" } }
+      },
+      "block_order": ["brand", "menu", "contact", "policies"],
+      "settings": {}
+    }
+  },
+  "order": ["footer"]
+}

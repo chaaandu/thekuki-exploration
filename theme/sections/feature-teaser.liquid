@@ -1,0 +1,61 @@
+<section
+  class="teaser section teaser--{{ section.settings.scheme }}{% if section.settings.image == blank %} teaser--no-photo{% endif %}"
+  {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %}
+  aria-labelledby="teaser-title-{{ section.id }}"
+>
+  <div class="teaser__inner">
+    <div class="teaser__text">
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="teaser__title" id="teaser-title-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<div class="teaser__body rte">{{ section.settings.text }}</div>{%- endif -%}
+      <div class="teaser__actions">
+        {%- if section.settings.button != blank -%}
+          <a class="btn btn--primary" href="{{ section.settings.link }}">
+            {%- if section.settings.icon != 'none' -%}<svg class="icon" aria-hidden="true"><use href="#kuki-icon-{{ section.settings.icon }}"/></svg>{%- endif -%}
+            {{ section.settings.button }}
+          </a>
+        {%- endif -%}
+        {%- if section.settings.button_2 != blank -%}
+          <a class="btn btn--ghost" href="{{ section.settings.link_2 }}">{{ section.settings.button_2 }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+    {%- if section.settings.image != blank -%}
+      <div class="teaser__photo">
+        {%- render 'image', image: section.settings.image, widths: '480,720,960,1200', sizes: '(min-width: 900px) 46vw, 92vw', ratio: 1.25 -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Feature",
+  "tag": "div",
+  "class": "section-teaser",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small heading" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Gifting, made easy" },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "text", "id": "button", "label": "Button" },
+    { "type": "url", "id": "link", "label": "Button link" },
+    { "type": "select", "id": "icon", "label": "Button icon", "default": "none", "options": [
+      { "value": "none", "label": "None" },
+      { "value": "gift", "label": "Gift" },
+      { "value": "box", "label": "Box" },
+      { "value": "chat", "label": "Chat" },
+      { "value": "arrow-right", "label": "Arrow" }
+    ] },
+    { "type": "text", "id": "button_2", "label": "Second button" },
+    { "type": "url", "id": "link_2", "label": "Second button link" },
+    { "type": "image_picker", "id": "image", "label": "Photo" },
+    { "type": "select", "id": "scheme", "label": "Colours", "default": "paper", "options": [
+      { "value": "paper", "label": "Paper" },
+      { "value": "kraft", "label": "Brown paper" },
+      { "value": "ink", "label": "Ink" }
+    ] },
+    { "type": "text", "id": "anchor", "label": "Anchor (for links like /#gifting)" }
+  ],
+  "presets": [{ "name": "Feature" }]
+}
+{% endschema %}

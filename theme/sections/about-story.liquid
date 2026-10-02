@@ -1,0 +1,76 @@
+<section class="about section" {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %} aria-labelledby="about-title-{{ section.id }}">
+  <div class="about__inner">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    {%- if section.settings.as_page_title -%}
+      <h1 class="about__title" id="about-title-{{ section.id }}">{{ section.settings.heading }}</h1>
+    {%- else -%}
+      <h2 class="about__title" id="about-title-{{ section.id }}">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+
+    <div class="about__flow">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'text' -%}
+            {%- if block.settings.text != blank -%}
+              <div class="about__text rte{% if block.settings.large %} about__text--large{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+            {%- endif -%}
+          {%- when 'photo' -%}
+            {%- if block.settings.image != blank -%}
+              <figure class="about__photo" {{ block.shopify_attributes }}>
+                {%- render 'image', image: block.settings.image, widths: '480,720,960,1280', sizes: '(min-width: 900px) 720px, 92vw' -%}
+                {%- if block.settings.caption != blank -%}<figcaption>{{ block.settings.caption }}</figcaption>{%- endif -%}
+              </figure>
+            {%- elsif request.design_mode -%}
+              <p class="todo" {{ block.shopify_attributes }}>{{ 'general.todo_photo' | t }}</p>
+            {%- endif -%}
+          {%- when 'facts' -%}
+            <ul class="about__facts" role="list" {{ block.shopify_attributes }}>
+              {%- for i in (1..4) -%}
+                {%- assign key = 'fact_' | append: i -%}
+                {%- if block.settings[key] != blank -%}<li>{{ block.settings[key] }}</li>{%- endif -%}
+              {%- endfor -%}
+            </ul>
+          {%- when 'link' -%}
+            {%- if block.settings.label != blank -%}
+              <p {{ block.shopify_attributes }}><a class="btn btn--ghost" href="{{ block.settings.url }}">{{ block.settings.label }}</a></p>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About",
+  "tag": "div",
+  "class": "section-about",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "About Kuki" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Six flavours. Each one a memory." },
+    { "type": "checkbox", "id": "as_page_title", "label": "This is the page's main heading", "default": false },
+    { "type": "text", "id": "anchor", "label": "Anchor (for links like /#about)", "default": "about" }
+  ],
+  "blocks": [
+    { "type": "text", "name": "Text", "settings": [
+      { "type": "richtext", "id": "text", "label": "Text" },
+      { "type": "checkbox", "id": "large", "label": "Large", "default": false }
+    ] },
+    { "type": "photo", "name": "Photo", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Photo", "info": "A real photo of the kitchen, the trays or the team." },
+      { "type": "text", "id": "caption", "label": "Caption" }
+    ] },
+    { "type": "facts", "name": "Facts", "limit": 1, "settings": [
+      { "type": "text", "id": "fact_1", "label": "Fact 1", "default": "100% veg" },
+      { "type": "text", "id": "fact_2", "label": "Fact 2", "default": "Shaped by hand" },
+      { "type": "text", "id": "fact_3", "label": "Fact 3", "default": "Baked through the day" },
+      { "type": "text", "id": "fact_4", "label": "Fact 4", "default": "Never frozen" }
+    ] },
+    { "type": "link", "name": "Button", "settings": [
+      { "type": "text", "id": "label", "label": "Label", "default": "Read the whole story" },
+      { "type": "url", "id": "url", "label": "Link" }
+    ] }
+  ],
+  "presets": [{ "name": "About", "blocks": [{ "type": "text" }, { "type": "facts" }] }]
+}
+{% endschema %}

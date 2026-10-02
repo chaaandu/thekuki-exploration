@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "contact": {
+      "type": "contact",
+      "blocks": {
+        "r1": { "type": "reason", "settings": { "reason": "Order or delivery help" } },
+        "r2": { "type": "reason", "settings": { "reason": "Gifting order" } },
+        "r3": { "type": "reason", "settings": { "reason": "Bulk / corporate" } },
+        "r4": { "type": "reason", "settings": { "reason": "Feedback" } },
+        "r5": { "type": "reason", "settings": { "reason": "Something else" } }
+      },
+      "block_order": ["r1", "r2", "r3", "r4", "r5"],
+      "settings": {}
+    }
+  },
+  "order": ["contact"]
+}

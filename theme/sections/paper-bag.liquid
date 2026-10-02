@@ -1,0 +1,148 @@
+{%- liquid
+  assign count = cart.item_count
+  assign threshold = settings.free_delivery_threshold | times: 100
+  assign total = cart.total_price
+  assign reached = false
+  if threshold > 0 and total >= threshold and count > 0
+    assign reached = true
+  endif
+  assign percent = 0
+  if threshold > 0
+    assign percent = total | times: 100 | divided_by: threshold
+  endif
+  if percent > 100
+    assign percent = 100
+  endif
+  assign fill = 0
+  if count >= 6
+    assign fill = 3
+  elsif count >= 3
+    assign fill = 2
+  elsif count >= 1
+    assign fill = 1
+  endif
+  capture total_text
+    render 'price', amount: total
+  endcapture
+  assign remaining = threshold | minus: total
+  capture remaining_text
+    render 'price', amount: remaining
+  endcapture
+-%}
+<div
+  class="bag-root"
+  data-bag-root
+  data-count="{{ count }}"
+  data-total="{{ total }}"
+  data-total-label="{{ total_text | strip | escape }}"
+  data-reached="{{ reached }}"
+  data-percent="{{ percent }}"
+  data-empty="{% if count == 0 %}true{% else %}false{% endif %}"
+>
+  <div data-bag-slot="button">
+    <a
+      class="bag"
+      href="{{ routes.cart_url }}"
+      data-bag-open
+      aria-haspopup="dialog"
+      aria-controls="bag-sheet"
+      data-fill="{{ fill }}"
+      data-reached="{{ reached }}"
+      style="--progress: {{ percent | divided_by: 100.0 }};"
+      aria-label="{% if count > 0 %}{{ 'bag.button_label' | t: count: count, total: total_text }}{% else %}{{ 'bag.button_empty' | t }}{% endif %}"
+    >
+      <span class="bag__art">{%- render 'bag-art' -%}</span>
+      {%- if count > 0 -%}<span class="bag__count" aria-hidden="true">{{ count }}</span>{%- endif -%}
+      {%- if reached -%}<span class="bag__seal" aria-hidden="true">{{ 'bag.meter_reached' | t }}</span>{%- endif -%}
+      <span class="bag__info" aria-hidden="true">
+        {%- if count > 0 -%}
+          <span class="bag__total">{{ total_text }}</span>
+          <span class="bag__status">
+            {%- if threshold <= 0 -%}
+            {%- elsif reached -%}
+              <svg class="icon"><use href="#kuki-icon-check"/></svg>{{ 'bag.meter_reached' | t }}
+            {%- else -%}
+              {{ 'bag.meter_remaining' | t: amount: remaining_text }}
+            {%- endif -%}
+          </span>
+        {%- else -%}
+          <span class="bag__total">{{ 'bag.button_empty' | t }}</span>
+          {%- if threshold > 0 -%}
+            {%- capture threshold_text -%}{%- render 'price', amount: threshold -%}{%- endcapture -%}
+            <span class="bag__status">{{ 'product.free_delivery_line' | t: amount: threshold_text }}</span>
+          {%- endif -%}
+        {%- endif -%}
+      </span>
+      <span class="bag__cta" aria-hidden="true">{{ 'bag.open' | t }}</span>
+    </a>
+  </div>
+
+  <dialog class="bag-sheet" id="bag-sheet" aria-labelledby="bag-sheet-title" data-bag-sheet>
+    <div class="bag-sheet__paper">
+      <header class="bag-sheet__head">
+        <h2 class="bag-sheet__title" id="bag-sheet-title">{{ 'bag.title' | t }}</h2>
+        <button class="bag-sheet__close" type="button" data-bag-close aria-label="{{ 'bag.close' | t }}">
+          <svg class="icon" aria-hidden="true"><use href="#kuki-icon-close"/></svg>
+        </button>
+      </header>
+
+      <div class="bag-sheet__scroll">
+        <div data-bag-slot="meter">{%- render 'bag-meter', variant: 'sheet' -%}</div>
+        <div data-bag-slot="suggest">{%- render 'bag-suggest' -%}</div>
+        <div data-bag-slot="lines">
+          {%- if count > 0 -%}
+            {%- render 'bag-lines', mode: 'sheet' -%}
+          {%- else -%}
+            <div class="bag-empty">
+              <span class="bag-empty__art" data-fill="0">{%- render 'bag-art' -%}</span>
+              <p class="bag-empty__title">{{ section.settings.empty_heading }}</p>
+              {%- if section.settings.empty_text != blank -%}<p class="bag-empty__text">{{ section.settings.empty_text }}</p>{%- endif -%}
+              <a class="btn btn--ghost" href="{{ routes.all_products_collection_url }}">{{ section.settings.empty_link }}</a>
+            </div>
+          {%- endif -%}
+        </div>
+      </div>
+
+      <form class="bag-sheet__foot" action="{{ routes.cart_url }}" method="post" data-bag-checkout>
+        <div class="note">
+          <label class="note__label" for="bag-note">{{ section.settings.note_label }}</label>
+          <textarea class="note__field" id="bag-note" name="note" rows="2" maxlength="500" placeholder="{{ section.settings.note_placeholder }}" data-bag-note>{{ cart.note }}</textarea>
+          <p class="note__help" data-note-status>{{ section.settings.note_help }}</p>
+        </div>
+        <div data-bag-slot="totals">
+          <p class="bag-totals">
+            <span>{{ 'bag.subtotal' | t }}</span>
+            <span class="bag-totals__value">{{ total_text }}</span>
+          </p>
+        </div>
+        <button class="btn btn--primary bag-sheet__checkout" type="submit" name="checkout" data-bag-checkout-btn>
+          {{ section.settings.checkout_label }}
+          <svg class="icon" aria-hidden="true"><use href="#kuki-icon-arrow-right"/></svg>
+        </button>
+        {%- if section.settings.checkout_help != blank -%}
+          <p class="bag-sheet__fine">{{ section.settings.checkout_help }}</p>
+        {%- endif -%}
+      </form>
+      <div class="visually-hidden" aria-live="polite" aria-atomic="true" data-bag-live></div>
+    </div>
+  </dialog>
+</div>
+
+{% schema %}
+{
+  "name": "Paper bag (cart)",
+  "tag": "div",
+  "class": "section-paper-bag",
+  "settings": [
+    { "type": "paragraph", "content": "The bag lives bottom-right on computers and in a bar at the bottom of phones. Free-delivery amount: Theme settings › Delivery & bag." },
+    { "type": "text", "id": "empty_heading", "label": "Empty bag: heading", "default": "Your bag is empty." },
+    { "type": "text", "id": "empty_text", "label": "Empty bag: line", "default": "Every flavour is one tap away." },
+    { "type": "text", "id": "empty_link", "label": "Empty bag: button", "default": "See all six flavours" },
+    { "type": "text", "id": "note_label", "label": "Gift note label", "default": "Gift note" },
+    { "type": "text", "id": "note_placeholder", "label": "Gift note placeholder", "default": "Who's it for? Write them a line." },
+    { "type": "text", "id": "note_help", "label": "Under the gift note", "default": "Saved with your order." },
+    { "type": "text", "id": "checkout_label", "label": "Checkout button", "default": "Check out" },
+    { "type": "text", "id": "checkout_help", "label": "Under the checkout button", "default": "Delivery and payment on the next step." }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,17 @@
+{
+  "sections": {
+    "day": {
+      "type": "day-strip",
+      "blocks": {
+        "m1": { "type": "moment", "settings": { "when": "Morning", "title": "Dough", "text": "Mixed, then portioned and shaped by hand." } },
+        "m2": { "type": "moment", "settings": { "when": "Through the day", "title": "Trays", "text": "Baked in small trays, one batch at a time." } },
+        "m3": { "type": "moment", "settings": { "when": "Once they've cooled", "title": "Packed", "text": "Into jars, by flavour and size." } },
+        "m4": { "type": "moment", "settings": { "when": "Then", "title": "Out the door", "text": "On their way to you. Nothing waits in a freezer." } }
+      },
+      "block_order": ["m1", "m2", "m3", "m4"],
+      "settings": { "eyebrow": "Small batch, proven", "heading": "One day on the trays", "intro": "<p>Never frozen, never sitting around. Here's how a day of baking goes.</p>", "as_page_title": true }
+    },
+    "trays": { "type": "todays-trays", "settings": { "heading": "Today's trays" } }
+  },
+  "order": ["day", "trays"]
+}

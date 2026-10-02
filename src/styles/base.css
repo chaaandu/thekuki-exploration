@@ -1,0 +1,482 @@
+/* Reset, type, layout primitives, buttons, fields, focus. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-padding-top: 1rem;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  text-rendering: optimizeLegibility;
+  font-synthesis: none;
+  overflow-x: clip;
+}
+
+main {
+  display: block;
+  padding-bottom: var(--bag-bar-h);
+}
+
+main:focus {
+  outline: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+p,
+figure,
+blockquote,
+dl,
+dd,
+ol,
+ul {
+  margin: 0;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.005em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+img,
+svg,
+video,
+canvas {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+s {
+  text-decoration-thickness: 1.5px;
+}
+
+::selection {
+  background: var(--orange-soft);
+  color: var(--ink);
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+  border-radius: var(--r-xs);
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.skip-link {
+  position: absolute;
+  inset-inline-start: var(--space-s);
+  top: var(--space-s);
+  z-index: var(--z-skip);
+  padding: 0.75rem 1rem;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--r-s);
+  font-weight: 600;
+  transform: translateY(-200%);
+}
+
+.skip-link:focus {
+  transform: none;
+}
+
+.svg-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.icon {
+  width: 1.25em;
+  height: 1.25em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+}
+
+/* ---------- Sections ---------- */
+
+.section {
+  padding-block: var(--section-y);
+  padding-inline: var(--gutter);
+}
+
+.section > * {
+  max-width: var(--wrap);
+  margin-inline: auto;
+}
+
+.section-head {
+  display: grid;
+  gap: var(--space-xs);
+  margin-bottom: clamp(1.75rem, 1rem + 3vw, 3.25rem);
+}
+
+.section-head--row {
+  align-items: end;
+}
+
+.section-head__title {
+  font-size: var(--step-4);
+  max-width: 18ch;
+}
+
+.section-head__title--page {
+  font-size: var(--step-5);
+}
+
+.section-head__intro {
+  max-width: 52ch;
+  color: var(--ink-2);
+  font-size: var(--step-1);
+  line-height: 1.45;
+}
+
+.eyebrow {
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: var(--step--1);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-2);
+}
+
+.empty-note {
+  color: var(--ink-2);
+  font-size: var(--step-1);
+  margin-bottom: var(--space-m);
+}
+
+/* ---------- Rich text ---------- */
+
+.rte > * + * {
+  margin-top: 0.85em;
+}
+
+.rte a {
+  color: var(--orange-ink);
+}
+
+.rte ul,
+.rte ol {
+  padding-inline-start: 1.25em;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  --btn-bg: transparent;
+  --btn-fg: var(--ink);
+  --btn-border: var(--ink);
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5em;
+  min-height: 48px;
+  padding: 0.55em 1.2em 0.5em;
+  border: 2px solid var(--btn-border);
+  border-radius: var(--r-m);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  font-family: var(--font-ui);
+  font-weight: 600;
+  font-size: var(--step-0);
+  line-height: 1.1;
+  text-decoration: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  transition:
+    transform var(--dur-1) var(--ease-out),
+    box-shadow var(--dur-1) var(--ease-out),
+    background-color var(--dur-2) var(--ease-out),
+    color var(--dur-2) var(--ease-out);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn[disabled] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.btn--primary {
+  --btn-bg: var(--ink);
+  --btn-fg: var(--paper);
+}
+
+.btn--primary:hover {
+  --btn-bg: var(--ink-deep);
+}
+
+.btn--ghost:hover {
+  --btn-bg: rgb(59 26 12 / 0.06);
+}
+
+.btn--icon {
+  min-width: 48px;
+  padding: 0;
+}
+
+/* The add button: the logo's look, icing orange with an ink outline that "stamps" down. */
+.btn--add {
+  --btn-bg: var(--orange);
+  --btn-fg: var(--ink);
+  width: 100%;
+  box-shadow: 0 3px 0 var(--ink);
+  font-weight: 700;
+}
+
+.btn--add:hover {
+  --btn-bg: #ef7419;
+}
+
+.btn--add:active {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--ink);
+}
+
+.btn--compact {
+  min-height: 46px;
+  font-size: var(--step--1);
+  padding-inline: 0.9em;
+}
+
+.btn__label {
+  display: none;
+}
+
+.btn__label.is-static,
+.buy:has([data-size-index='1']:checked) .btn__label[data-size-index='1'],
+.buy:has([data-size-index='2']:checked) .btn__label[data-size-index='2'],
+.buy:has([data-size-index='3']:checked) .btn__label[data-size-index='3'],
+.buy:has([data-size-index='4']:checked) .btn__label[data-size-index='4'] {
+  display: inline;
+}
+
+@supports not selector(:has(*)) {
+  .btn__label[data-size-index='1'] {
+    display: inline;
+  }
+}
+
+/* In-place feedback (no toasts): kuki-core sets data-state on the button. */
+.btn__state {
+  display: none;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.btn[data-state] .btn__label {
+  display: none !important;
+}
+
+.btn[data-state] .btn__state {
+  display: inline-flex;
+}
+
+.btn[data-state='added'] {
+  --btn-bg: var(--paper);
+  box-shadow: 0 1px 0 var(--ink);
+  transform: translateY(2px);
+}
+
+.btn[data-state='error'] {
+  --btn-bg: var(--paper);
+  --btn-border: var(--stamp);
+  --btn-fg: var(--stamp);
+  box-shadow: none;
+}
+
+/* ---------- Fields ---------- */
+
+.field {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.field__label {
+  font-weight: 600;
+  font-size: var(--step--1);
+}
+
+.field__req {
+  font-weight: 400;
+  color: var(--ink-3);
+}
+
+.field__input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.65rem 0.85rem;
+  border: 2px solid var(--line-2);
+  border-radius: var(--r-s);
+  background: var(--card);
+  font-size: max(16px, var(--step-0));
+  transition: border-color var(--dur-2) var(--ease-out);
+}
+
+.field__input:hover {
+  border-color: var(--ink-3);
+}
+
+.field__input:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 1px;
+  border-color: var(--ink);
+}
+
+.field__input[aria-invalid='true'] {
+  border-color: var(--stamp);
+}
+
+textarea.field__input {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.field__select {
+  position: relative;
+}
+
+.field__select select {
+  appearance: none;
+  padding-inline-end: 2.75rem;
+}
+
+.field__select .icon {
+  position: absolute;
+  inset-inline-end: 0.9rem;
+  top: 50%;
+  translate: 0 -50%;
+  pointer-events: none;
+}
+
+/* ---------- Veg mark ---------- */
+
+.veg {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  color: var(--veg);
+  vertical-align: middle;
+}
+
+.veg__mark {
+  width: 1.05em;
+  height: 1.05em;
+  background: #fff;
+  border-radius: 2px;
+}
+
+.veg--sm .veg__mark {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.veg--lg .veg__mark {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.veg__label {
+  font-weight: 600;
+  font-size: var(--step--1);
+  color: var(--ink);
+}
+
+/* ---------- Theme editor TODO markers (never shown to customers) ---------- */
+
+.todo {
+  display: inline-block;
+  margin-block: 0.35rem;
+  padding: 0.2rem 0.55rem;
+  border: 1.5px dashed var(--orange-ink);
+  border-radius: var(--r-s);
+  font-family: var(--font-hand);
+  font-size: var(--step--1);
+  color: var(--orange-ink);
+  background: rgb(255 255 255 / 0.6);
+}
+
+/* ---------- Reduced motion: every animation must still make sense when static ---------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+[data-motion='reduced'] *,
+[data-motion='reduced'] *::before,
+[data-motion='reduced'] *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+}

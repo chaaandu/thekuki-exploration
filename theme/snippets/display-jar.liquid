@@ -1,0 +1,39 @@
+{%- doc -%}
+  A single jar for product pages. It twists open on load (the islands animate it; with
+  reduced motion it simply shows open). The buy box sits beside it, so there's no panel here.
+
+  @param {object} product
+  @param {object} [story] - flavour_story metaobject
+  @param {string} group - Unique id prefix
+{%- enddoc -%}
+{%- liquid
+  assign tag_name = product.title
+  if story.tag_name != blank
+    assign tag_name = story.tag_name.value
+  endif
+  assign form = 'chunk'
+  if story.cookie_form != blank
+    assign form = story.cookie_form.value
+  endif
+  assign aroma = ''
+  if story.aroma != blank
+    assign aroma = story.aroma.value
+  endif
+-%}
+<li
+  class="jar jar--display"
+  style="--i: 0;"
+  data-jar
+  data-handle="{{ product.handle }}"
+  data-product-id="{{ product.id }}"
+  data-form="{{ form }}"
+  data-aroma="{{ aroma }}"
+>
+  <button type="button" class="jar__summary jar__button" data-jar-summary aria-pressed="false">
+    {%- render 'jar-art', form: form, loading: 'eager' -%}
+    <span class="jar__twist" aria-hidden="true">
+      <svg class="icon"><use href="#kuki-icon-twist"/></svg>{{ 'shelf.twist' | t }}
+    </span>
+    <span class="visually-hidden">{{ 'shelf.twist_jar' | t: flavour: tag_name }}</span>
+  </button>
+</li>

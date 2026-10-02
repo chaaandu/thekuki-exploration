@@ -1,0 +1,66 @@
+{%- assign moments = section.blocks | where: 'type', 'moment' -%}
+<section class="day section" aria-labelledby="day-title-{{ section.id }}">
+  <div class="section-head">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    {%- if section.settings.as_page_title -%}
+      <h1 class="section-head__title section-head__title--page" id="day-title-{{ section.id }}">{{ section.settings.heading }}</h1>
+    {%- else -%}
+      <h2 class="section-head__title" id="day-title-{{ section.id }}">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.intro != blank -%}<div class="section-head__intro rte">{{ section.settings.intro }}</div>{%- endif -%}
+  </div>
+  <ol class="day__strip" role="list">
+    {%- for block in moments -%}
+      <li class="day__moment{% if block.settings.image == blank %} day__moment--text{% endif %}" {{ block.shopify_attributes }}>
+        {%- if block.settings.image != blank -%}
+          <div class="day__photo">
+            {%- render 'image', image: block.settings.image, widths: '360,540,720,900', sizes: '(min-width: 1100px) 25vw, (min-width: 700px) 45vw, 78vw', ratio: 0.8 -%}
+          </div>
+        {%- elsif request.design_mode -%}
+          <p class="todo">{{ 'general.todo_photo' | t }}</p>
+        {%- endif -%}
+        <p class="day__when">{{ block.settings.when }}</p>
+        <h3 class="day__what">{{ block.settings.title }}</h3>
+        {%- if block.settings.text != blank -%}<p class="day__text">{{ block.settings.text }}</p>{%- endif -%}
+      </li>
+    {%- endfor -%}
+  </ol>
+</section>
+
+{% schema %}
+{
+  "name": "Small batch: the day",
+  "tag": "div",
+  "class": "section-day",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "Small batch, proven" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "One day on the trays" },
+    { "type": "richtext", "id": "intro", "label": "Intro", "default": "<p>Never frozen, never sitting around. Here's how a day of baking goes.</p>" },
+    { "type": "checkbox", "id": "as_page_title", "label": "This is the page's main heading", "default": false }
+  ],
+  "blocks": [
+    {
+      "type": "moment",
+      "name": "Moment",
+      "settings": [
+        { "type": "text", "id": "when", "label": "When", "info": "Only write real times.", "default": "Morning" },
+        { "type": "text", "id": "title", "label": "What happens", "default": "Dough" },
+        { "type": "textarea", "id": "text", "label": "Line" },
+        { "type": "image_picker", "id": "image", "label": "Real photo" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Small batch: the day",
+      "blocks": [
+        { "type": "moment", "settings": { "when": "Morning", "title": "Dough", "text": "Mixed, then portioned and shaped by hand." } },
+        { "type": "moment", "settings": { "when": "Through the day", "title": "Trays", "text": "Baked in small trays, one batch at a time." } },
+        { "type": "moment", "settings": { "when": "Once they've cooled", "title": "Packed", "text": "Into jars, by flavour and size." } },
+        { "type": "moment", "settings": { "when": "Then", "title": "Out the door", "text": "On their way to you. Nothing waits in a freezer." } }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,43 @@
+{%- liquid
+  assign source = section.settings.collection
+  if source == blank
+    assign source = collections.all
+  endif
+  assign threshold_paise = settings.free_delivery_threshold | times: 100
+  capture threshold
+    render 'price', amount: threshold_paise
+  endcapture
+  assign intro = section.settings.intro | replace: '[threshold]', threshold
+-%}
+<section class="counter section" {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %} aria-labelledby="counter-title-{{ section.id }}">
+  <div class="section-head">
+    <h2 class="section-head__title" id="counter-title-{{ section.id }}">{{ section.settings.heading }}</h2>
+    {%- if intro != blank -%}<div class="section-head__intro">{{ intro }}</div>{%- endif -%}
+  </div>
+  <ul class="counter__grid" role="list">
+    {%- for product in source.products limit: section.settings.limit -%}
+      {%- render 'flavour-card', product: product, image_index: section.settings.image_index, source: 'counter', loading: 'lazy' -%}
+    {%- endfor -%}
+  </ul>
+</section>
+
+{% schema %}
+{
+  "name": "Flavour list",
+  "tag": "div",
+  "class": "section-counter",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "All six flavours" },
+    { "type": "richtext", "id": "intro", "label": "Intro", "info": "Write [threshold] for the free-delivery amount.", "default": "<p>Pick a size and add it to the bag. Free delivery above [threshold].</p>" },
+    { "type": "collection", "id": "collection", "label": "Collection", "info": "Leave empty to show every flavour." },
+    { "type": "range", "id": "limit", "label": "How many", "min": 1, "max": 12, "step": 1, "default": 6 },
+    { "type": "select", "id": "image_index", "label": "Photo to show", "default": "3", "options": [
+      { "value": "1", "label": "1st product photo" },
+      { "value": "2", "label": "2nd product photo" },
+      { "value": "3", "label": "3rd product photo" }
+    ] },
+    { "type": "text", "id": "anchor", "label": "Anchor (for links like /#flavours)", "default": "flavours" }
+  ],
+  "presets": [{ "name": "Flavour list" }]
+}
+{% endschema %}

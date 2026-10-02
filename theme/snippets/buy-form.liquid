@@ -1,0 +1,102 @@
+{%- doc -%}
+  Size toggle + add-to-bag. A real Shopify product form: with JavaScript off it posts to
+  /cart/add, the size radios ARE the variant choice, and :has() swaps the button label.
+  kuki-core enhances it (in-place feedback on the button, bag update, analytics).
+
+  Sizes map to the flavour story's cookie counts by position (1st variant = 100g, 2nd = 250g).
+
+  @param {object} product - The product
+  @param {object} [story] - The product's flavour_story metaobject (for cookie counts)
+  @param {string} source - Where this form lives, for analytics: shelf | pdp | counter | taste-map | bag
+  @param {string} [id_prefix] - Unique prefix so several forms for one product can share a page
+  @param {string} [variant_id] - Preselect this variant (defaults to selected or first available)
+  @param {boolean} [compact] - Smaller layout (jar tags)
+{%- enddoc -%}
+{%- liquid
+  assign current = product.selected_or_first_available_variant
+  if variant_id != blank
+    for v in product.variants
+      if v.id == variant_id
+        assign current = v
+      endif
+    endfor
+  endif
+  assign uid = id_prefix | default: 'buy' | append: '-' | append: product.id
+  assign form_title = product.title
+  if story.tag_name != blank
+    assign form_title = story.tag_name.value
+  endif
+-%}
+{%- form 'product', product, id: uid, class: 'buy', data-add-form: source, data-handle: product.handle, data-title: form_title, novalidate: 'novalidate' -%}
+  <fieldset class="size-toggle{% if compact %} size-toggle--compact{% endif %}">
+    <legend class="visually-hidden">{{ 'product.size' | t }}</legend>
+    {%- for variant in product.variants -%}
+      {%- liquid
+        assign size_label = variant.title
+        assign as_number = variant.title | plus: 0 | append: ''
+        if as_number == variant.title
+          assign size_label = 'product.grams' | t: amount: variant.title
+        endif
+        assign count = nil
+        if story != blank
+          if forloop.index == 1 and story.cookies_per_100g != blank
+            assign count = story.cookies_per_100g.value
+          elsif forloop.index == 2 and story.cookies_per_250g != blank
+            assign count = story.cookies_per_250g.value
+          endif
+        endif
+      -%}
+      <label class="size-toggle__option{% unless variant.available %} is-sold-out{% endunless %}">
+        <input
+          class="size-toggle__input"
+          type="radio"
+          name="id"
+          value="{{ variant.id }}"
+          data-size-index="{{ forloop.index }}"
+          data-size-label="{{ size_label | escape }}"
+          {% if count != blank %}data-cookie-count="{{ count }}"{% endif %}
+          {% if variant.id == current.id %}checked{% endif %}
+          {% unless variant.available %}disabled{% endunless %}
+        >
+        <span class="size-toggle__size">{{ size_label }}</span>
+        <span class="size-toggle__price">
+          {%- render 'price', amount: variant.price -%}
+          {%- if variant.compare_at_price > variant.price -%}
+            <s class="size-toggle__was"><span class="visually-hidden">{{ 'product.was' | t }}</span>{% render 'price', amount: variant.compare_at_price %}</s>
+          {%- endif -%}
+        </span>
+        {%- if count != blank -%}
+          <span class="size-toggle__count">{{ 'product.cookie_count' | t: count: count }}</span>
+        {%- endif -%}
+        {%- unless variant.available -%}
+          <span class="size-toggle__sold">{{ 'product.sold_out' | t }}</span>
+        {%- endunless -%}
+      </label>
+    {%- endfor -%}
+  </fieldset>
+  <input type="hidden" name="quantity" value="1">
+  <button class="btn btn--add{% if compact %} btn--compact{% endif %}" type="submit" name="add" {% unless product.available %}disabled{% endunless %}>
+    {%- if product.available -%}
+      {%- for variant in product.variants -%}
+        {%- liquid
+          assign size_label = variant.title
+          assign as_number = variant.title | plus: 0 | append: ''
+          if as_number == variant.title
+            assign size_label = 'product.grams' | t: amount: variant.title
+          endif
+        -%}
+        {%- capture price_text -%}{%- render 'price', amount: variant.price -%}{%- endcapture -%}
+        <span class="btn__label" data-size-index="{{ forloop.index }}">
+          {%- if variant.available -%}
+            {{- 'product.add_size_price' | t: size: size_label, price: price_text -}}
+          {%- else -%}
+            {{- 'product.sold_out' | t -}}
+          {%- endif -%}
+        </span>
+      {%- endfor -%}
+    {%- else -%}
+      <span class="btn__label is-static">{{ 'product.sold_out' | t }}</span>
+    {%- endif -%}
+    <span class="btn__state"></span>
+  </button>
+{%- endform -%}

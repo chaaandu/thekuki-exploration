@@ -1,0 +1,84 @@
+{%- doc -%}
+  "One tap gets you there": when the bag is under the free-delivery line, offer ONE flavour
+  that isn't in the bag yet, in the cheapest available size that crosses the line.
+  If no single size crosses, offer the size that gets closest. If every flavour is already
+  in the bag, any flavour may be offered. Prices and availability come straight from Shopify.
+{%- enddoc -%}
+{%- liquid
+  assign threshold = settings.free_delivery_threshold | times: 100
+  assign remaining = threshold | minus: cart.total_price
+  assign best_variant = nil
+  assign best_product = nil
+  assign fallback_variant = nil
+  assign fallback_product = nil
+  assign eligible = true
+  if settings.bag_suggestions == false or threshold <= 0 or remaining <= 0 or cart.item_count == 0
+    assign eligible = false
+  endif
+
+  assign in_bag = ','
+  for item in cart.items
+    assign in_bag = in_bag | append: item.product_id | append: ','
+  endfor
+
+  for pass in (1..2)
+    unless eligible
+      break
+    endunless
+    for p in collections.all.products
+      assign needle = ',' | append: p.id | append: ','
+      if pass == 1 and in_bag contains needle
+        continue
+      endif
+      for v in p.variants
+        unless v.available
+          continue
+        endunless
+        if v.price >= remaining
+          if best_variant == nil or v.price < best_variant.price
+            assign best_variant = v
+            assign best_product = p
+          endif
+        elsif fallback_variant == nil or v.price > fallback_variant.price
+          assign fallback_variant = v
+          assign fallback_product = p
+        endif
+      endfor
+    endfor
+    if best_variant != nil or fallback_variant != nil
+      break
+    endif
+  endfor
+
+  if best_variant == nil
+    assign best_variant = fallback_variant
+    assign best_product = fallback_product
+  endif
+-%}
+{%- if best_variant != nil -%}
+  {%- liquid
+    assign s = best_product.metafields.custom.flavour_story.value
+    assign flavour = best_product.title
+    if s.tag_name != blank
+      assign flavour = s.tag_name.value
+    endif
+    capture size_text
+      render 'size-label', title: best_variant.title
+    endcapture
+    capture price_text
+      render 'price', amount: best_variant.price
+    endcapture
+  -%}
+  <div class="bag-suggest" data-bag-suggest>
+    <p class="bag-suggest__lead">{{ 'bag.suggest_heading' | t }}</p>
+    {%- form 'product', best_product, class: 'bag-suggest__form', data-add-form: 'meter', data-handle: best_product.handle, data-title: flavour -%}
+      <input type="hidden" name="id" value="{{ best_variant.id }}">
+      <input type="hidden" name="quantity" value="1">
+      <button class="btn btn--add btn--compact bag-suggest__btn" type="submit" style="--flavour: {% if s.colour != blank %}{{ s.colour.value }}{% else %}#c89b68{% endif %};">
+        <span class="bag-suggest__dot" aria-hidden="true"></span>
+        <span class="btn__label is-static">{{ 'bag.suggest_add' | t: flavour: flavour, size: size_text, price: price_text }}</span>
+        <span class="btn__state"></span>
+      </button>
+    {%- endform -%}
+  </div>
+{%- endif -%}

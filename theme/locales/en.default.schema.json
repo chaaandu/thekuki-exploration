@@ -1,0 +1,56 @@
+{
+  "settings_schema": {
+    "brand": {
+      "name": "Brand",
+      "logo": "Logo",
+      "logo_info": "If empty, the theme uses the Kuki logo bundled with it.",
+      "logo_width": "Logo width",
+      "favicon": "Favicon (32 × 32 px)",
+      "brand_line": "Brand line"
+    },
+    "delivery": {
+      "name": "Delivery & bag",
+      "threshold": "Free delivery from (₹)",
+      "threshold_info": "Must match your shipping rate in Settings › Shipping and delivery. Used by the bag meter and every free-delivery line.",
+      "bag_meter": "Show the free-delivery string on the bag",
+      "bag_suggestions": "Suggest one flavour that gets the bag to free delivery",
+      "delivery_note": "Delivery note on product pages",
+      "delivery_note_info": "Only write what's true for every order, e.g. where you deliver."
+    },
+    "contact": {
+      "name": "Contact",
+      "whatsapp": "WhatsApp number",
+      "whatsapp_info": "With country code, e.g. +91 98230 12354. Used by every WhatsApp link and the gifting enquiry.",
+      "phone": "Phone number",
+      "instagram": "Instagram handle",
+      "instagram_info": "Without the @",
+      "email": "Email (optional)"
+    },
+    "legal": {
+      "name": "Legal",
+      "fssai": "FSSAI licence number",
+      "fssai_info": "Shown in the footer. Hidden while empty.",
+      "veg_mark": "Show the green veg mark"
+    },
+    "motion": {
+      "name": "Motion & sound",
+      "enable_3d": "Allow the 3D shelf",
+      "enable_3d_info": "Only loads after the page shows, and only on devices that can run it. Everyone else gets the 2D shelf.",
+      "sound_default": "Sound on by default",
+      "sound_default_info": "Leave off. Visitors can switch sound on from the shelf.",
+      "haptics": "Little vibration on each lid click (Android)"
+    },
+    "sharing": {
+      "name": "Sharing & search",
+      "share_image": "Default share image",
+      "share_image_info": "Used when a page is shared on WhatsApp or social. Flavours use their own photo.",
+      "meta_description": "Default description",
+      "meta_description_info": "Shown by Google when a page has no description of its own."
+    },
+    "analytics": {
+      "name": "Analytics",
+      "publish_events": "Send shop events (twist, size switch, add to bag…) to Shopify customer events",
+      "publish_events_info": "Read them with a custom pixel in Settings › Customer events."
+    }
+  }
+}

@@ -1,0 +1,62 @@
+{%- doc -%}
+  /cart: the paper bag as a full page. This is what the bag link opens when JavaScript is
+  off (or before kuki-core loads), so it has everything: meter, one-tap suggestion,
+  quantities, gift note and checkout, all as plain forms.
+{%- enddoc -%}
+{%- capture total_text -%}{%- render 'price', amount: cart.total_price -%}{%- endcapture -%}
+<section class="cart-page section" aria-labelledby="cart-title-{{ section.id }}">
+  <div class="cart-page__inner">
+    <h1 class="cart-page__title" id="cart-title-{{ section.id }}">{{ 'bag.title' | t }}</h1>
+
+    {%- if cart.item_count > 0 -%}
+      {%- render 'bag-meter', variant: 'page' -%}
+      {%- render 'bag-suggest' -%}
+
+      {%- form 'cart', cart, class: 'cart-page__form' -%}
+        {%- render 'bag-lines', mode: 'page' -%}
+        <div class="cart-page__update">
+          <button class="btn btn--ghost" type="submit" name="update">{{ 'bag.update' | t }}</button>
+        </div>
+        <div class="note">
+          <label class="note__label" for="cart-note">{{ section.settings.note_label }}</label>
+          <textarea class="note__field" id="cart-note" name="note" rows="3" maxlength="500" placeholder="{{ section.settings.note_placeholder }}">{{ cart.note }}</textarea>
+          <p class="note__help">{{ section.settings.note_help }}</p>
+        </div>
+        <p class="bag-totals">
+          <span>{{ 'bag.subtotal' | t }}</span>
+          <span class="bag-totals__value">{{ total_text }}</span>
+        </p>
+        <button class="btn btn--primary cart-page__checkout" type="submit" name="checkout">
+          {{ section.settings.checkout_label }}
+          <svg class="icon" aria-hidden="true"><use href="#kuki-icon-arrow-right"/></svg>
+        </button>
+        {%- if section.settings.checkout_help != blank -%}<p class="bag-sheet__fine">{{ section.settings.checkout_help }}</p>{%- endif -%}
+      {%- endform -%}
+    {%- else -%}
+      <div class="bag-empty bag-empty--page">
+        <span class="bag-empty__art" data-fill="0">{%- render 'bag-art' -%}</span>
+        <p class="bag-empty__title">{{ section.settings.empty_heading }}</p>
+        {%- if section.settings.empty_text != blank -%}<p class="bag-empty__text">{{ section.settings.empty_text }}</p>{%- endif -%}
+        <a class="btn btn--primary" href="{{ routes.all_products_collection_url }}">{{ section.settings.empty_link }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Bag page",
+  "tag": "div",
+  "class": "section-cart",
+  "settings": [
+    { "type": "text", "id": "empty_heading", "label": "Empty bag: heading", "default": "Your bag is empty." },
+    { "type": "text", "id": "empty_text", "label": "Empty bag: line", "default": "Every flavour is one tap away." },
+    { "type": "text", "id": "empty_link", "label": "Empty bag: button", "default": "See all six flavours" },
+    { "type": "text", "id": "note_label", "label": "Gift note label", "default": "Gift note" },
+    { "type": "text", "id": "note_placeholder", "label": "Gift note placeholder", "default": "Who's it for? Write them a line." },
+    { "type": "text", "id": "note_help", "label": "Under the gift note", "default": "Saved with your order." },
+    { "type": "text", "id": "checkout_label", "label": "Checkout button", "default": "Check out" },
+    { "type": "text", "id": "checkout_help", "label": "Under the checkout button", "default": "Delivery and payment on the next step." }
+  ]
+}
+{% endschema %}

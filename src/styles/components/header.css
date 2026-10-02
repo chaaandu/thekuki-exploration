@@ -1,0 +1,190 @@
+/* Announcement line + header. The bag is not up here: it lives bottom-right (desktop)
+   and in the bottom bar (phones), where thumbs reach it. */
+
+.announce {
+  background: var(--ink);
+  color: var(--paper);
+  font-size: var(--step--1);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.announce__list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.25rem 1.25rem;
+  margin: 0 auto;
+  padding: 0.45rem var(--gutter);
+  max-width: var(--wrap);
+  list-style: none;
+  text-align: center;
+}
+
+.announce__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.announce__item + .announce__item::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--orange-soft);
+  margin-inline-start: -0.65rem;
+}
+
+.announce a {
+  text-decoration: underline;
+  text-decoration-color: rgb(251 244 230 / 0.5);
+}
+
+@media (max-width: 47.99rem) {
+  .announce__item--wide {
+    display: none;
+  }
+
+  .announce__item + .announce__item::before {
+    display: none;
+  }
+}
+
+.site-header {
+  position: relative;
+  z-index: var(--z-header);
+  background: var(--paper);
+  border-bottom: 1px solid var(--line);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-m);
+  max-width: var(--wrap);
+  margin: 0 auto;
+  padding: 0.5rem var(--gutter);
+  min-height: 4rem;
+}
+
+.site-header__logo {
+  display: block;
+  width: var(--logo-w, 128px);
+  flex: none;
+  border-radius: var(--r-s);
+}
+
+.site-header__logo img {
+  width: 100%;
+  height: auto;
+}
+
+.site-nav__list {
+  display: flex;
+  gap: clamp(0.75rem, 1.6vw, 1.75rem);
+  list-style: none;
+  padding: 0;
+}
+
+.site-nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  font-weight: 600;
+  text-decoration: none;
+  position: relative;
+}
+
+.site-nav__link::after {
+  content: '';
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0.55rem;
+  height: 2px;
+  background: var(--orange);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--dur-2) var(--ease-out);
+}
+
+.site-nav__link:hover::after,
+.site-nav__link[aria-current='page']::after {
+  transform: scaleX(1);
+}
+
+.nav-drawer {
+  display: none;
+}
+
+@media (max-width: 63.99rem) {
+  .site-nav {
+    display: none;
+  }
+
+  .nav-drawer {
+    display: block;
+  }
+
+  .nav-drawer__toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    min-height: 44px;
+    padding: 0.4rem 0.85rem;
+    border: 2px solid var(--ink);
+    border-radius: var(--r-pill);
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .nav-drawer__toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .nav-drawer[open] .nav-drawer__toggle {
+    background: var(--ink);
+    color: var(--paper);
+  }
+
+  .nav-drawer__panel {
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    padding: var(--space-s) var(--gutter) var(--space-l);
+    background: var(--paper);
+    border-bottom: 1px solid var(--line);
+    box-shadow: var(--shadow-lift);
+  }
+
+  .nav-drawer__list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+  }
+
+  .nav-drawer__link {
+    display: block;
+    padding: 0.8rem 0;
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    line-height: 1.1;
+    text-decoration: none;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .nav-drawer__link[aria-current='page'] {
+    color: var(--orange-ink);
+  }
+
+  .nav-drawer__contact {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: var(--space-m);
+    min-height: 44px;
+    font-weight: 600;
+  }
+}

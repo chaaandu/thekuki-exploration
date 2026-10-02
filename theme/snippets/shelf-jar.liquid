@@ -1,0 +1,98 @@
+{%- doc -%}
+  One jar on the shelf.
+  - A native <details>: tapping the jar opens it even with no JavaScript, and the shared
+    `name` makes jars exclusive (opening another jar closes the open one).
+  - The summary is the jar button: lid art + the handwritten paper tag (flavour + live price).
+  - The panel is the back of the tag: memory, pairing, size toggle, add to bag.
+  The 2D and 3D islands enhance this markup; they never replace its content.
+
+  @param {object} product - Product on this jar
+  @param {string} group - Shared details name for this shelf
+  @param {number} index - 0-based position on the shelf
+  @param {boolean} [chai_pick] - Slides forward at chai time (4–7pm)
+  @param {string} [chai_tag] - Handwritten note on chai-time picks
+  @param {string} [loading] - Loading for the jar art
+  @param {string} source - Analytics source label
+  @param {string} [attributes] - block.shopify_attributes for the theme editor
+  @param {boolean} [open] - Render open (product pages: the jar opens on load)
+{%- enddoc -%}
+{%- liquid
+  assign story = product.metafields.custom.flavour_story.value
+  assign tag_name = product.title
+  if story.tag_name != blank
+    assign tag_name = story.tag_name.value
+  endif
+  assign colour = '#c89b68'
+  if story.colour != blank
+    assign colour = story.colour.value
+  endif
+  assign accent = colour
+  if story.accent_colour != blank
+    assign accent = story.accent_colour.value
+  endif
+  assign form = 'chunk'
+  if story.cookie_form != blank
+    assign form = story.cookie_form.value
+  endif
+  assign aroma = ''
+  if story.aroma != blank
+    assign aroma = story.aroma.value
+  endif
+  assign first = product.selected_or_first_available_variant
+  assign panel_id = group | append: '-panel-' | append: product.id
+-%}
+<li
+  class="jar{% if chai_pick %} jar--chai{% endif %}"
+  style="--flavour: {{ colour }}; --accent: {{ accent }}; --i: {{ index }};"
+  data-jar
+  data-handle="{{ product.handle }}"
+  data-product-id="{{ product.id }}"
+  data-form="{{ form }}"
+  data-aroma="{{ aroma }}"
+  {{ attributes }}
+>
+  <details class="jar__details" name="{{ group }}" data-jar-details {% if open %}open{% endif %}>
+    <summary class="jar__summary" data-jar-summary aria-controls="{{ panel_id }}">
+      {%- render 'jar-art', form: form, loading: loading -%}
+      <span class="tag__string" aria-hidden="true"></span>
+      <span class="tag tag--front">
+        <span class="tag__name">{{ tag_name }}</span>
+        <span class="tag__price">
+          {%- render 'price', amount: first.price -%}
+          <span class="tag__size">{% render 'size-label', title: first.title %}</span>
+        </span>
+      </span>
+      <span class="jar__twist" aria-hidden="true">
+        <svg class="icon"><use href="#kuki-icon-twist"/></svg>{{ 'shelf.twist' | t }}
+      </span>
+      <span class="visually-hidden">{{ 'shelf.twist_to_open' | t }}</span>
+      {%- if chai_pick and chai_tag != blank -%}
+        <span class="jar__chai-tag">{{ chai_tag }}</span>
+      {%- endif -%}
+    </summary>
+
+    <div class="jar__panel" id="{{ panel_id }}" data-jar-panel>
+      <div class="tag tag--back">
+        <p class="tag__title">
+          <a class="tag__title-link" href="{{ product.url }}">{{ tag_name }}</a>
+          {%- render 'veg-mark', size: 'sm' -%}
+        </p>
+        {%- if story.memory_line != blank -%}
+          <p class="tag__memory">{{ story.memory_line.value | escape | newline_to_br }}</p>
+        {%- else -%}
+          {%- render 'design-todo', field: 'shelf.todo_memory' -%}
+        {%- endif -%}
+        {%- if story.pairing != blank -%}
+          <p class="tag__pairing">{{ story.pairing.value }}</p>
+        {%- else -%}
+          {%- render 'design-todo', field: 'shelf.todo_pairing' -%}
+        {%- endif -%}
+        {%- render 'buy-form', product: product, story: story, source: source, id_prefix: group, compact: true -%}
+        <a class="tag__more" href="{{ product.url }}">
+          {{- 'shelf.more_about' | t: flavour: tag_name -}}
+          <svg class="icon" aria-hidden="true"><use href="#kuki-icon-arrow-right"/></svg>
+        </a>
+      </div>
+    </div>
+  </details>
+</li>

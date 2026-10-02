@@ -1,0 +1,144 @@
+{
+  "$comment": "Entries created by scripts/store-setup.ts. Only facts from CLAUDE.md, the brief or the live product descriptions. Memory lines and pairings are DRAFT copy written from the memories named in CLAUDE.md, for the team to edit. Everything unknown is null and hides itself on the site.",
+  "flavour_story": [
+    {
+      "handle": "blueberry",
+      "product": "blueberry-cookies",
+      "fields": {
+        "tag_name": "Blueberry",
+        "memory_line": null,
+        "pairing": null,
+        "colour": "#3e3a8c",
+        "accent_colour": "#5a2e6e",
+        "aroma": "blueberry",
+        "cookie_form": "thumbprint",
+        "taste_sweet_savoury": 20,
+        "taste_comfort_curious": 45,
+        "cookies_per_100g": null,
+        "cookies_per_250g": null,
+        "allergens": null,
+        "eggless": null,
+        "shelf_life": null,
+        "local_name_gloss": null,
+        "texture_photos": null,
+        "share_image": null
+      }
+    },
+    {
+      "handle": "boost",
+      "product": "boost-cookies",
+      "fields": {
+        "tag_name": "Boost",
+        "memory_line": "School bag on the floor, a steel tumbler of Boost.",
+        "pairing": "Best after school",
+        "colour": "#6b3e22",
+        "accent_colour": null,
+        "aroma": "malt_dust",
+        "cookie_form": "malt_round",
+        "taste_sweet_savoury": 15,
+        "taste_comfort_curious": 10,
+        "cookies_per_100g": null,
+        "cookies_per_250g": null,
+        "allergens": null,
+        "eggless": null,
+        "shelf_life": null,
+        "local_name_gloss": null,
+        "texture_photos": null,
+        "share_image": null
+      }
+    },
+    {
+      "handle": "masala",
+      "product": "masala-cookies",
+      "fields": {
+        "tag_name": "Masala",
+        "memory_line": "Evening chai, and the plate of something savoury that goes round with it.",
+        "pairing": "Best with evening chai",
+        "colour": "#3d6b2c",
+        "accent_colour": null,
+        "aroma": "curry_leaf",
+        "cookie_form": "leaf_crust",
+        "taste_sweet_savoury": 85,
+        "taste_comfort_curious": 70,
+        "cookies_per_100g": null,
+        "cookies_per_250g": null,
+        "allergens": null,
+        "eggless": null,
+        "shelf_life": null,
+        "local_name_gloss": null,
+        "texture_photos": null,
+        "share_image": null
+      }
+    },
+    {
+      "handle": "nutella-chunk",
+      "product": "nutella-cookies",
+      "fields": {
+        "tag_name": "Nutella Chunk",
+        "memory_line": null,
+        "pairing": null,
+        "colour": "#8a5a33",
+        "accent_colour": null,
+        "aroma": "hazelnut_ribbon",
+        "cookie_form": "chunk",
+        "taste_sweet_savoury": 5,
+        "taste_comfort_curious": 25,
+        "cookies_per_100g": null,
+        "cookies_per_250g": null,
+        "allergens": null,
+        "eggless": null,
+        "shelf_life": null,
+        "local_name_gloss": null,
+        "texture_photos": null,
+        "share_image": null
+      }
+    },
+    {
+      "handle": "omam",
+      "product": "omam-cookies",
+      "fields": {
+        "tag_name": "Omam",
+        "memory_line": "Evening chai, and the one stick everyone reaches for first.",
+        "pairing": "Best with evening chai",
+        "colour": "#9c8b5a",
+        "accent_colour": null,
+        "aroma": "carom_seed",
+        "cookie_form": "stick",
+        "taste_sweet_savoury": 70,
+        "taste_comfort_curious": 40,
+        "cookies_per_100g": null,
+        "cookies_per_250g": null,
+        "allergens": null,
+        "eggless": null,
+        "shelf_life": null,
+        "local_name_gloss": "omam, that's ajwain",
+        "texture_photos": null,
+        "share_image": null
+      }
+    },
+    {
+      "handle": "rose-gulkand",
+      "product": "rose-gulkand",
+      "fields": {
+        "tag_name": "Rose Gulkand",
+        "memory_line": "The sweet paan after dinner, folded into a cookie.",
+        "pairing": "Best after dinner",
+        "colour": "#e48fa8",
+        "accent_colour": "#93b04e",
+        "aroma": "rose_petal",
+        "cookie_form": "nut_crust",
+        "taste_sweet_savoury": 30,
+        "taste_comfort_curious": 85,
+        "cookies_per_100g": null,
+        "cookies_per_250g": null,
+        "allergens": null,
+        "eggless": null,
+        "shelf_life": null,
+        "local_name_gloss": "gulkand, a preserve of rose petals and sugar",
+        "texture_photos": null,
+        "share_image": null
+      }
+    }
+  ],
+  "todays_trays": []
+}

@@ -1,0 +1,26 @@
+{%- doc -%}
+  The brown paper bakery bag. Cookies peek out of the top as it fills (CSS reads data-fill
+  on the parent), and the baker's twine around it is the free-delivery meter (--progress).
+  The twine pattern lives in the shared SVG sprite.
+{%- enddoc -%}
+<svg class="bag-art" viewBox="0 0 120 150" aria-hidden="true" focusable="false">
+  <ellipse class="bag-art__shadow" cx="60" cy="143" rx="46" ry="5"/>
+  <path class="bag-art__inside" d="M22 28 H98 V46 H22 Z"/>
+  <g class="bag-art__cookies">
+    <g class="bag-art__cookie bag-art__cookie--1"><circle cx="44" cy="40" r="12"/><circle class="bag-art__fleck" cx="40" cy="37" r="1.6"/><circle class="bag-art__fleck" cx="48" cy="43" r="1.3"/></g>
+    <g class="bag-art__cookie bag-art__cookie--2"><circle cx="75" cy="37" r="13"/><circle class="bag-art__fleck" cx="71" cy="33" r="1.5"/><circle class="bag-art__fleck" cx="79" cy="40" r="1.8"/></g>
+    <g class="bag-art__cookie bag-art__cookie--3"><circle cx="59" cy="29" r="12"/><circle class="bag-art__fleck" cx="55" cy="27" r="1.4"/><circle class="bag-art__fleck" cx="63" cy="32" r="1.6"/></g>
+  </g>
+  <path class="bag-art__front" d="M18 40 L102 40 L106 133 Q106 140 99 140 L21 140 Q14 140 14 133 Z"/>
+  <path class="bag-art__edge" d="M18 40 l3.5 -3.2 l3.5 3.2 l3.5 -3.2 l3.5 3.2 l3.5 -3.2 l3.5 3.2 l3.5 -3.2 l3.5 3.2 l3.5 -3.2 l3.5 3.2 l3.5 -3.2 l3.5 3.2 l3.5 -3.2 l3.5 3.2 l3.5 -3.2 l3.5 3.2 l3.5 -3.2 l3.5 3.2 l3.5 -3.2 l3.5 3.2 l3.5 -3.2 l3.5 3.2 l3.5 -3.2 l3.5 3.2 Z"/>
+  <path class="bag-art__crease" d="M27 43 L23 137 M93 43 L97 137 M15 126 H105"/>
+  <g class="bag-art__twine">
+    <rect class="bag-art__twine-track" x="15" y="55" width="90" height="4.5" rx="2.25"/>
+    <rect class="bag-art__twine-fill" x="15" y="55" width="90" height="4.5" rx="2.25"/>
+  </g>
+  <g class="bag-art__bow">
+    <path d="M60 57 C52 47 44 50 47 56 C49 60 55 59 60 57 Z"/>
+    <path d="M60 57 C68 47 76 50 73 56 C71 60 65 59 60 57 Z"/>
+    <path d="M59 58 L54 70 M61 58 L66 70"/>
+  </g>
+</svg>

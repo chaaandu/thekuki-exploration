@@ -1,0 +1,71 @@
+{%- doc -%}
+  "Today's trays": fed by the todays_trays metaobject the team updates each morning.
+  It only shows when the entry's date is today in India time. Liquid checks with the
+  store's clock; kuki-core checks again in the browser, so a cached page can never show
+  yesterday's trays.
+{%- enddoc -%}
+{%- liquid
+  assign entry = blank
+  for candidate in metaobjects.todays_trays.values
+    if candidate.date != blank
+      if entry == blank
+        assign entry = candidate
+      else
+        assign a = candidate.date.value | date: '%Y%m%d' | plus: 0
+        assign b = entry.date.value | date: '%Y%m%d' | plus: 0
+        if a > b
+          assign entry = candidate
+        endif
+      endif
+    endif
+  endfor
+  assign today = 'now' | date: '%Y-%m-%d'
+-%}
+{%- if entry != blank -%}
+  {%- assign entry_date = entry.date.value | date: '%Y-%m-%d' -%}
+  <section
+    class="trays section"
+    data-trays
+    data-date="{{ entry_date }}"
+    aria-labelledby="trays-title-{{ section.id }}"
+    {% if entry_date != today %}hidden{% endif %}
+  >
+    <div class="trays__board">
+      <div class="trays__head">
+        <h2 class="trays__title" id="trays-title-{{ section.id }}">{{ section.settings.heading }}</h2>
+        <p class="trays__date">{{ entry.date.value | date: format: 'trays_date' }}</p>
+      </div>
+      {%- if entry.on_trays != blank -%}
+        <ul class="trays__list" role="list">
+          {%- for p in entry.on_trays.value -%}
+            {%- assign s = p.metafields.custom.flavour_story.value -%}
+            <li style="--flavour: {% if s.colour != blank %}{{ s.colour.value }}{% else %}#c89b68{% endif %};">
+              <a href="{{ p.url }}">{% if s.tag_name != blank %}{{ s.tag_name.value }}{% else %}{{ p.title }}{% endif %}</a>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      {%- if entry.note != blank -%}
+        <p class="trays__note">{{ entry.note.value }}</p>
+      {%- endif -%}
+      {%- if entry.photo != blank -%}
+        <div class="trays__photo">
+          {%- render 'image', image: entry.photo.value, widths: '480,720,960', sizes: '(min-width: 900px) 420px, 88vw', ratio: 1.25 -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Today's trays",
+  "tag": "div",
+  "class": "section-trays",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Today's trays" },
+    { "type": "paragraph", "content": "Update it from Content › Metaobjects › Today's trays. It shows only on the date you set (India time), and hides itself on any other day." }
+  ],
+  "presets": [{ "name": "Today's trays" }]
+}
+{% endschema %}

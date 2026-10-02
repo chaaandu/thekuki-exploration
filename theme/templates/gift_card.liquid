@@ -1,0 +1,26 @@
+{% layout none %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <title>{{ 'gift_card.title' | t: shop: shop.name }}</title>
+    {%- render 'fonts' -%}
+    {%- render 'critical-css' -%}
+    <link rel="stylesheet" href="{{ 'kuki.css' | asset_url }}">
+    {{ content_for_header }}
+  </head>
+  <body>
+    <main class="page section">
+      <div class="page__inner gift-card">
+        <h1 class="page__title">{{ 'gift_card.heading' | t: shop: shop.name }}</h1>
+        {%- capture balance -%}{%- render 'price', amount: gift_card.balance -%}{%- endcapture -%}
+        <p class="gift-card__balance">{{ 'gift_card.balance' | t: amount: balance }}</p>
+        <p class="gift-card__code">{{ gift_card.code | format_code }}</p>
+        {%- if gift_card.expired -%}<p>{{ 'gift_card.expired' | t }}</p>{%- endif -%}
+        <p><a class="btn btn--primary" href="{{ shop.url }}">{{ 'gift_card.shop' | t }}</a></p>
+      </div>
+    </main>
+  </body>
+</html>

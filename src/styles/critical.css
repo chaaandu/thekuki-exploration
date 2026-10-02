@@ -1,0 +1,12 @@
+/* Inlined in <head> (snippets/critical-css.liquid): everything above the fold on the
+   home, product and collection pages. The rest loads from kuki.css without blocking. */
+@import './tokens.css';
+@import './base.css';
+@import './components/header.css';
+@import './components/shelf.css';
+@import './components/jar.css';
+@import './components/buy.css';
+@import './components/pill.css';
+@import './components/pdp.css';
+@import './components/counter.css';
+@import './components/bag.css';

@@ -1,0 +1,45 @@
+{%- doc -%}
+  Formats a price the Kuki way: ₹199, ₹1,199, ₹1,19,900 (Indian grouping), paise only when non-zero.
+  Shopify's money_format can't do Indian grouping, so this never depends on the store setting.
+
+  @param {number} amount - Price in paise (Shopify subunits)
+{%- enddoc -%}
+{%- liquid
+  assign amount = amount | default: 0
+  assign paise = amount | modulo: 100
+  assign rupees = amount | minus: paise | divided_by: 100
+  assign digits = rupees | append: ''
+  assign len = digits | size
+  if len > 3
+    assign rest_len = len | minus: 3
+    assign last3 = digits | slice: rest_len, 3
+    assign rest = digits | slice: 0, rest_len
+    assign grouped = ''
+    assign i = rest_len
+    for n in (1..8)
+      if i <= 0
+        break
+      endif
+      assign start = i | minus: 2
+      if start < 0
+        assign start = 0
+      endif
+      assign take = i | minus: start
+      assign part = rest | slice: start, take
+      if grouped == ''
+        assign grouped = part
+      else
+        assign grouped = part | append: ',' | append: grouped
+      endif
+      assign i = start
+    endfor
+    assign formatted = grouped | append: ',' | append: last3
+  else
+    assign formatted = digits
+  endif
+  if paise > 0
+    assign two = paise | prepend: '0' | slice: -2, 2
+    assign formatted = formatted | append: '.' | append: two
+  endif
+-%}
+{{- 'general.price' | t: amount: formatted -}}

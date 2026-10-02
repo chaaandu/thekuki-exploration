@@ -1,0 +1,51 @@
+{%- doc -%}
+  A flavour on the plain, fast counter list: real photo, name, the memory line (or the
+  product description when the memory isn't written yet), size toggle and add to bag.
+  This is the ≤3-tap path and the path that never needs 3D.
+
+  @param {object} product
+  @param {number} [image_index] - Which product photo to show (1-based, default 1)
+  @param {string} source - Analytics source label
+  @param {string} [heading_level] - 'h2' | 'h3' (default 'h3')
+  @param {string} [loading] - Image loading
+{%- enddoc -%}
+{%- liquid
+  assign story = product.metafields.custom.flavour_story.value
+  assign tag_name = product.title
+  if story.tag_name != blank
+    assign tag_name = story.tag_name.value
+  endif
+  assign colour = '#c89b68'
+  if story.colour != blank
+    assign colour = story.colour.value
+  endif
+  assign idx = image_index | default: 1 | minus: 1
+  assign photo = product.media[idx] | default: product.featured_media
+  assign h = heading_level | default: 'h3'
+-%}
+<li class="flavour-card" style="--flavour: {{ colour }};" data-flavour-card data-handle="{{ product.handle }}">
+  {%- if photo != blank -%}
+    <a class="flavour-card__media" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+      {%- render 'image',
+        image: photo,
+        widths: '320,420,560,720,900',
+        sizes: '(min-width: 1100px) 360px, (min-width: 700px) 44vw, 92vw',
+        ratio: 0.8,
+        decorative: true,
+        loading: loading
+      -%}
+    </a>
+  {%- endif -%}
+  <div class="flavour-card__body">
+    <{{ h }} class="flavour-card__title">
+      <a href="{{ product.url }}">{{ tag_name }}</a>
+      {%- render 'veg-mark', size: 'sm' -%}
+    </{{ h }}>
+    {%- if story.memory_line != blank -%}
+      <p class="flavour-card__memory">{{ story.memory_line.value | escape | newline_to_br }}</p>
+    {%- else -%}
+      <p class="flavour-card__desc">{{ product.description | strip_html | truncatewords: 18 }}</p>
+    {%- endif -%}
+    {%- render 'buy-form', product: product, story: story, source: source, id_prefix: source -%}
+  </div>
+</li>

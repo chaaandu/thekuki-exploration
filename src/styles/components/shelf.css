@@ -1,0 +1,302 @@
+/* The shelf: lime-washed wall, window light, a teak plank, glass jars with paper tags.
+   The DOM shelf is the truth: it is fully shoppable on its own; the 2D and 3D islands
+   only repaint it. Time of day comes from data-daypart on <html> (set before first paint). */
+
+.shelf {
+  --wall: #f3e8d4;
+  --wall-ink: var(--ink);
+  --wall-ink-2: var(--ink-2);
+  --light: rgb(255 238 205 / 0.7);
+  --light-angle: -24deg;
+  --light-x: -6%;
+  --shade: rgb(59 26 12 / 0.07);
+  --jar-w: clamp(8rem, 11.5vw, 12rem);
+  --plank-h: clamp(1.15rem, 2vw, 1.7rem);
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  background: var(--wall);
+  color: var(--wall-ink);
+  padding-top: clamp(2rem, 5.5vh, 4.25rem);
+  padding-bottom: clamp(1.5rem, 4vh, 3rem);
+  transition: background-color var(--dur-4) var(--ease-out);
+}
+
+/* Lime-wash: a faint mottle, painted once (no image request). */
+.shelf::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(120% 80% at 20% 10%, rgb(255 255 255 / 0.35), transparent 60%),
+    radial-gradient(90% 70% at 85% 30%, rgb(140 100 60 / 0.06), transparent 70%);
+  pointer-events: none;
+}
+
+/* Window light: four panes of late-afternoon sun raking in from the left. */
+.shelf__light {
+  position: absolute;
+  z-index: -1;
+  inset: -20% auto -10% var(--light-x);
+  width: 62%;
+  transform: skewX(var(--light-angle));
+  background:
+    linear-gradient(90deg, transparent 0 47.5%, var(--wall) 47.5% 52.5%, transparent 52.5%),
+    linear-gradient(180deg, transparent 0 45%, var(--wall) 45% 49%, transparent 49%),
+    linear-gradient(90deg, transparent, var(--light) 18%, var(--light) 82%, transparent);
+  opacity: 0.55;
+  filter: blur(6px);
+  pointer-events: none;
+}
+
+.shelf__wall {
+  position: relative;
+  text-align: center;
+  padding-inline: var(--gutter);
+}
+
+.shelf__headline {
+  font-size: var(--step-hero);
+  line-height: 0.94;
+  max-width: 13ch;
+  margin-inline: auto;
+  color: var(--wall-ink);
+}
+
+.shelf__subline {
+  margin-top: 0.7rem;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: var(--step-2);
+  line-height: 1.2;
+  color: var(--wall-ink-2);
+}
+
+/* Per-daypart copy: show the matching override and hide the default only when one exists. */
+.shelf__subline[data-for] {
+  display: none;
+}
+
+[data-daypart='morning'] .shelf__subline[data-for='morning'],
+[data-daypart='chai'] .shelf__subline[data-for='chai'],
+[data-daypart='evening'] .shelf__subline[data-for='evening'],
+[data-daypart='night'] .shelf__subline[data-for='night'] {
+  display: block;
+}
+
+[data-daypart='morning'] .shelf[data-overrides~='morning'] .shelf__subline--default,
+[data-daypart='chai'] .shelf[data-overrides~='chai'] .shelf__subline--default,
+[data-daypart='evening'] .shelf[data-overrides~='evening'] .shelf__subline--default,
+[data-daypart='night'] .shelf[data-overrides~='night'] .shelf__subline--default {
+  display: none;
+}
+
+.shelf__stage {
+  position: relative;
+  z-index: 0;
+  margin-top: clamp(1.75rem, 5vh, 3.5rem);
+  transition: margin-bottom var(--dur-3) var(--ease-out);
+}
+
+.shelf__row {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(0.9rem, 2.6vw, 2.75rem);
+  margin: 0;
+  padding: 0 var(--gutter);
+  list-style: none;
+}
+
+.shelf__plank {
+  position: relative;
+  z-index: -1;
+  height: var(--plank-h);
+  margin-top: calc(var(--plank-h) * -0.42);
+  background:
+    linear-gradient(180deg, var(--wood-hi) 0 14%, var(--wood) 14% 60%, var(--wood-2)),
+    var(--wood);
+  box-shadow:
+    0 1px 0 rgb(255 255 255 / 0.18) inset,
+    0 18px 28px -14px rgb(59 26 12 / 0.55);
+}
+
+.shelf__plank::after {
+  /* grain */
+  content: '';
+  position: absolute;
+  inset: 18% 0 0;
+  background: repeating-linear-gradient(90deg, rgb(0 0 0 / 0.05) 0 2px, transparent 2px 37px, rgb(0 0 0 / 0.03) 37px 38px, transparent 38px 91px);
+  opacity: 0.8;
+}
+
+.shelf__hint {
+  margin-top: var(--space-m);
+  text-align: center;
+  font-family: var(--font-hand);
+  font-size: var(--step-0);
+  color: var(--wall-ink-2);
+  padding-inline: var(--gutter);
+}
+
+/* Reserve room below the shelf while a tag is open, so it never covers the next section. */
+.shelf:has(.jar__details[open]) .shelf__stage {
+  margin-bottom: var(--panel-room, 17.5rem);
+}
+
+/* ---------- Time of day ---------- */
+
+[data-daypart='morning'] :is(.shelf, .pdp) {
+  --wall: #f1eee6;
+  --light: rgb(232 242 255 / 0.85);
+  --light-angle: -12deg;
+  --light-x: 4%;
+}
+
+[data-daypart='day'] :is(.shelf, .pdp) {
+  --wall: #f3e8d4;
+}
+
+[data-daypart='chai'] :is(.shelf, .pdp) {
+  --wall: #f1dcbc;
+  --light: rgb(255 190 110 / 0.75);
+  --light-angle: -34deg;
+  --light-x: -14%;
+}
+
+[data-daypart='evening'] :is(.shelf, .pdp) {
+  --wall: #ead5b8;
+  --light: rgb(255 214 160 / 0.45);
+  --light-angle: -38deg;
+}
+
+/* After 9pm: the room is dark, one warm bulb hangs over the shelf. */
+[data-daypart='night'] :is(.shelf, .pdp) {
+  --wall: #2d211a;
+  --wall-ink: #fbf0dc;
+  --wall-ink-2: #e8d2b0;
+  --light: transparent;
+  --focus: var(--orange-soft);
+}
+
+[data-daypart='night'] .shelf::before {
+  /* the pool of light under the bulb */
+  background: radial-gradient(55% 65% at var(--bulb-x, 78%) 34%, rgb(255 200 120 / 0.36), rgb(255 170 90 / 0.1) 45%, transparent 75%);
+}
+
+[data-daypart='night'] .shelf::after {
+  /* the bulb on its flex */
+  content: '';
+  position: absolute;
+  left: var(--bulb-x, 78%);
+  top: 0;
+  width: 1.1rem;
+  height: var(--bulb-drop, clamp(5rem, 16vh, 9.5rem));
+  translate: -50% 0;
+  background:
+    radial-gradient(circle at 50% calc(100% - 0.55rem), #fff4d6 0 0.32rem, #ffcf7a 0.36rem 0.55rem, transparent 0.58rem),
+    linear-gradient(90deg, transparent 0 calc(50% - 1px), #1b130e calc(50% - 1px) calc(50% + 1px), transparent calc(50% + 1px)) top / 100% calc(100% - 1rem) no-repeat;
+  filter: drop-shadow(0 0 14px rgb(255 196 110 / 0.9));
+  pointer-events: none;
+}
+
+[data-daypart='night'] .shelf__plank {
+  filter: brightness(0.62) sepia(0.3);
+}
+
+/* ---------- Phones and tablets: one jar centred, swipe for the next ---------- */
+
+@media (max-width: 63.99rem) {
+  .shelf {
+    --jar-w: min(50vw, 13rem);
+    --bulb-x: 88%;
+    --bulb-drop: 3.4rem;
+  }
+
+  .shelf__stage {
+    margin-top: var(--space-l);
+  }
+
+  .shelf__row {
+    justify-content: flex-start;
+    gap: 1.1rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    padding-inline: calc(50% - var(--jar-w) / 2);
+    padding-top: 2.75rem;
+    margin-top: -2.75rem;
+  }
+
+  .shelf__row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .shelf__row > .jar {
+    scroll-snap-align: center;
+  }
+
+  .shelf:has(.jar__details[open]) .shelf__stage {
+    margin-bottom: var(--panel-room, 22rem);
+  }
+}
+
+/* Off-centre jars sit back a little while swiping (pure CSS where scroll-driven animation exists). */
+@supports (animation-timeline: view()) {
+  @media (max-width: 63.99rem) {
+    .shelf__row > .jar .jar__summary {
+      animation: kuki-jar-centre linear both;
+      animation-timeline: view(inline);
+    }
+  }
+}
+
+@keyframes kuki-jar-centre {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.86);
+  }
+  38%,
+  62% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ---------- Single jar (product pages) ---------- */
+
+.pdp .shelf {
+  background: transparent;
+  --bulb-x: 50%;
+  --bulb-drop: clamp(4rem, 12vh, 7rem);
+}
+
+.shelf--single .shelf__row {
+  justify-content: center;
+  overflow: visible;
+  padding-inline: var(--gutter);
+  margin-top: 0;
+  padding-top: 0;
+}
+
+.shelf--single {
+  --jar-w: clamp(11rem, 22vw, 15rem);
+}
+
+/* ---------- "Just the shelf" ---------- */
+
+[data-just-shelf='true'] .section-announce,
+[data-just-shelf='true'] .section-header,
+[data-just-shelf='true'] .shelf__wall,
+[data-just-shelf='true'] .shelf__hint,
+[data-just-shelf='true'] .tag--front,
+[data-just-shelf='true'] .tag__string,
+[data-just-shelf='true'] .jar__twist,
+[data-just-shelf='true'] .bag {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-3) var(--ease-out);
+}

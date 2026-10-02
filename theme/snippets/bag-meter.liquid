@@ -1,0 +1,47 @@
+{%- doc -%}
+  The free-delivery meter, drawn as the bag's baker's twine. Uses the cart total after
+  discounts against the threshold in Theme settings › Delivery & bag (which must match the
+  Shopify shipping rate). Prints nothing when the threshold is 0 or the meter is switched off.
+
+  @param {string} [variant] - 'sheet' (inside the open bag) | 'page' (/cart)
+{%- enddoc -%}
+{%- liquid
+  assign threshold = settings.free_delivery_threshold | times: 100
+  assign total = cart.total_price
+  assign remaining = threshold | minus: total
+  assign reached = false
+  if remaining <= 0
+    assign reached = true
+    assign remaining = 0
+  endif
+  assign percent = 0
+  if threshold > 0
+    assign percent = total | times: 100 | divided_by: threshold
+  endif
+  if percent > 100
+    assign percent = 100
+  endif
+-%}
+{%- if settings.bag_meter and threshold > 0 and cart.item_count > 0 -%}
+  <div
+    class="meter meter--{{ variant | default: 'sheet' }}{% if reached %} is-reached{% endif %}"
+    data-meter
+    data-reached="{{ reached }}"
+    data-percent="{{ percent }}"
+    style="--progress: {{ percent | divided_by: 100.0 }};"
+  >
+    <div class="meter__twine" aria-hidden="true">
+      <span class="meter__fill"></span>
+      <span class="meter__knot"></span>
+    </div>
+    <p class="meter__text">
+      {%- if reached -%}
+        <span class="meter__seal">{{ 'bag.meter_reached' | t }}</span>
+      {%- else -%}
+        {%- capture remaining_text -%}{%- render 'price', amount: remaining -%}{%- endcapture -%}
+        {{ 'bag.meter_remaining' | t: amount: remaining_text }}
+      {%- endif -%}
+    </p>
+    <span class="visually-hidden">{{ 'bag.meter_progress' | t: percent: percent }}</span>
+  </div>
+{%- endif -%}

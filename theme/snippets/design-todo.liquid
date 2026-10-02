@@ -1,0 +1,10 @@
+{%- doc -%}
+  Shows a dashed "To fill in" marker ONLY inside the Shopify theme editor, so the team can
+  see which flavour facts are still blank. Customers never see it: blank facts hide themselves.
+
+  @param {string} field - Locale key naming the missing field
+{%- enddoc -%}
+{%- if request.design_mode -%}
+  {%- assign field_label = field | t -%}
+  <span class="todo">{{ 'general.todo' | t: field: field_label }}</span>
+{%- endif -%}

@@ -1,0 +1,27 @@
+{
+  "current": {
+    "logo": "shopify://shop_images/kuki-logo.png",
+    "logo_width": 128,
+    "brand_line": "Small batch. Big bite.",
+    "free_delivery_threshold": 599,
+    "bag_meter": true,
+    "bag_suggestions": true,
+    "whatsapp_number": "+91 98230 12354",
+    "phone_number": "+91 98230 12354",
+    "instagram_handle": "getkuki",
+    "show_veg_mark": true,
+    "enable_3d": true,
+    "sound_default_on": false,
+    "haptics": true,
+    "publish_events": true,
+    "sections": {
+      "paper-bag": {
+        "type": "paper-bag",
+        "settings": {}
+      }
+    }
+  },
+  "presets": {
+    "Default": {}
+  }
+}

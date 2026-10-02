@@ -1,0 +1,26 @@
+{
+  "id": 99290546249,
+  "name": "Kuki",
+  "myshopify_domain": "quxv3b-ze.myshopify.com",
+  "domain": "www.thekuki.in",
+  "url": "https://www.thekuki.in",
+  "city": "Bengaluru",
+  "province": "Karnataka",
+  "country": "IN",
+  "currency": "INR",
+  "money_format": "Rs. {{amount}}",
+  "money_with_currency_format": "Rs. {{amount}} INR",
+  "timezone": "Asia/Kolkata",
+  "description": "",
+  "phone": "+91 98230 12354",
+  "email": null,
+  "customer_accounts": "new",
+  "customer_accounts_url": "https://shopify.com/99290546249/account",
+  "live_theme": {
+    "id": 190758584393,
+    "name": "Kuki",
+    "schema": "Dawn 16.0.0"
+  },
+  "snapshot_taken": "2026-10-02",
+  "source": "public storefront (products.json, meta.json, HTML) — not an Admin export"
+}

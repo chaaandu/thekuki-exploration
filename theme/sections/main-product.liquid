@@ -1,0 +1,121 @@
+{%- liquid
+  assign story = product.metafields.custom.flavour_story.value
+  assign tag_name = product.title
+  if story.tag_name != blank
+    assign tag_name = story.tag_name.value
+  endif
+  assign colour = '#c89b68'
+  if story.colour != blank
+    assign colour = story.colour.value
+  endif
+  assign accent = colour
+  if story.accent_colour != blank
+    assign accent = story.accent_colour.value
+  endif
+  assign group = 'pdp-' | append: section.id
+  assign threshold_paise = settings.free_delivery_threshold | times: 100
+-%}
+<section
+  class="pdp"
+  style="--flavour: {{ colour }}; --accent: {{ accent }};"
+  data-pdp
+  data-handle="{{ product.handle }}"
+  aria-labelledby="{{ group }}-title"
+>
+  <div class="pdp__stage shelf shelf--single" data-shelf data-autotwist>
+    <div class="shelf__stage" data-shelf-stage>
+      <div class="shelf__light" aria-hidden="true"></div>
+      <ul class="shelf__row shelf__row--single" role="list" data-shelf-row>
+        {%- render 'display-jar', product: product, story: story, group: group -%}
+      </ul>
+      <div class="shelf__plank" aria-hidden="true"></div>
+    </div>
+    <kuki-island data-island="shelf2d" data-load="idle" data-enable-3d="{{ section.settings.enable_3d }}"></kuki-island>
+  </div>
+
+  <div class="pdp__info">
+    <div class="tag tag--back tag--large">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when '@app' -%}
+            {%- render block -%}
+
+          {%- when 'title' -%}
+            <div class="pdp__titles" {{ block.shopify_attributes }}>
+              <h1 class="pdp__title" id="{{ group }}-title">{{ product.title }}</h1>
+              {%- render 'veg-mark', size: 'md', labelled: true -%}
+            </div>
+
+          {%- when 'memory' -%}
+            {%- if story.memory_line != blank -%}
+              <p class="pdp__memory" {{ block.shopify_attributes }}>{{ story.memory_line.value | escape | newline_to_br }}</p>
+            {%- else -%}
+              {%- render 'design-todo', field: 'shelf.todo_memory' -%}
+            {%- endif -%}
+
+          {%- when 'pairing' -%}
+            {%- if story.pairing != blank -%}
+              <p class="pdp__pairing" {{ block.shopify_attributes }}>{{ story.pairing.value }}</p>
+            {%- else -%}
+              {%- render 'design-todo', field: 'shelf.todo_pairing' -%}
+            {%- endif -%}
+
+          {%- when 'buy' -%}
+            <div class="pdp__buy" {{ block.shopify_attributes }}>
+              {%- render 'buy-form', product: product, story: story, source: 'pdp', id_prefix: group -%}
+              {%- if block.settings.show_delivery and settings.free_delivery_threshold > 0 -%}
+                {%- capture threshold -%}{%- render 'price', amount: threshold_paise -%}{%- endcapture -%}
+                <p class="pdp__delivery">{{ 'product.free_delivery_line' | t: amount: threshold }}</p>
+              {%- endif -%}
+              {%- if settings.delivery_note != blank -%}
+                <p class="pdp__delivery-note">{{ settings.delivery_note }}</p>
+              {%- endif -%}
+            </div>
+
+          {%- when 'gloss' -%}
+            {%- if story.local_name_gloss != blank -%}
+              <p class="pdp__gloss" {{ block.shopify_attributes }}>{{ story.local_name_gloss.value }}</p>
+            {%- endif -%}
+
+          {%- when 'text' -%}
+            {%- if block.settings.text != blank -%}
+              <div class="pdp__text rte" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+            {%- endif -%}
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+
+{%- render 'jsonld-product', product: product -%}
+<script type="application/json" data-kuki-flavours>{%- render 'flavour-json', products: product -%}</script>
+
+{% schema %}
+{
+  "name": "Product: jar and buy box",
+  "tag": "div",
+  "class": "section-pdp",
+  "settings": [
+    { "type": "checkbox", "id": "enable_3d", "label": "Use the 3D jar on capable devices", "default": true }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    { "type": "title", "name": "Title and veg mark", "limit": 1 },
+    { "type": "memory", "name": "Memory line", "limit": 1, "settings": [{ "type": "paragraph", "content": "From the product's Flavour story › Memory. Hidden when blank." }] },
+    { "type": "pairing", "name": "Best with", "limit": 1, "settings": [{ "type": "paragraph", "content": "From the product's Flavour story › Best with. Hidden when blank." }] },
+    {
+      "type": "buy",
+      "name": "Size and add to bag",
+      "limit": 1,
+      "settings": [
+        { "type": "checkbox", "id": "show_delivery", "label": "Show the free-delivery line", "default": true }
+      ]
+    },
+    { "type": "gloss", "name": "Local name note", "limit": 1 },
+    { "type": "text", "name": "Text", "settings": [{ "type": "richtext", "id": "text", "label": "Text" }] }
+  ],
+  "presets": [
+    { "name": "Product: jar and buy box", "blocks": [{ "type": "title" }, { "type": "memory" }, { "type": "buy" }, { "type": "pairing" }, { "type": "gloss" }] }
+  ]
+}
+{% endschema %}

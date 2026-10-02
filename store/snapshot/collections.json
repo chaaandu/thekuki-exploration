@@ -1,0 +1,13 @@
+{
+  "collections": [
+    {
+      "handle": "frontpage",
+      "title": "Home page",
+      "description": null,
+      "products": [
+        "blueberry-cookies"
+      ]
+    }
+  ],
+  "note": "/collections/all is automatic in Shopify and lists every published product."
+}

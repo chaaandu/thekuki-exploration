@@ -1,0 +1,21 @@
+<article class="page section" aria-labelledby="article-title-{{ section.id }}">
+  <div class="page__inner">
+    <p class="eyebrow"><a href="{{ blog.url }}">{{ blog.title }}</a></p>
+    <h1 class="page__title" id="article-title-{{ section.id }}">{{ article.title }}</h1>
+    <p class="blog__meta">{{ article.published_at | date: format: 'abbreviated_date' }}</p>
+    {%- if article.image != blank -%}
+      <div class="page__photo">
+        {%- render 'image', image: article.image, widths: '540,720,960,1280', sizes: '(min-width: 900px) 760px, 92vw', priority: true -%}
+      </div>
+    {%- endif -%}
+    <div class="page__content rte">{{ article.content }}</div>
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Article",
+  "tag": "div",
+  "class": "section-article"
+}
+{% endschema %}

@@ -1,0 +1,16 @@
+{%- doc -%}
+  The FSSAI vegetarian mark: a green filled circle inside a green-outlined square.
+  Hidden when the theme setting "Show the veg mark" is off.
+
+  @param {string} [size] - 'sm' | 'md' | 'lg' (default 'md')
+  @param {boolean} [labelled] - Also print the visible "100% veg" label
+{%- enddoc -%}
+{%- if settings.show_veg_mark -%}
+  <span class="veg veg--{{ size | default: 'md' }}">
+    <svg class="veg__mark" viewBox="0 0 20 20" focusable="false" {% if labelled %}aria-hidden="true"{% else %}role="img" aria-label="{{ 'general.veg_mark' | t }}"{% endif %}>
+      <rect x="1.25" y="1.25" width="17.5" height="17.5" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/>
+      <circle cx="10" cy="10" r="5.2" fill="currentColor"/>
+    </svg>
+    {%- if labelled -%}<span class="veg__label">{{ 'general.veg_label' | t }}</span>{%- endif -%}
+  </span>
+{%- endif -%}

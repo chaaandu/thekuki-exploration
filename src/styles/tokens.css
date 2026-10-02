@@ -1,0 +1,114 @@
+/* Kuki design tokens. Palette sampled from the logo (icing orange, chocolate ink, cream)
+   and the bakery-counter world in CLAUDE.md. Contrast ratios checked: ink on paper 14.3:1,
+   ink-2 9.1:1, ink-3 5.7:1, orange-ink 5.5:1, ink on orange 4.7:1. The raw logo orange is
+   only 3.05:1 on paper, so it is used for shapes and large type, never small text. */
+
+:root {
+  /* Paper and ink */
+  --paper: #fbf4e6;
+  --paper-2: #f4e9d6;
+  --paper-3: #eadcc4;
+  --card: #fffaf1;
+  --ink: #3b1a0c;
+  --ink-2: #5e3a26;
+  --ink-3: #7a5a46;
+  --ink-deep: #2a1207;
+  --line: rgb(59 26 12 / 0.14);
+  --line-2: rgb(59 26 12 / 0.26);
+
+  /* Brand */
+  --orange: #e8650a;
+  --orange-soft: #f6a25c;
+  --orange-ink: #a64507;
+
+  /* The world: brown paper, wood, lime-washed wall */
+  --kraft: #c89b68;
+  --kraft-2: #b38552;
+  --kraft-3: #8f6439;
+  --kraft-light: #e9d3b3;
+  --kraft-ink: #4a2c16;
+  --wood: #8a5a33;
+  --wood-2: #6b4223;
+  --wood-hi: #b0804f;
+  --wall: #f3e8d4;
+  --veg: #0a8a3a;
+  --stamp: #a3221b;
+
+  /* Per-flavour colours arrive from metaobjects via inline style */
+  --flavour: var(--kraft);
+  --accent: var(--flavour);
+
+  --focus: var(--orange-ink);
+
+  /* Type */
+  --font-display: 'Rozha One', 'Rozha One Fallback', Georgia, 'Times New Roman', serif;
+  --font-ui: 'Mukta', 'Mukta Fallback', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  --font-hand: 'Kalam', 'Kalam Fallback', 'Bradley Hand', 'Segoe Print', cursive;
+
+  --step--2: clamp(0.78rem, 0.76rem + 0.1vw, 0.84rem);
+  --step--1: clamp(0.875rem, 0.85rem + 0.12vw, 0.94rem);
+  --step-0: clamp(1rem, 0.96rem + 0.2vw, 1.125rem);
+  --step-1: clamp(1.18rem, 1.1rem + 0.4vw, 1.4rem);
+  --step-2: clamp(1.4rem, 1.25rem + 0.75vw, 1.85rem);
+  --step-3: clamp(1.75rem, 1.45rem + 1.4vw, 2.6rem);
+  --step-4: clamp(2.2rem, 1.7rem + 2.4vw, 3.6rem);
+  --step-5: clamp(2.8rem, 2rem + 4vw, 5.2rem);
+  --step-hero: clamp(3.1rem, 2rem + 5.2vw, 6.4rem);
+
+  /* Space */
+  --space-3xs: 0.25rem;
+  --space-2xs: 0.5rem;
+  --space-xs: 0.75rem;
+  --space-s: 1rem;
+  --space-m: 1.5rem;
+  --space-l: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4.5rem;
+  --space-3xl: 7rem;
+  --gutter: clamp(1rem, 0.6rem + 2vw, 2.5rem);
+  --section-y: clamp(3.5rem, 2.5rem + 5vw, 7rem);
+  --wrap: 76rem;
+  --wrap-narrow: 44rem;
+
+  /* Shape */
+  --r-xs: 4px;
+  --r-s: 8px;
+  --r-m: 14px;
+  --r-l: 22px;
+  --r-pill: 999px;
+  --shadow-paper: 0 1px 0 rgb(59 26 12 / 0.06), 0 10px 22px -12px rgb(59 26 12 / 0.38);
+  --shadow-lift: 0 2px 0 rgb(59 26 12 / 0.06), 0 24px 44px -18px rgb(59 26 12 / 0.5);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 0.8, 0.24, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-1: 120ms;
+  --dur-2: 220ms;
+  --dur-3: 420ms;
+  --dur-4: 700ms;
+
+  /* Layers */
+  --z-header: 20;
+  --z-jar-open: 30;
+  --z-bag: 60;
+  --z-sheet: 70;
+  --z-skip: 100;
+
+  /* Room the mobile bag bar takes at the bottom of the screen */
+  --bag-bar-h: 0px;
+
+  color-scheme: light;
+}
+
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --ease-spring: linear(0, 0.009, 0.035 2.1%, 0.141 4.4%, 0.723 12.9%, 0.938 16.7%, 1.017 19.4%, 1.067, 1.089 24.3%, 1.093 26.1%, 1.083 28.5%, 1.024 35.2%, 1.003 40.1%, 0.994 45.7%, 1.001 63.5%, 1);
+  }
+}
+
+@media (max-width: 47.99rem) {
+  :root {
+    --bag-bar-h: 4.5rem;
+  }
+}

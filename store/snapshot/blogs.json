@@ -1,0 +1,9 @@
+{
+  "blogs": [
+    {
+      "handle": "news",
+      "title": "News",
+      "articles": []
+    }
+  ]
+}

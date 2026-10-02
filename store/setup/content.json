@@ -1,0 +1,38 @@
+{
+  "$comment": "Pages and menus the new theme expects. Created by scripts/store-setup.ts when the store is connected (pages are created empty; their content lives in theme sections). The contact page already exists.",
+  "pages": [
+    { "handle": "about", "title": "About", "template_suffix": "about" },
+    { "handle": "gifting", "title": "Corporate gifting", "template_suffix": "gifting" },
+    { "handle": "dabba", "title": "Fill a dabba", "template_suffix": "dabba" },
+    { "handle": "small-batch", "title": "Small batch", "template_suffix": "small-batch" }
+  ],
+  "menus": [
+    {
+      "handle": "main-menu",
+      "title": "Main menu",
+      "links": [
+        { "title": "Flavours", "url": "/collections/all" },
+        { "title": "Fill a dabba", "url": "/pages/dabba" },
+        { "title": "Corporate gifting", "url": "/pages/gifting" },
+        { "title": "Small batch", "url": "/pages/small-batch" },
+        { "title": "About", "url": "/pages/about" },
+        { "title": "Contact", "url": "/pages/contact" }
+      ]
+    },
+    {
+      "handle": "footer",
+      "title": "Footer menu",
+      "links": [
+        { "title": "All six flavours", "url": "/collections/all" },
+        { "title": "Fill a dabba", "url": "/pages/dabba" },
+        { "title": "Corporate gifting", "url": "/pages/gifting" },
+        { "title": "Small batch", "url": "/pages/small-batch" },
+        { "title": "About", "url": "/pages/about" },
+        { "title": "Contact", "url": "/pages/contact" }
+      ]
+    }
+  ],
+  "productFixes": [
+    { "product": "rose-gulkand", "renameOptionValues": { "Weight": { "100": "100g", "250": "250g" } }, "productType": "cookies" }
+  ]
+}

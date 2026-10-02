@@ -1,0 +1,16 @@
+{
+  "$comment": "Dev-only data layered over store/snapshot + store/setup. Never sent to the real store. '$today' resolves to today's date in Asia/Kolkata.",
+  "metaobjects": {
+    "todays_trays": [
+      {
+        "handle": "today",
+        "fields": {
+          "date": "$today",
+          "on_trays": ["masala-cookies", "omam-cookies", "rose-gulkand"],
+          "note": "Sample entry (local preview only)",
+          "photo": null
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,47 @@
+{%- liquid
+  assign story = product.metafields.custom.flavour_story.value
+  assign use_story = false
+  if story.texture_photos != blank and story.texture_photos.value.size > 0
+    assign use_story = true
+  endif
+-%}
+{%- if use_story or product.media.size > 0 -%}
+  <section class="textures section" aria-labelledby="textures-{{ section.id }}">
+    <div class="section-head section-head--row">
+      <h2 class="section-head__title" id="textures-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {%- if section.settings.intro != blank -%}<p class="section-head__intro">{{ section.settings.intro }}</p>{%- endif -%}
+    </div>
+    <ul class="textures__strip" role="list">
+      {%- if use_story -%}
+        {%- for photo in story.texture_photos.value -%}
+          <li class="textures__item">
+            {%- render 'image', image: photo, widths: '360,540,720,960', sizes: '(min-width: 1100px) 30vw, (min-width: 700px) 45vw, 80vw', ratio: 0.8 -%}
+          </li>
+        {%- endfor -%}
+      {%- else -%}
+        {%- for media in product.media -%}
+          {%- if media.media_type == 'image' -%}
+            <li class="textures__item">
+              {%- render 'image', image: media, widths: '360,540,720,960', sizes: '(min-width: 1100px) 30vw, (min-width: 700px) 45vw, 80vw', ratio: 0.8 -%}
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </ul>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product: up close",
+  "tag": "div",
+  "class": "section-textures",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Up close" },
+    { "type": "text", "id": "intro", "label": "Line under the heading" },
+    { "type": "paragraph", "content": "Shows the Flavour story's texture close-ups. Until those are added, it shows the product photos." }
+  ],
+  "presets": [{ "name": "Product: up close" }]
+}
+{% endschema %}

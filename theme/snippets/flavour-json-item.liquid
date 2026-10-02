@@ -1,0 +1,57 @@
+{%- doc -%}
+  One flavour as JSON. Used only by flavour-json.
+
+  @param {object} product
+{%- enddoc -%}
+{%- liquid
+  assign story = product.metafields.custom.flavour_story.value
+  assign tag_name = product.title
+  if story.tag_name != blank
+    assign tag_name = story.tag_name.value
+  endif
+  assign photo = product.media[2] | default: product.featured_media
+-%}
+{
+  "id": {{ product.id | json }},
+  "handle": {{ product.handle | json }},
+  "title": {{ product.title | json }},
+  "tag": {{ tag_name | json }},
+  "url": {{ product.url | json }},
+  "available": {{ product.available | json }},
+  "colour": {% if story.colour != blank %}{{ story.colour.value | append: '' | json }}{% else %}null{% endif %},
+  "accent": {% if story.accent_colour != blank %}{{ story.accent_colour.value | append: '' | json }}{% else %}null{% endif %},
+  "form": {% if story.cookie_form != blank %}{{ story.cookie_form.value | json }}{% else %}null{% endif %},
+  "aroma": {% if story.aroma != blank %}{{ story.aroma.value | json }}{% else %}null{% endif %},
+  "x": {% if story.taste_sweet_savoury != blank %}{{ story.taste_sweet_savoury.value | json }}{% else %}null{% endif %},
+  "y": {% if story.taste_comfort_curious != blank %}{{ story.taste_comfort_curious.value | json }}{% else %}null{% endif %},
+  "memory": {% if story.memory_line != blank %}{{ story.memory_line.value | json }}{% else %}null{% endif %},
+  "pairing": {% if story.pairing != blank %}{{ story.pairing.value | json }}{% else %}null{% endif %},
+  "image": {% if photo != blank %}{{ photo.preview_image | image_url: width: 640 | json }}{% else %}null{% endif %},
+  "variants": [
+    {%- for variant in product.variants -%}
+      {%- liquid
+        capture size_label
+          render 'size-label', title: variant.title
+        endcapture
+        capture price_label
+          render 'price', amount: variant.price
+        endcapture
+        assign count = null
+        if forloop.index == 1 and story.cookies_per_100g != blank
+          assign count = story.cookies_per_100g.value
+        elsif forloop.index == 2 and story.cookies_per_250g != blank
+          assign count = story.cookies_per_250g.value
+        endif
+      -%}
+      {
+        "id": {{ variant.id | json }},
+        "size": {{ size_label | strip | json }},
+        "price": {{ variant.price | json }},
+        "priceLabel": {{ price_label | strip | json }},
+        "addLabel": {{ 'product.add_size_price' | t: size: size_label, price: price_label | strip | json }},
+        "available": {{ variant.available | json }},
+        "count": {% if count != blank %}{{ count | json }}{% else %}null{% endif %}
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ]
+}

@@ -1,0 +1,67 @@
+{%- doc -%}
+  A festive offer / announcement banner the team can drop on any page. It can show only
+  between two dates (India time). Checked by Liquid and again in the browser.
+{%- enddoc -%}
+{%- liquid
+  assign today = 'now' | date: '%Y%m%d' | plus: 0
+  assign starts = section.settings.starts | remove: '-' | plus: 0
+  assign ends = section.settings.ends | remove: '-' | plus: 0
+  assign live = true
+  if starts > 0 and today < starts
+    assign live = false
+  endif
+  if ends > 0 and today > ends
+    assign live = false
+  endif
+-%}
+{%- if section.settings.heading != blank -%}
+  <section
+    class="offer section offer--{{ section.settings.scheme }}"
+    data-dated
+    data-starts="{{ section.settings.starts }}"
+    data-ends="{{ section.settings.ends }}"
+    aria-labelledby="offer-title-{{ section.id }}"
+    {% unless live %}hidden{% endunless %}
+  >
+    <div class="offer__inner">
+      {%- if section.settings.image != blank -%}
+        <div class="offer__photo">
+          {%- render 'image', image: section.settings.image, widths: '480,720,960,1200', sizes: '(min-width: 900px) 45vw, 92vw' -%}
+        </div>
+      {%- endif -%}
+      <div class="offer__text">
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="offer__title" id="offer-title-{{ section.id }}">{{ section.settings.heading }}</h2>
+        {%- if section.settings.text != blank -%}<div class="offer__body rte">{{ section.settings.text }}</div>{%- endif -%}
+        {%- if section.settings.button != blank -%}
+          <a class="btn btn--primary" href="{{ section.settings.link }}">{{ section.settings.button }}</a>
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Offer banner",
+  "tag": "div",
+  "class": "section-offer",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small heading" },
+    { "type": "text", "id": "heading", "label": "Heading", "info": "The banner stays hidden while this is empty." },
+    { "type": "richtext", "id": "text", "label": "Text" },
+    { "type": "text", "id": "button", "label": "Button" },
+    { "type": "url", "id": "link", "label": "Button link" },
+    { "type": "image_picker", "id": "image", "label": "Photo" },
+    { "type": "select", "id": "scheme", "label": "Colours", "default": "kraft", "options": [
+      { "value": "paper", "label": "Paper" },
+      { "value": "kraft", "label": "Brown paper" },
+      { "value": "ink", "label": "Ink" },
+      { "value": "orange", "label": "Kuki orange" }
+    ] },
+    { "type": "text", "id": "starts", "label": "Show from (YYYY-MM-DD)", "info": "India time. Leave blank to show straight away." },
+    { "type": "text", "id": "ends", "label": "Show until (YYYY-MM-DD)", "info": "Leave blank to keep showing." }
+  ],
+  "presets": [{ "name": "Offer banner" }]
+}
+{% endschema %}

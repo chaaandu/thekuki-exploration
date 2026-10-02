@@ -1,0 +1,17 @@
+{%- doc -%}
+  JSON describing flavours for the islands (3D shelf, taste map, dabba, gifting, Twist & send).
+  Every price is formatted here by Liquid, so no price is ever computed or hardcoded in JS.
+  Render inside <script type="application/json" data-kuki-flavours>; kuki-core merges all of them.
+
+  @param {object} [products] - A list of products (collection.products, product_list…)
+  @param {object} [product] - Or a single product
+{%- enddoc -%}
+[
+{%- if product != blank -%}
+  {%- render 'flavour-json-item', product: product -%}
+{%- else -%}
+  {%- for p in products -%}
+    {%- render 'flavour-json-item', product: p -%}{%- unless forloop.last -%},{%- endunless -%}
+  {%- endfor -%}
+{%- endif -%}
+]

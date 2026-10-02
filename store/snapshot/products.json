@@ -1,0 +1,586 @@
+{
+  "products": [
+    {
+      "id": 15816097988681,
+      "title": "Boost cookies",
+      "handle": "boost-cookies",
+      "body_html": "The malt drink you grew up on, baked into a cookie. Deep brown, rough-textured and properly malty, with a crumb that is crisp at the edge and chewy in the middle. Nostalgia, in a cookie.",
+      "published_at": "2026-09-28T17:20:31+05:30",
+      "created_at": "2026-09-28T17:20:30+05:30",
+      "updated_at": "2026-10-02T10:03:14+05:30",
+      "vendor": "Kuki",
+      "product_type": "cookies",
+      "tags": [],
+      "variants": [
+        {
+          "id": 56150388211785,
+          "title": "100g",
+          "option1": "100g",
+          "option2": null,
+          "option3": null,
+          "sku": "BOOST-COOKIES-100G",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "199.00",
+          "grams": 0,
+          "compare_at_price": "249.00",
+          "position": 1,
+          "product_id": 15816097988681,
+          "created_at": "2026-09-28T17:20:30+05:30",
+          "updated_at": "2026-10-02T10:03:14+05:30"
+        },
+        {
+          "id": 56150388244553,
+          "title": "250g",
+          "option1": "250g",
+          "option2": null,
+          "option3": null,
+          "sku": "BOOST-COOKIES-250G",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "449.00",
+          "grams": 0,
+          "compare_at_price": "449.00",
+          "position": 2,
+          "product_id": 15816097988681,
+          "created_at": "2026-09-28T17:20:30+05:30",
+          "updated_at": "2026-10-02T10:03:14+05:30"
+        }
+      ],
+      "images": [
+        {
+          "id": 84206176239689,
+          "created_at": "2026-09-28T22:15:21+05:30",
+          "position": 1,
+          "updated_at": "2026-09-28T22:15:26+05:30",
+          "product_id": 15816097988681,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/98aa9906-5ae7-4f76-a012-210690198b27.jpg?v=1790613926",
+          "width": 1122,
+          "height": 1402
+        },
+        {
+          "id": 84206176272457,
+          "created_at": "2026-09-28T22:15:21+05:30",
+          "position": 2,
+          "updated_at": "2026-09-28T22:15:26+05:30",
+          "product_id": 15816097988681,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/071ad607-c2e4-4cdb-939e-328e68d97f09.jpg?v=1790613926",
+          "width": 1122,
+          "height": 1402
+        },
+        {
+          "id": 84206176305225,
+          "created_at": "2026-09-28T22:15:21+05:30",
+          "position": 3,
+          "updated_at": "2026-09-28T22:15:26+05:30",
+          "product_id": 15816097988681,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/a9532f44-0fc5-4f79-b629-186203e61610.jpg?v=1790613926",
+          "width": 1122,
+          "height": 1402
+        }
+      ],
+      "options": [
+        {
+          "name": "Weight",
+          "position": 1,
+          "values": [
+            "100g",
+            "250g"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 15816097857609,
+      "title": "Omam cookies",
+      "handle": "omam-cookies",
+      "body_html": "A crisp baked stick studded with omam. The carom seed gives it a warm, faintly sharp bite that cuts the sweetness, which is what makes it the one people reach for with chai.",
+      "published_at": "2026-09-28T17:20:25+05:30",
+      "created_at": "2026-09-28T17:20:24+05:30",
+      "updated_at": "2026-10-02T10:03:14+05:30",
+      "vendor": "Kuki",
+      "product_type": "cookies",
+      "tags": [],
+      "variants": [
+        {
+          "id": 56150388047945,
+          "title": "100g",
+          "option1": "100g",
+          "option2": null,
+          "option3": null,
+          "sku": "OMAM-COOKIES-100G",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "199.00",
+          "grams": 0,
+          "compare_at_price": "249.00",
+          "position": 1,
+          "product_id": 15816097857609,
+          "created_at": "2026-09-28T17:20:24+05:30",
+          "updated_at": "2026-10-02T10:03:14+05:30"
+        },
+        {
+          "id": 56150388080713,
+          "title": "250g",
+          "option1": "250g",
+          "option2": null,
+          "option3": null,
+          "sku": "OMAM-COOKIES-250G",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "449.00",
+          "grams": 0,
+          "compare_at_price": "449.00",
+          "position": 2,
+          "product_id": 15816097857609,
+          "created_at": "2026-09-28T17:20:24+05:30",
+          "updated_at": "2026-10-02T10:03:14+05:30"
+        }
+      ],
+      "images": [
+        {
+          "id": 84206174928969,
+          "created_at": "2026-09-28T22:15:17+05:30",
+          "position": 1,
+          "updated_at": "2026-09-28T22:15:22+05:30",
+          "product_id": 15816097857609,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/f1793544-f665-4109-b5ab-fd4e69c5f27a.jpg?v=1790613922",
+          "width": 1122,
+          "height": 1402
+        },
+        {
+          "id": 84206174961737,
+          "created_at": "2026-09-28T22:15:17+05:30",
+          "position": 2,
+          "updated_at": "2026-09-28T22:15:22+05:30",
+          "product_id": 15816097857609,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/ee1838b6-32bb-4e91-8eee-2a211264ff9f.jpg?v=1790613922",
+          "width": 1122,
+          "height": 1402
+        },
+        {
+          "id": 84206174994505,
+          "created_at": "2026-09-28T22:15:17+05:30",
+          "position": 3,
+          "updated_at": "2026-09-28T22:15:23+05:30",
+          "product_id": 15816097857609,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/59703f19-08e7-4fe6-a528-b6145aefe3fa.jpg?v=1790613923",
+          "width": 1122,
+          "height": 1402
+        }
+      ],
+      "options": [
+        {
+          "name": "Weight",
+          "position": 1,
+          "values": [
+            "100g",
+            "250g"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 15816097759305,
+      "title": "Rose Gulkand",
+      "handle": "rose-gulkand",
+      "body_html": "Rose gulkand folded through a pale pink crumb and rolled in crushed pistachio. Floral without being perfumed, with the nutty crunch of the pistachio crust against a soft centre. The most Indian thing on the tray.",
+      "published_at": "2026-09-28T17:20:22+05:30",
+      "created_at": "2026-09-28T17:20:21+05:30",
+      "updated_at": "2026-10-02T10:03:14+05:30",
+      "vendor": "Kuki",
+      "product_type": "Cookies",
+      "tags": [],
+      "variants": [
+        {
+          "id": 56150387949641,
+          "title": "100",
+          "option1": "100",
+          "option2": null,
+          "option3": null,
+          "sku": "ROSE-GULKAND-100",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "199.00",
+          "grams": 0,
+          "compare_at_price": "249.00",
+          "position": 1,
+          "product_id": 15816097759305,
+          "created_at": "2026-09-28T17:20:21+05:30",
+          "updated_at": "2026-10-02T10:03:14+05:30"
+        },
+        {
+          "id": 56150387982409,
+          "title": "250",
+          "option1": "250",
+          "option2": null,
+          "option3": null,
+          "sku": "ROSE-GULKAND-250",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "449.00",
+          "grams": 0,
+          "compare_at_price": "449.00",
+          "position": 2,
+          "product_id": 15816097759305,
+          "created_at": "2026-09-28T17:20:21+05:30",
+          "updated_at": "2026-10-02T10:03:14+05:30"
+        }
+      ],
+      "images": [
+        {
+          "id": 84206175977545,
+          "created_at": "2026-09-28T22:15:20+05:30",
+          "position": 1,
+          "updated_at": "2026-09-28T22:15:26+05:30",
+          "product_id": 15816097759305,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/7a75fc7c-7253-4ec2-8c72-4f43f14b9ff6.jpg?v=1790613926",
+          "width": 1122,
+          "height": 1402
+        },
+        {
+          "id": 84206176010313,
+          "created_at": "2026-09-28T22:15:20+05:30",
+          "position": 2,
+          "updated_at": "2026-09-28T22:15:25+05:30",
+          "product_id": 15816097759305,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/49eb25e9-a76a-4ac7-b0c9-6dc42f41d574.jpg?v=1790613925",
+          "width": 1122,
+          "height": 1402
+        },
+        {
+          "id": 84206176043081,
+          "created_at": "2026-09-28T22:15:20+05:30",
+          "position": 3,
+          "updated_at": "2026-09-28T22:15:25+05:30",
+          "product_id": 15816097759305,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/b8ddb911-084d-4bc3-ad68-0bf1c544e42e.jpg?v=1790613925",
+          "width": 1122,
+          "height": 1402
+        }
+      ],
+      "options": [
+        {
+          "name": "Weight",
+          "position": 1,
+          "values": [
+            "100",
+            "250"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 15816097661001,
+      "title": "Masala cookies",
+      "handle": "masala-cookies",
+      "body_html": "A savoury-sweet cookie crusted with toasted curry leaves. They crisp up in the oven and turn fragrant, giving every bite a green, peppery lift. Deeply Indian, and impossible to stop at one.",
+      "published_at": "2026-09-28T17:20:20+05:30",
+      "created_at": "2026-09-28T17:20:18+05:30",
+      "updated_at": "2026-10-02T10:03:14+05:30",
+      "vendor": "Kuki",
+      "product_type": "cookies",
+      "tags": [],
+      "variants": [
+        {
+          "id": 56150387851337,
+          "title": "100g",
+          "option1": "100g",
+          "option2": null,
+          "option3": null,
+          "sku": "MASALA-COOKIES-100G",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "199.00",
+          "grams": 0,
+          "compare_at_price": "249.00",
+          "position": 1,
+          "product_id": 15816097661001,
+          "created_at": "2026-09-28T17:20:19+05:30",
+          "updated_at": "2026-10-02T10:03:14+05:30"
+        },
+        {
+          "id": 56150387884105,
+          "title": "250g",
+          "option1": "250g",
+          "option2": null,
+          "option3": null,
+          "sku": "MASALA-COOKIES-250G",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "449.00",
+          "grams": 0,
+          "compare_at_price": "449.00",
+          "position": 2,
+          "product_id": 15816097661001,
+          "created_at": "2026-09-28T17:20:19+05:30",
+          "updated_at": "2026-10-02T10:03:14+05:30"
+        }
+      ],
+      "images": [
+        {
+          "id": 84206050738249,
+          "created_at": "2026-09-28T22:10:13+05:30",
+          "position": 1,
+          "updated_at": "2026-09-28T22:10:18+05:30",
+          "product_id": 15816097661001,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/a0e95ab2-5d3a-41c3-84de-b42d1e3646d0.jpg?v=1790613618",
+          "width": 1122,
+          "height": 1402
+        },
+        {
+          "id": 84206050771017,
+          "created_at": "2026-09-28T22:10:13+05:30",
+          "position": 2,
+          "updated_at": "2026-09-28T22:10:20+05:30",
+          "product_id": 15816097661001,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/93f3fddc-4c26-4d47-a4d8-7949142b5711.jpg?v=1790613620",
+          "width": 1122,
+          "height": 1402
+        },
+        {
+          "id": 84206050803785,
+          "created_at": "2026-09-28T22:10:13+05:30",
+          "position": 3,
+          "updated_at": "2026-09-28T22:10:18+05:30",
+          "product_id": 15816097661001,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/8147cd6f-ee5a-40e7-ae68-4f74bb81ad79.jpg?v=1790613618",
+          "width": 1122,
+          "height": 1402
+        }
+      ],
+      "options": [
+        {
+          "name": "Weight",
+          "position": 1,
+          "values": [
+            "100g",
+            "250g"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 15816097595465,
+      "title": "Nutella chunk cookies",
+      "handle": "nutella-cookies",
+      "body_html": "A soft, buttery cookie loaded with chunks of 100% real Nutella. Every bite finds a pocket of hazelnut chocolate that turns molten while the cookie is still warm.",
+      "published_at": "2026-09-28T17:20:18+05:30",
+      "created_at": "2026-09-28T17:20:16+05:30",
+      "updated_at": "2026-10-02T10:03:14+05:30",
+      "vendor": "Kuki",
+      "product_type": "cookies",
+      "tags": [],
+      "variants": [
+        {
+          "id": 56150387785801,
+          "title": "100g",
+          "option1": "100g",
+          "option2": null,
+          "option3": null,
+          "sku": "NUTELLA-COOKIES-100G",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "199.00",
+          "grams": 0,
+          "compare_at_price": "249.00",
+          "position": 1,
+          "product_id": 15816097595465,
+          "created_at": "2026-09-28T17:20:16+05:30",
+          "updated_at": "2026-10-02T10:03:14+05:30"
+        },
+        {
+          "id": 56150387818569,
+          "title": "250g",
+          "option1": "250g",
+          "option2": null,
+          "option3": null,
+          "sku": "NUTELLA-COOKIES-250G",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "449.00",
+          "grams": 0,
+          "compare_at_price": "449.00",
+          "position": 2,
+          "product_id": 15816097595465,
+          "created_at": "2026-09-28T17:20:16+05:30",
+          "updated_at": "2026-10-02T10:03:14+05:30"
+        }
+      ],
+      "images": [
+        {
+          "id": 84206175354953,
+          "created_at": "2026-09-28T22:15:18+05:30",
+          "position": 1,
+          "updated_at": "2026-09-28T22:15:23+05:30",
+          "product_id": 15816097595465,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/209adbb3-67e3-4d1c-a852-17c071420df2.jpg?v=1790613923",
+          "width": 1122,
+          "height": 1402
+        },
+        {
+          "id": 84206175387721,
+          "created_at": "2026-09-28T22:15:18+05:30",
+          "position": 2,
+          "updated_at": "2026-09-28T22:15:23+05:30",
+          "product_id": 15816097595465,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/3b0f635e-840b-4c87-bb84-c0f4bcc54ffe.jpg?v=1790613923",
+          "width": 1122,
+          "height": 1402
+        },
+        {
+          "id": 84206175420489,
+          "created_at": "2026-09-28T22:15:18+05:30",
+          "position": 3,
+          "updated_at": "2026-09-28T22:15:23+05:30",
+          "product_id": 15816097595465,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/810721c4-9c54-41f5-9fee-4c1fd3d277b6.jpg?v=1790613923",
+          "width": 1122,
+          "height": 1402
+        }
+      ],
+      "options": [
+        {
+          "name": "Weight",
+          "position": 1,
+          "values": [
+            "100g",
+            "250g"
+          ]
+        }
+      ]
+    },
+    {
+      "id": 15816097562697,
+      "title": "Blueberry cookies",
+      "handle": "blueberry-cookies",
+      "body_html": "A soft, crumbly cookie pressed with a thumbprint and filled with blueberry jam, with whole dried blueberries set into the centre. Sweet and a little tart, and it holds that jammy centre right to the last bite.",
+      "published_at": "2026-09-28T17:20:16+05:30",
+      "created_at": "2026-09-28T17:20:14+05:30",
+      "updated_at": "2026-10-02T10:03:14+05:30",
+      "vendor": "Kuki",
+      "product_type": "cookies",
+      "tags": [],
+      "variants": [
+        {
+          "id": 56150387654729,
+          "title": "100g",
+          "option1": "100g",
+          "option2": null,
+          "option3": null,
+          "sku": "BLUEBERRY-COOKIES-100G",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "199.00",
+          "grams": 0,
+          "compare_at_price": "249.00",
+          "position": 1,
+          "product_id": 15816097562697,
+          "created_at": "2026-09-28T17:20:14+05:30",
+          "updated_at": "2026-10-02T10:03:14+05:30"
+        },
+        {
+          "id": 56150387687497,
+          "title": "250g",
+          "option1": "250g",
+          "option2": null,
+          "option3": null,
+          "sku": "BLUEBERRY-COOKIES-250G",
+          "requires_shipping": true,
+          "taxable": true,
+          "featured_image": null,
+          "available": true,
+          "price": "449.00",
+          "grams": 0,
+          "compare_at_price": "449.00",
+          "position": 2,
+          "product_id": 15816097562697,
+          "created_at": "2026-09-28T17:20:14+05:30",
+          "updated_at": "2026-10-02T10:03:14+05:30"
+        }
+      ],
+      "images": [
+        {
+          "id": 84206050574409,
+          "created_at": "2026-09-28T22:10:12+05:30",
+          "position": 1,
+          "updated_at": "2026-09-28T22:10:18+05:30",
+          "product_id": 15816097562697,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/36d5b0e2-acb5-48e7-bc00-b359b472a8a8.jpg?v=1790613618",
+          "width": 1122,
+          "height": 1402
+        },
+        {
+          "id": 84206050607177,
+          "created_at": "2026-09-28T22:10:12+05:30",
+          "position": 2,
+          "updated_at": "2026-09-28T22:10:17+05:30",
+          "product_id": 15816097562697,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/021837db-edf0-4e10-9831-eeaf3fd07120.jpg?v=1790613617",
+          "width": 1122,
+          "height": 1402
+        },
+        {
+          "id": 84206050639945,
+          "created_at": "2026-09-28T22:10:12+05:30",
+          "position": 3,
+          "updated_at": "2026-09-28T22:10:18+05:30",
+          "product_id": 15816097562697,
+          "variant_ids": [],
+          "src": "https://cdn.shopify.com/s/files/1/0992/9054/6249/files/80377b06-56af-4420-9f32-34465ef8a6c0.jpg?v=1790613618",
+          "width": 1122,
+          "height": 1402
+        }
+      ],
+      "options": [
+        {
+          "name": "Weight",
+          "position": 1,
+          "values": [
+            "100g",
+            "250g"
+          ]
+        }
+      ]
+    }
+  ]
+}

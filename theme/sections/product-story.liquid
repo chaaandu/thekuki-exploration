@@ -1,0 +1,25 @@
+{%- liquid
+  assign story = product.metafields.custom.flavour_story.value
+-%}
+{%- if product.description != blank -%}
+  <section class="pdp-story section" aria-labelledby="story-{{ section.id }}">
+    <div class="pdp-story__inner">
+      <h2 class="pdp-story__eyebrow" id="story-{{ section.id }}">{{ section.settings.heading }}</h2>
+      <div class="pdp-story__text rte">{{ product.description }}</div>
+    </div>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product: the story",
+  "tag": "div",
+  "class": "section-pdp-story",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Small heading", "default": "From the tray" },
+    { "type": "paragraph", "content": "The text is the product description from Shopify." }
+  ],
+  "presets": [{ "name": "Product: the story" }]
+}
+{% endschema %}
