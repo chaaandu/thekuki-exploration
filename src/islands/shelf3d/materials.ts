@@ -103,7 +103,7 @@ export function lidMaterial(colour: string): MeshPhysicalMaterial {
 
 const DOUGH: Record<CookieForm, string> = {
   thumbprint: '#c49a66',
-  malt_round: '#6e4528',
+  malt_round: '#8d5a36',
   leaf_crust: '#c39a5a',
   chunk: '#c4955f',
   stick: '#cfa86d',
@@ -118,7 +118,7 @@ export function doughMaterial(form: CookieForm): MeshStandardMaterial {
     metalness: 0,
     bumpMap: form === 'malt_round' ? t.speck : t.grain,
     bumpScale: form === 'malt_round' ? 1.6 : 0.9,
-    envMapIntensity: 0.55,
+    envMapIntensity: form === 'malt_round' ? 1.3 : 0.8,
   });
 }
 

@@ -95,7 +95,7 @@
 .shelf__stage {
   position: relative;
   z-index: 0;
-  margin-top: clamp(1.75rem, 5vh, 3.5rem);
+  margin-top: clamp(2.5rem, 9vh, 6.5rem);
   transition: margin-bottom var(--dur-3) var(--ease-out);
 }
 
@@ -142,7 +142,7 @@
 
 /* Reserve room below the shelf while a tag is open, so it never covers the next section. */
 .shelf:has(.jar__details[open]) .shelf__stage {
-  margin-bottom: var(--panel-room, 17.5rem);
+  margin-bottom: var(--panel-room, 21rem);
 }
 
 /* ---------- Time of day ---------- */
@@ -239,7 +239,7 @@
   }
 
   .shelf:has(.jar__details[open]) .shelf__stage {
-    margin-bottom: var(--panel-room, 22rem);
+    margin-bottom: var(--panel-room, 31rem);
   }
 }
 

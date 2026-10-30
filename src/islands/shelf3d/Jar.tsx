@@ -152,13 +152,15 @@ export function Jar({ form, colour, anim, seed = 7, lowPower = false, showShadow
     for (const mesh of [glassMesh.current, threadMesh.current, lidMesh.current]) {
       if (mesh?.morphTargetInfluences) mesh.morphTargetInfluences[0] = s;
     }
-    // Lid: unscrews up the thread, pops free, then tips back on its rear edge.
+    // Lid: unscrews up the thread, pops free, then is set aside to the left, tilted outward
+    // (the tag hangs on the right, the cookie rises through the middle).
     if (lidPivot.current && lidSpin.current) {
       const turns = Math.min(a.twist / (Math.PI * 2), 1.5);
       const rise = turns * THREAD_PITCH + a.pop * 18 + a.hover * 1.2;
-      lidPivot.current.position.set(0, lidY + rise, -lidR);
-      lidPivot.current.rotation.x = -a.tilt * 1.08;
-      lidSpin.current.position.set(0, 0, lidR);
+      const t = a.tilt;
+      lidPivot.current.position.set(-lidR * 1.55 * t, lidY + rise + 14 * t, -10 * t);
+      lidPivot.current.rotation.set(0.32 * t, 0, 0.62 * t);
+      lidSpin.current.position.set(0, 0, 0);
       lidSpin.current.rotation.y = -a.twist;
     }
     // Cookies: 100g and 250g layouts crossfade by scale while the glass morphs.
@@ -176,8 +178,9 @@ export function Jar({ form, colour, anim, seed = 7, lowPower = false, showShadow
       if (h.visible) {
         h.position.copy(paths[s > 0.5 ? 1 : 0].getPointAt(r));
         const stand = Math.min(1, r * 1.25);
-        h.rotation.set((Math.PI / 2) * stand - 0.12 * stand, a.spin, 0);
-        h.scale.setScalar(1 + 0.6 * r);
+        if (form === 'stick') h.rotation.set(0, a.spin + r * 0.6, 0.22 * stand);
+        else h.rotation.set((Math.PI / 2) * stand - 0.1 * stand, a.spin, 0);
+        h.scale.setScalar(1 + 1.05 * r);
       }
     }
   });

@@ -24,10 +24,11 @@ export const RIGS: Record<Daypart, Rig> = {
   day: { room: '#2e2620', envIntensity: 1, key: '#fff2de', keyIntensity: 2.6, keyPos: [-520, 460, 380], fill: '#ffe9d2', fillIntensity: 0.8, window: '#fff4e2', windowIntensity: 3.4, ambient: 0.45 },
   chai: { room: '#33251a', envIntensity: 1, key: '#ffc27a', keyIntensity: 3.1, keyPos: [-700, 260, 320], fill: '#ffd7a8', fillIntensity: 0.6, window: '#ffcf8f', windowIntensity: 3.8, ambient: 0.35 },
   evening: { room: '#251c16', envIntensity: 0.8, key: '#ffd2a0', keyIntensity: 1.8, keyPos: [-620, 300, 300], fill: '#e7c9ad', fillIntensity: 0.5, window: '#ffdcb5', windowIntensity: 2.2, ambient: 0.3 },
-  night: { room: '#0d0907', envIntensity: 0.5, key: '#ffcf8a', keyIntensity: 0.35, keyPos: [-500, 300, 300], fill: '#3b2a20', fillIntensity: 0.2, window: '#2a1d14', windowIntensity: 0.4, ambient: 0.12, bulb: 5.5 },
+  night: { room: '#1a120c', envIntensity: 0.55, key: '#ffcf8a', keyIntensity: 0.25, keyPos: [-500, 300, 300], fill: '#5a3d28', fillIntensity: 0.35, window: '#ffb866', windowIntensity: 0.9, ambient: 0.22, bulb: 3.2 },
 };
 
-export function Lights({ daypart, width = 1200 }: { daypart: Daypart; width?: number }) {
+/** World units are CSS pixels, so the bulb uses a gentle 1/d falloff scaled to pixel distances. */
+export function Lights({ daypart, width = 1200, bulbX = 0.28, height = 800 }: { daypart: Daypart; width?: number; bulbX?: number; height?: number }) {
   const rig = RIGS[daypart];
   return (
     <>
@@ -36,8 +37,8 @@ export function Lights({ daypart, width = 1200 }: { daypart: Daypart; width?: nu
       <directionalLight position={[480, 220, 420]} intensity={rig.fillIntensity} color={rig.fill} />
       {rig.bulb !== undefined && (
         <>
-          <pointLight position={[width / 2, 420, 180]} intensity={rig.bulb} distance={1400} decay={1.1} color="#ffc979" />
-          <pointLight position={[width / 2, 300, 360]} intensity={rig.bulb * 0.25} distance={900} decay={1.2} color="#ffb867" />
+          <pointLight position={[bulbX * width, height * 0.32, 220]} intensity={rig.bulb * 420} distance={0} decay={1} color="#ffc979" />
+          <pointLight position={[bulbX * width, height * 0.1, 520]} intensity={rig.bulb * 90} distance={0} decay={1} color="#ffb867" />
         </>
       )}
       <Environment resolution={256} frames={1} environmentIntensity={rig.envIntensity}>

@@ -86,7 +86,7 @@
 
 .jar-art__lid-group {
   transform-box: view-box;
-  transform-origin: 108px 34px;
+  transform-origin: 32px 34px;
   transition: transform var(--dur-3) var(--ease-spring);
 }
 
@@ -98,7 +98,7 @@
 .jar__details[open] .jar-art__lid-group,
 .jar-art--open .jar-art__lid-group,
 .jar[data-state='open'] .jar-art__lid-group {
-  transform: translate(10px, -30px) rotate(24deg);
+  transform: translate(-30px, -16px) rotate(-28deg);
 }
 
 /* ---------- The tag on the jar (front) ---------- */
@@ -384,5 +384,154 @@
     width: auto;
     translate: none;
     top: calc(100% + 0.75rem);
+  }
+}
+
+/* ---------- Island-driven jars (2D tier and 3D tier) ---------- */
+
+/* Once the island drives the lid frame by frame, CSS transitions would only lag it. */
+.shelf[data-tier] .jar-art__lid-group,
+.shelf[data-tier] .jar__details[open] .jar-art__lid-group {
+  transition: none;
+}
+
+.shelf[data-tier] .jar__details[open] .jar-art__lid-group {
+  transform: none;
+}
+
+/* Circular drag on the lid. Only this zone blocks scrolling, so swipes elsewhere still scroll. */
+.jar__lid-zone {
+  position: absolute;
+  z-index: 3;
+  left: 14%;
+  right: 14%;
+  top: -6%;
+  height: 32%;
+  border-radius: 45%;
+  touch-action: none;
+  cursor: grab;
+}
+
+.jar__lid-zone:active {
+  cursor: grabbing;
+}
+
+.jar[data-state='open'] .jar__lid-zone {
+  pointer-events: none;
+}
+
+.jar-art {
+  transform: scale(var(--jar-scale, 1));
+  transform-origin: 50% 95%;
+  transition: transform var(--dur-3) var(--ease-spring);
+}
+
+/* 2D aroma particles: positioned per frame from the jar mouth. */
+.jar__aroma {
+  position: absolute;
+  z-index: 4;
+  left: 50%;
+  top: 19%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.jar__particle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  translate: -50% -50%;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+
+.jar__particle svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* The cookie that lifts out (2D tier). */
+.jar__cookie {
+  position: absolute;
+  z-index: 2;
+  left: 50%;
+  top: 6%;
+  width: 52%;
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: 50% 100%;
+  filter: drop-shadow(0 8px 10px rgb(59 26 12 / 0.35));
+  will-change: transform, opacity;
+}
+
+/* ---------- 3D tier ---------- */
+
+.shelf__canvas {
+  --headroom: min(42vh, 24rem);
+  position: absolute;
+  z-index: 0;
+  left: 0;
+  top: calc(-1 * var(--headroom));
+  width: 100%;
+  height: calc(100% + var(--headroom));
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.55s var(--ease-out);
+}
+
+.shelf[data-tier='3d'] .shelf__canvas {
+  opacity: 1;
+}
+
+.jar {
+  z-index: 1;
+}
+
+.jar__summary {
+  z-index: 1;
+}
+
+.shelf[data-tier='3d'] .jar-art__body,
+.shelf[data-tier='3d'] .jar-art__lid,
+.shelf[data-tier='3d'] .jar__cookie,
+.shelf[data-tier='3d'] .jar__aroma {
+  opacity: 0;
+  transition: opacity 0.55s var(--ease-out);
+}
+
+/* The handover from the illustrated shelf to 3D: a band of window light sweeps across. */
+.shelf__stage::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  inset: -30% auto -10% -40%;
+  width: 40%;
+  background: linear-gradient(100deg, transparent, rgb(255 246 226 / 0.55) 45%, rgb(255 246 226 / 0.75) 50%, rgb(255 246 226 / 0.55) 55%, transparent);
+  transform: translateX(0) skewX(-14deg);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.shelf[data-sweep] .shelf__stage::after {
+  animation: kuki-sweep 1.2s var(--ease-in-out) both;
+}
+
+@keyframes kuki-sweep {
+  0% {
+    opacity: 0;
+    transform: translateX(0) skewX(-14deg);
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(360%) skewX(-14deg);
   }
 }

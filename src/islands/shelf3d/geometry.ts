@@ -507,8 +507,8 @@ export function cookieLayout(form: CookieForm, spec: JarSpec, seed: number): Coo
 export function revealPath(spec: JarSpec): CatmullRomCurve3 {
   return new CatmullRomCurve3([
     new Vector3(0, spec.shoulderY * 0.7, 0),
-    new Vector3(0, spec.rimY + 10, 6),
-    new Vector3(-4, spec.rimY + 48, 24),
-    new Vector3(0, spec.rimY + 62, 36),
+    new Vector3(0, spec.rimY + 14, 10),
+    new Vector3(6, spec.rimY + 44, 40),
+    new Vector3(10, spec.rimY + 58, 64),
   ]);
 }
