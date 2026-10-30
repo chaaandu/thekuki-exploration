@@ -143,7 +143,7 @@
   "dabba": {
     "slots_label": "Compartments in your dabba",
     "size_option": "Dabba of {{ count }}",
-    "slot_empty": "Empty compartment",
+    "slot_empty": "Compartment %n%, empty",
     "slot_filled": "%name%. Tap to take it out.",
     "status": "%filled% of %size% in · %total%",
     "full": "The dabba's full. Tap a compartment to swap a flavour.",

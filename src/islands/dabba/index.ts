@@ -60,7 +60,7 @@ export function mount(island: HTMLElement) {
           btn.setAttribute('aria-label', fill(strings.slotFilled, { name: p.name }));
         } else {
           btn.textContent = String(i + 1);
-          btn.setAttribute('aria-label', strings.slotEmpty ?? '');
+          btn.setAttribute('aria-label', fill(strings.slotEmpty, { n: String(i + 1) }));
         }
         li.append(btn);
         return li;
