@@ -1,0 +1,137 @@
+{%- liquid
+  assign source = section.settings.collection
+  if source == blank
+    assign source = collections.all
+  endif
+  assign box = section.settings.box_product
+  assign box_variant = box.selected_or_first_available_variant
+  assign uid = 'dabba-' | append: section.id
+-%}
+<section
+  class="dabba section"
+  {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %}
+  aria-labelledby="{{ uid }}-title"
+  data-dabba
+  data-property="{{ section.settings.property_name | escape }}"
+  data-box-label="{{ section.settings.box_label | escape }}"
+  {% if box_variant != blank and box_variant.available %}data-box-variant="{{ box_variant.id }}" data-box-price="{{ box_variant.price }}"{% endif %}
+>
+  <div class="section-head">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    {%- if section.settings.as_page_title -%}
+      <h1 class="section-head__title section-head__title--page" id="{{ uid }}-title">{{ section.settings.heading }}</h1>
+    {%- else -%}
+      <h2 class="section-head__title" id="{{ uid }}-title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.intro != blank -%}<div class="section-head__intro rte">{{ section.settings.intro }}</div>{%- endif -%}
+  </div>
+
+  <div class="dabba__layout" data-dabba-ui>
+    <div class="dabba__box" data-dabba-box data-size="3">
+      <ol class="dabba__slots" role="list" aria-label="{{ 'dabba.slots_label' | t }}" data-dabba-slots></ol>
+      <p class="dabba__tag" aria-hidden="true">{{ section.settings.box_label }}</p>
+    </div>
+
+    <div class="dabba__controls">
+      <fieldset class="dabba__sizes">
+        <legend class="dabba__legend">{{ section.settings.size_label }}</legend>
+        {%- if section.settings.allow_three -%}
+          <label class="dabba__size"><input type="radio" name="{{ uid }}-size" value="3" checked data-dabba-size> {{ 'dabba.size_option' | t: count: 3 }}</label>
+        {%- endif -%}
+        {%- if section.settings.allow_six -%}
+          <label class="dabba__size"><input type="radio" name="{{ uid }}-size" value="6" {% unless section.settings.allow_three %}checked{% endunless %} data-dabba-size> {{ 'dabba.size_option' | t: count: 6 }}</label>
+        {%- endif -%}
+      </fieldset>
+
+      <p class="dabba__legend" id="{{ uid }}-pick">{{ section.settings.pick_label }}</p>
+      <ul class="dabba__flavours" role="list" aria-labelledby="{{ uid }}-pick">
+        {%- for product in source.products -%}
+          {%- liquid
+            assign s = product.metafields.custom.flavour_story.value
+            assign name = product.title
+            if s.tag_name != blank
+              assign name = s.tag_name.value
+            endif
+            assign v = product.variants.first
+          -%}
+          {%- if v.available -%}
+            <li>
+              <button
+                type="button"
+                class="dabba__flavour"
+                style="--flavour: {% if s.colour != blank %}{{ s.colour.value }}{% else %}#c89b68{% endif %};"
+                data-dabba-flavour
+                data-variant="{{ v.id }}"
+                data-price="{{ v.price }}"
+                data-name="{{ name | escape }}"
+                data-form="{% if s.cookie_form != blank %}{{ s.cookie_form.value }}{% else %}chunk{% endif %}"
+              >
+                <span class="dabba__lid" aria-hidden="true"></span>
+                <span class="dabba__flavour-name">{{ name }}</span>
+                <span class="dabba__flavour-price">{% render 'size-label', title: v.title %} · {% render 'price', amount: v.price %}</span>
+              </button>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+
+      <div class="dabba__actions">
+        <button type="button" class="btn btn--ghost" data-dabba-fill>{{ section.settings.fill_label }}</button>
+        <button type="button" class="btn btn--ghost" data-dabba-clear>{{ section.settings.clear_label }}</button>
+      </div>
+      <p class="dabba__status" data-dabba-status aria-live="polite"></p>
+      <button type="button" class="btn btn--add dabba__add" data-dabba-add disabled>
+        <span class="btn__label is-static" data-dabba-add-label>{{ section.settings.add_label }}</span>
+        <span class="btn__state"></span>
+      </button>
+      {%- if box_variant != blank -%}
+        <p class="dabba__fine">{{ 'dabba.includes_box' | t: box: box.title }}</p>
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="dabba__fallback" data-dabba-fallback>
+    <ul class="next__list" role="list">
+      {%- for product in source.products limit: 6 -%}
+        <li>{%- render 'flavour-card-mini', product: product, story: product.metafields.custom.flavour_story.value, source: 'dabba' -%}</li>
+      {%- endfor -%}
+    </ul>
+  </div>
+
+  <template data-dabba-strings
+    data-slot-empty="{{ 'dabba.slot_empty' | t }}"
+    data-slot-filled="{{ 'dabba.slot_filled' | t: name: '%name%' }}"
+    data-count="{{ 'dabba.status' | t: filled: '%filled%', size: '%size%', total: '%total%' }}"
+    data-full="{{ 'dabba.full' | t }}"
+    data-added="{{ 'dabba.added' | t }}"
+    data-add-total="{{ 'dabba.add_total' | t: label: section.settings.add_label, total: '%total%' }}"
+  ></template>
+  <kuki-island data-island="dabba" data-load="visible"></kuki-island>
+</section>
+
+{% schema %}
+{
+  "name": "Fill a dabba",
+  "tag": "div",
+  "class": "section-dabba",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "A gift in one tap" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Fill a dabba" },
+    { "type": "richtext", "id": "intro", "label": "Intro", "default": "<p>Pick three or six flavours. They go in the bag together, marked as one gift.</p>" },
+    { "type": "checkbox", "id": "as_page_title", "label": "This is the page's main heading", "default": false },
+    { "type": "text", "id": "size_label", "label": "Size question", "default": "How big a dabba?" },
+    { "type": "checkbox", "id": "allow_three", "label": "Offer a dabba of 3", "default": true },
+    { "type": "checkbox", "id": "allow_six", "label": "Offer a dabba of 6", "default": true },
+    { "type": "text", "id": "pick_label", "label": "Flavour prompt", "default": "Tap a flavour to drop it in" },
+    { "type": "text", "id": "fill_label", "label": "One-of-each button", "default": "One of each" },
+    { "type": "text", "id": "clear_label", "label": "Empty button", "default": "Empty the dabba" },
+    { "type": "text", "id": "add_label", "label": "Add button", "default": "Add the dabba" },
+    { "type": "text", "id": "box_label", "label": "Name on the dabba", "default": "Kuki dabba" },
+    { "type": "text", "id": "property_name", "label": "Line property name", "default": "Gift box", "info": "Shown on each line in the bag and on the order." },
+    { "type": "product", "id": "box_product", "label": "Box product (optional)", "info": "If Kuki sells the box itself as a product, pick it and it's added with every dabba." },
+    { "type": "collection", "id": "collection", "label": "Flavours", "info": "Empty = every flavour." },
+    { "type": "text", "id": "anchor", "label": "Anchor", "default": "dabba" }
+  ],
+  "presets": [{ "name": "Fill a dabba" }]
+}
+{% endschema %}

@@ -1,0 +1,159 @@
+{%- liquid
+  assign uid = 'gift-' | append: section.id
+  assign wa_digits = settings.whatsapp_number | remove: '+' | remove: ' ' | remove: '-'
+  assign tiers = section.blocks | where: 'type', 'tier'
+  assign min_qty = section.settings.min_quantity | default: 1
+  capture fallback_message
+    echo section.settings.message_template | replace: '[company]', '' | replace: '[quantity]', '' | replace: '[date]', '' | replace: '[city]', '' | replace: '[flavours]', ''
+  endcapture
+-%}
+<section class="gift section" {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %} aria-labelledby="{{ uid }}-title" data-gifting
+  data-wa="{{ wa_digits }}"
+  data-template="{{ section.settings.message_template | escape }}"
+  data-lead-days="{{ section.settings.lead_days }}"
+  data-brand="{{ section.settings.mockup_footer | escape }}"
+  data-note="{{ section.settings.mockup_note | escape }}"
+  data-box-colour="{{ section.settings.box_colour }}"
+  data-sleeve-colour="{{ section.settings.sleeve_colour }}"
+  data-sleeve-ink="{{ section.settings.sleeve_ink }}"
+  data-sleeve-text="{{ section.settings.sleeve_text | escape }}"
+  data-box-text="{{ section.settings.box_text | escape }}"
+  style="--box: {{ section.settings.box_colour }}; --sleeve: {{ section.settings.sleeve_colour }}; --sleeve-ink: {{ section.settings.sleeve_ink }};">
+  <div class="section-head">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    {%- if section.settings.as_page_title -%}
+      <h1 class="section-head__title section-head__title--page" id="{{ uid }}-title">{{ section.settings.heading }}</h1>
+    {%- else -%}
+      <h2 class="section-head__title" id="{{ uid }}-title">{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.intro != blank -%}<div class="section-head__intro rte">{{ section.settings.intro }}</div>{%- endif -%}
+  </div>
+
+  <div class="gift__layout">
+    <div class="gift__preview">
+      <div class="gift__stage" data-gift-stage>
+        <div class="gift__flat" data-gift-flat aria-hidden="true">
+          <div class="gift__lid"><span class="gift__lid-text">{{ section.settings.box_text }}</span></div>
+          <div class="gift__base"><div class="gift__sleeve"><span>{{ section.settings.sleeve_text }}</span></div></div>
+        </div>
+      </div>
+      <p class="gift__private">{{ section.settings.privacy_note }}</p>
+    </div>
+
+    <form class="gift__form form" data-gift-form action="https://wa.me/{{ wa_digits }}" method="get" target="_blank">
+      <input type="hidden" name="text" value="{{ fallback_message | strip | escape }}">
+      <div class="field">
+        <label class="field__label" for="{{ uid }}-logo">{{ 'gifting.logo' | t }}</label>
+        <input class="field__input" type="file" id="{{ uid }}-logo" accept="image/png,image/jpeg,image/webp,image/svg+xml" aria-describedby="{{ uid }}-logo-hint" data-gift-file>
+        <p class="field__hint" id="{{ uid }}-logo-hint">{{ 'gifting.logo_hint' | t }}</p>
+        <label class="gift__check"><input type="checkbox" data-gift-knockout checked> {{ 'gifting.remove_white' | t }}</label>
+        <p class="gift__logo-status" data-gift-logo-status role="status"></p>
+      </div>
+      <div class="gift__row">
+        <div class="field">
+          <label class="field__label" for="{{ uid }}-company">{{ 'gifting.company' | t }}</label>
+          <input class="field__input" id="{{ uid }}-company" autocomplete="organization" required data-gift-field="company">
+        </div>
+        <div class="field">
+          <label class="field__label" for="{{ uid }}-qty">{{ 'gifting.quantity' | t }}</label>
+          <input class="field__input" id="{{ uid }}-qty" type="number" inputmode="numeric" min="{{ min_qty }}" value="{{ section.settings.default_quantity }}" required data-gift-field="quantity">
+        </div>
+      </div>
+      <div class="gift__row">
+        <div class="field">
+          <label class="field__label" for="{{ uid }}-date">{{ 'gifting.date' | t }}</label>
+          <input class="field__input" id="{{ uid }}-date" type="date" data-gift-field="date">
+        </div>
+        <div class="field">
+          <label class="field__label" for="{{ uid }}-city">{{ 'gifting.city' | t }}</label>
+          <input class="field__input" id="{{ uid }}-city" autocomplete="address-level2" data-gift-field="city">
+        </div>
+      </div>
+      <fieldset class="field gift__flavours">
+        <legend class="field__label">{{ 'gifting.flavours' | t }}</legend>
+        {%- for product in collections.all.products -%}
+          {%- assign s = product.metafields.custom.flavour_story.value -%}
+          <label style="--flavour: {% if s.colour != blank %}{{ s.colour.value }}{% else %}#c89b68{% endif %};"><input type="checkbox" value="{% if s.tag_name != blank %}{{ s.tag_name.value }}{% else %}{{ product.title }}{% endif %}" data-gift-flavour checked> {% if s.tag_name != blank %}{{ s.tag_name.value }}{% else %}{{ product.title }}{% endif %}</label>
+        {%- endfor -%}
+      </fieldset>
+
+      {%- if tiers.size > 0 -%}
+        <div class="gift__tiers">
+          <p class="field__label">{{ section.settings.tiers_heading }}</p>
+          <ul role="list">
+            {%- for block in tiers -%}
+              <li {{ block.shopify_attributes }}><span>{{ block.settings.quantity }}</span><span>{{ block.settings.price }}</span>{% if block.settings.note != blank %}<small>{{ block.settings.note }}</small>{% endif %}</li>
+            {%- endfor -%}
+          </ul>
+        </div>
+      {%- else -%}
+        {%- render 'design-todo', field: 'gifting.todo_tiers' -%}
+      {%- endif -%}
+
+      <div class="gift__actions">
+        <button type="button" class="btn btn--ghost" data-gift-download hidden>
+          <svg class="icon" aria-hidden="true"><use href="#kuki-icon-download"/></svg>{{ section.settings.download_label }}
+        </button>
+        <button type="submit" class="btn btn--add" data-gift-send>
+          <svg class="icon" aria-hidden="true"><use href="#kuki-icon-chat"/></svg><span class="btn__label is-static">{{ section.settings.send_label }}</span><span class="btn__state"></span>
+        </button>
+      </div>
+      <p class="gift__reminder" data-gift-reminder hidden role="status">{{ section.settings.reminder }}</p>
+    </form>
+  </div>
+  <template data-gift-strings
+    data-box-label="{{ 'gifting.box_label' | t }}"
+    data-logo-ready="{{ 'gifting.logo_ready' | t }}"
+    data-logo-error="{{ 'gifting.logo_error' | t }}"
+    data-logo-too-big="{{ 'gifting.logo_too_big' | t }}"
+    data-all-flavours="{{ 'gifting.all_flavours' | t }}"
+    data-mockup-for="{{ 'gifting.mockup_for' | t }}"
+    data-mockup-boxes="{{ 'gifting.mockup_boxes' | t }}"
+    data-mockup-by="{{ 'gifting.mockup_by' | t }}"
+    data-downloaded="{{ 'gifting.downloaded' | t }}"
+  ></template>
+  <kuki-island data-island="gifting" data-load="visible"></kuki-island>
+</section>
+
+{% schema %}
+{
+  "name": "Corporate gifting studio",
+  "tag": "div",
+  "class": "section-gifting",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "Corporate & bulk gifting" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Your logo on a Kuki box" },
+    { "type": "richtext", "id": "intro", "label": "Intro", "default": "<p>Upload your logo and see it on the lid and sleeve. Pick a quantity and a date, download the mockup, and send us the enquiry on WhatsApp.</p>" },
+    { "type": "checkbox", "id": "as_page_title", "label": "This is the page's main heading", "default": false },
+    { "type": "text", "id": "box_text", "label": "Text on the lid before a logo is added", "default": "Your logo here" },
+    { "type": "color", "id": "box_colour", "label": "Box colour", "info": "Match the real gift box.", "default": "#c89b68" },
+    { "type": "color", "id": "sleeve_colour", "label": "Sleeve colour", "default": "#fbf4e6" },
+    { "type": "color", "id": "sleeve_ink", "label": "Sleeve text colour", "default": "#3b1a0c" },
+    { "type": "text", "id": "sleeve_text", "label": "Text on the sleeve", "default": "Baked by Kuki" },
+    { "type": "text", "id": "mockup_note", "label": "Small print on the mockup", "default": "A mockup to talk over, not the final print." },
+    { "type": "text", "id": "privacy_note", "label": "Privacy line", "default": "Your logo never leaves your device. We only see it if you send it to us." },
+    { "type": "number", "id": "min_quantity", "label": "Minimum boxes", "info": "Leave empty if there's no minimum." },
+    { "type": "number", "id": "default_quantity", "label": "Starting quantity", "default": 25 },
+    { "type": "number", "id": "lead_days", "label": "Days notice needed", "info": "Sets the earliest date in the picker. Leave empty if you'd rather discuss it." },
+    { "type": "textarea", "id": "message_template", "label": "WhatsApp message", "info": "Use [company] [quantity] [date] [city] [flavours].", "default": "Hi Kuki! Corporate gifting enquiry.\nCompany: [company]\nBoxes: [quantity]\nNeeded by: [date]\nCity: [city]\nFlavours: [flavours]\nI'm attaching our box mockup." },
+    { "type": "text", "id": "download_label", "label": "Download button", "default": "Download mockup (PNG)" },
+    { "type": "text", "id": "send_label", "label": "Send button", "default": "Send enquiry on WhatsApp" },
+    { "type": "text", "id": "reminder", "label": "After sending", "default": "Don't forget to attach the mockup you downloaded. It's in your Downloads or Photos." },
+    { "type": "text", "id": "mockup_footer", "label": "Footer on the mockup image", "default": "Mockup by Kuki · thekuki.in · @getkuki" },
+    { "type": "text", "id": "tiers_heading", "label": "Bulk tiers heading", "default": "Bulk pricing" },
+    { "type": "text", "id": "anchor", "label": "Anchor", "default": "gifting" }
+  ],
+  "blocks": [
+    {
+      "type": "tier",
+      "name": "Bulk tier",
+      "settings": [
+        { "type": "text", "id": "quantity", "label": "Quantity", "info": "e.g. 25–99 boxes" },
+        { "type": "text", "id": "price", "label": "Price", "info": "Only real prices. e.g. ₹549 a box" },
+        { "type": "text", "id": "note", "label": "Note" }
+      ]
+    }
+  ],
+  "presets": [{ "name": "Corporate gifting studio" }]
+}
+{% endschema %}

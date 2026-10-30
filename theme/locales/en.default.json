@@ -139,5 +139,37 @@
   },
   "taste": {
     "you_label": "Your tastebuds today. Use the arrow keys to move."
+  },
+  "dabba": {
+    "slots_label": "Compartments in your dabba",
+    "size_option": "Dabba of {{ count }}",
+    "slot_empty": "Empty compartment",
+    "slot_filled": "%name%. Tap to take it out.",
+    "status": "%filled% of %size% in · %total%",
+    "full": "The dabba's full. Tap a compartment to swap a flavour.",
+    "added": "Dabba in the bag",
+    "add_total": "{{ label }} · %total%",
+    "includes_box": "Includes the {{ box }}."
+  },
+  "gifting": {
+    "logo": "Your logo",
+    "logo_hint": "PNG, JPG, WebP or SVG. A transparent PNG looks best.",
+    "remove_white": "Remove a white background",
+    "logo_ready": "Logo on the box. Drag the box to turn it.",
+    "logo_error": "We couldn't read that file. Try a PNG or JPG under 10 MB.",
+    "logo_too_big": "That file is over 10 MB. Try a smaller PNG or JPG.",
+    "company": "Company",
+    "quantity": "How many boxes",
+    "date": "Needed by",
+    "city": "Delivery city",
+    "flavours": "Flavours",
+    "todo_tiers": "bulk pricing tiers",
+    "box_label": "Your gift box with your logo on the lid and sleeve. Use the arrow keys to turn it.",
+    "mockup_for": "For %company%",
+    "all_flavours": "All six flavours",
+    "downloaded": "Mockup saved. Attach it in WhatsApp.",
+    "opened": "WhatsApp opened in a new tab.",
+    "mockup_boxes": "%quantity% boxes",
+    "mockup_by": "Needed by %date%"
   }
 }

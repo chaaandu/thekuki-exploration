@@ -1,0 +1,429 @@
+/* Fill a dabba + corporate gifting. */
+
+.dabba {
+  background: var(--paper);
+}
+
+.dabba__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+}
+
+.no-js .dabba__layout {
+  display: none;
+}
+
+.js .dabba__fallback {
+  display: none;
+}
+
+/* The dabba, seen from above: brown card with compartments. */
+.dabba__box {
+  position: relative;
+  padding: clamp(1rem, 3vw, 1.75rem);
+  border-radius: var(--r-m);
+  background:
+    linear-gradient(180deg, rgb(255 255 255 / 0.12), transparent 40%),
+    var(--kraft);
+  box-shadow: inset 0 0 0 6px var(--kraft-2), var(--shadow-lift);
+}
+
+.dabba__slots {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.dabba__slot {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
+  border: 0;
+  border-radius: var(--r-s);
+  background: var(--kraft-3);
+  box-shadow: inset 0 4px 10px rgb(42 18 7 / 0.45);
+  color: rgb(255 246 234 / 0.5);
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: var(--step-2);
+  cursor: default;
+}
+
+.dabba__slot[data-filled] {
+  background: color-mix(in srgb, var(--flavour) 30%, var(--kraft-3));
+  cursor: pointer;
+  animation: kuki-drop-in var(--dur-3) var(--ease-spring);
+}
+
+.dabba__slot img {
+  width: 72%;
+  height: auto;
+  filter: drop-shadow(0 4px 4px rgb(42 18 7 / 0.4));
+}
+
+.dabba__slot-name {
+  position: absolute;
+  bottom: 0.3rem;
+  left: 0;
+  right: 0;
+  font-size: var(--step--2);
+  color: var(--paper);
+  text-align: center;
+  text-shadow: 0 1px 2px rgb(0 0 0 / 0.6);
+}
+
+@keyframes kuki-drop-in {
+  from {
+    transform: translateY(-14px) scale(0.92);
+    opacity: 0;
+  }
+}
+
+.dabba__tag {
+  margin-top: 0.9rem;
+  text-align: center;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  color: var(--kraft-ink);
+}
+
+.dabba__controls {
+  display: grid;
+  gap: 1rem;
+}
+
+.dabba__sizes {
+  display: flex;
+  gap: 0.5rem;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+.dabba__legend {
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  width: 100%;
+}
+
+.dabba__size {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 2px solid var(--line-2);
+  border-radius: var(--r-pill);
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.dabba__size:has(:checked) {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.dabba__flavours {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dabba__flavour {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas: 'lid name' 'lid price';
+  align-items: center;
+  gap: 0 0.6rem;
+  width: 100%;
+  min-height: 56px;
+  padding: 0.5rem 0.75rem;
+  border: 2px solid var(--line-2);
+  border-radius: var(--r-m);
+  background: var(--card);
+  text-align: start;
+  cursor: pointer;
+}
+
+.dabba__flavour:hover {
+  border-color: var(--ink);
+}
+
+.dabba__lid {
+  grid-area: lid;
+  width: 1.6rem;
+  height: 0.8rem;
+  border-radius: 0.25rem;
+  background: var(--flavour);
+  box-shadow: 0 0 0 1.5px var(--ink);
+}
+
+.dabba__flavour-name {
+  grid-area: name;
+  font-weight: 700;
+}
+
+.dabba__flavour-price {
+  grid-area: price;
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.dabba__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.dabba__status {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: var(--step-1);
+}
+
+.dabba__fine {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+@media (max-width: 47.99rem) {
+  .dabba__layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Corporate gifting studio. */
+
+.gift__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+}
+
+.gift__preview {
+  position: sticky;
+  top: calc(var(--header-h, 4rem) + 1rem);
+  display: grid;
+  gap: 0.6rem;
+}
+
+/* The box sits on the bakery's wooden counter. */
+.gift__stage {
+  position: relative;
+  aspect-ratio: 6 / 5;
+  border-radius: var(--r-l);
+  background:
+    linear-gradient(180deg, var(--paper-2) 0 68%, transparent 68%),
+    linear-gradient(180deg, #b98a5c 68%, #9c7046 100%);
+  box-shadow: inset 0 -1px 0 var(--line-2);
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.gift__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+.gift__canvas:active {
+  cursor: grabbing;
+}
+
+.gift__canvas:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: -3px;
+  border-radius: var(--r-l);
+}
+
+/* No-JS box: a front view drawn in CSS. */
+.gift__flat {
+  position: absolute;
+  inset: 18% 16% 16%;
+  display: grid;
+  grid-template-rows: 32% 1fr;
+}
+
+.gift__lid {
+  display: grid;
+  place-items: center;
+  margin-inline: -3%;
+  background: var(--box);
+  border-radius: 4px;
+  box-shadow: 0 2px 0 rgb(42 18 7 / 0.25);
+  font-family: var(--font-hand);
+  font-weight: 700;
+  color: var(--kraft-ink);
+}
+
+.gift__base {
+  display: grid;
+  align-items: center;
+  background: color-mix(in srgb, var(--box) 88%, #000);
+}
+
+.gift__sleeve {
+  display: grid;
+  place-items: center;
+  height: 58%;
+  background: var(--sleeve);
+  color: var(--sleeve-ink);
+  font-family: var(--font-display);
+}
+
+.gift__private {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.gift__row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-s);
+}
+
+.gift__check {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  font-size: var(--step--1);
+  cursor: pointer;
+}
+
+.gift__check input,
+.gift__flavours input {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--ink);
+}
+
+.gift__logo-status:empty {
+  display: none;
+}
+
+.gift__logo-status {
+  font-family: var(--font-hand);
+  font-weight: 700;
+}
+
+.gift__flavours {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.gift__flavours legend {
+  width: 100%;
+  margin-bottom: 0.3rem;
+}
+
+.gift__flavours label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 44px;
+  padding: 0 0.85rem 0 0.7rem;
+  border: 2px solid var(--line-2);
+  border-left: 0.45rem solid var(--flavour);
+  border-radius: var(--r-s);
+  background: var(--card);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.gift__flavours label:has(:checked) {
+  border-color: var(--ink);
+  border-left-color: var(--flavour);
+}
+
+.gift__flavours label:has(:focus-visible) {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.gift__tiers ul {
+  display: grid;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gift__tiers li {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0 1rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px dashed var(--line-2);
+}
+
+.gift__tiers li span:last-of-type {
+  font-family: var(--font-hand);
+  font-weight: 700;
+}
+
+.gift__tiers small {
+  width: 100%;
+  color: var(--ink-2);
+}
+
+.gift__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.gift__actions .btn--add {
+  flex: 1 1 16rem;
+}
+
+.gift__reminder {
+  padding: 0.75rem 1rem;
+  border-radius: var(--r-s);
+  background: #e7f3e9;
+  color: #0d5a2a;
+  font-weight: 600;
+}
+
+@media (max-width: 55.99rem) {
+  .gift__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .gift__preview {
+    position: static;
+  }
+}
+
+@media (max-width: 26rem) {
+  .gift__row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Keep the add button clear of the floating bag on tablets and up. */
+@media (min-width: 48rem) {
+  .dabba__add {
+    justify-self: start;
+    min-width: min(18rem, 100%);
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "sections": {
+    "dabba": {
+      "type": "dabba-builder",
+      "settings": { "heading": "Fill a dabba", "as_page_title": true, "anchor": "dabba" }
+    }
+  },
+  "order": ["dabba"]
+}

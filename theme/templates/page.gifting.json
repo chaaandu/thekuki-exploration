@@ -1,0 +1,21 @@
+{
+  "sections": {
+    "studio": {
+      "type": "gifting-studio",
+      "settings": { "heading": "Your logo on a Kuki box", "as_page_title": true, "anchor": "studio" }
+    },
+    "dabba": {
+      "type": "feature-teaser",
+      "settings": {
+        "eyebrow": "Just a few boxes?",
+        "heading": "Fill a dabba instead.",
+        "text": "<p>Three or six flavours, marked as one gift, straight into your bag.</p>",
+        "button": "Fill a dabba",
+        "link": "/pages/dabba",
+        "icon": "box",
+        "scheme": "paper"
+      }
+    }
+  },
+  "order": ["studio", "dabba"]
+}
