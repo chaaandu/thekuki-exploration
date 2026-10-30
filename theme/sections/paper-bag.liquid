@@ -49,18 +49,19 @@
       data-fill="{{ fill }}"
       data-reached="{{ reached }}"
       style="--progress: {{ percent | divided_by: 100.0 }};"
-      aria-label="{% if count > 0 %}{{ 'bag.button_label' | t: count: count, total: total_text }}{% else %}{{ 'bag.button_empty' | t }}{% endif %}"
     >
       <span class="bag__art">{%- render 'bag-art' -%}</span>
       {%- if count > 0 -%}<span class="bag__count" aria-hidden="true">{{ count }}</span>{%- endif -%}
       {%- if reached -%}<span class="bag__seal" aria-hidden="true">{{ 'bag.meter_reached' | t }}</span>{%- endif -%}
-      <span class="bag__info" aria-hidden="true">
+      {%- comment -%} No aria-label: the visible words are the name (WCAG 2.5.3), plus the count for screen readers. {%- endcomment -%}
+      <span class="bag__info">
         {%- if count > 0 -%}
+          <span class="visually-hidden">{{ 'bag.button_count' | t: count: count }} </span>
           <span class="bag__total">{{ total_text }}</span>
           <span class="bag__status">
             {%- if threshold <= 0 -%}
             {%- elsif reached -%}
-              <svg class="icon"><use href="#kuki-icon-check"/></svg>{{ 'bag.meter_reached' | t }}
+              <svg class="icon" aria-hidden="true"><use href="#kuki-icon-check"/></svg>{{ 'bag.meter_reached' | t }}
             {%- else -%}
               {{ 'bag.meter_remaining' | t: amount: remaining_text }}
             {%- endif -%}
@@ -73,7 +74,7 @@
           {%- endif -%}
         {%- endif -%}
       </span>
-      <span class="bag__cta" aria-hidden="true">{{ 'bag.open' | t }}</span>
+      <span class="bag__cta"> {{ 'bag.open' | t }}</span>
     </a>
   </div>
 

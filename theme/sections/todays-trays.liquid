@@ -1,9 +1,9 @@
-{%- doc -%}
+{%- comment -%}
   "Today's trays": fed by the todays_trays metaobject the team updates each morning.
   It only shows when the entry's date is today in India time. Liquid checks with the
   store's clock; kuki-core checks again in the browser, so a cached page can never show
   yesterday's trays.
-{%- enddoc -%}
+{%- endcomment -%}
 {%- liquid
   assign entry = blank
   for candidate in metaobjects.todays_trays.values

@@ -10,7 +10,7 @@ test('a flavour reaches the bag in three taps, then checkout gets the right line
   await page.goto('/');
   // Tap 1: add Masala 100g straight from the flavour list.
   await addFromList(page, 'masala-cookies');
-  await expect(bagButton(page)).toHaveAttribute('aria-label', /1 item/);
+  await expect(bagButton(page)).toHaveAccessibleName(/1 item/);
   await expect(page.locator('#kuki-announcer')).toContainText('Masala 100g added');
 
   // Tap 2: open the bag.

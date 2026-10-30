@@ -128,8 +128,12 @@ export function registerFilters(liquid: Liquid): void {
   reg('stylesheet_tag', (input) => `<link href="${escapeHtml(str(input))}" rel="stylesheet" type="text/css" media="all" />`);
   reg('script_tag', (input) => `<script src="${escapeHtml(str(input))}" type="text/javascript"></script>`);
   reg('preload_tag', (input, ...args) => {
+    // Like Shopify: every named argument becomes an attribute (as, type, crossorigin, …).
     const { opts } = named(args);
-    return `<link href="${escapeHtml(str(input))}" rel="preload" as="${escapeHtml(str(opts.as ?? 'script'))}">`;
+    const attrs = Object.entries({ as: 'script', ...opts })
+      .map(([k, v]) => (v === true ? k : `${k}="${escapeHtml(str(v))}"`))
+      .join(' ');
+    return `<link href="${escapeHtml(str(input))}" rel="preload" ${attrs}>`;
   });
   reg('placeholder_svg_tag', (input, cls) => `<svg class="${escapeHtml(str(cls))}" data-placeholder="${escapeHtml(str(input))}" viewBox="0 0 525 525" xmlns="http://www.w3.org/2000/svg"><rect width="525" height="525" fill="#eadcc4"/></svg>`);
   reg('link_to', (input, url, title) => `<a href="${escapeHtml(str(url))}"${title ? ` title="${escapeHtml(str(title))}"` : ''}>${str(input)}</a>`);

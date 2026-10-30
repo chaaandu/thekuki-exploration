@@ -9,7 +9,7 @@
     {%- endif -%}
     {%- if section.settings.intro != blank -%}<div class="section-head__intro rte">{{ section.settings.intro }}</div>{%- endif -%}
   </div>
-  <ol class="day__strip" role="list">
+  <ol class="day__strip" role="list" tabindex="0" aria-labelledby="day-title-{{ section.id }}">
     {%- for block in moments -%}
       <li class="day__moment{% if block.settings.image == blank %} day__moment--text{% endif %}" {{ block.shopify_attributes }}>
         {%- if block.settings.image != blank -%}

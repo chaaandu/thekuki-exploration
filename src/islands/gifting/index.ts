@@ -79,20 +79,28 @@ export function mount(island: HTMLElement) {
   const ro = new ResizeObserver(() => !box3d && drawFlat());
   ro.observe(stage);
 
-  const tier = check3D(true);
-  stage.dataset.tier = tier.ok ? '3d' : '2d';
-  if (tier.ok) {
+  // The flat box is drawn straight away; the 3D box (three.js, ~150 KB gzipped) loads only
+  // once the visitor starts using the studio, so it never slows the first paint.
+  stage.dataset.tier = '2d';
+  let upgrading = false;
+  const upgrade = () => {
+    if (upgrading) return;
+    upgrading = true;
+    if (!check3D(true).ok) return;
     import('./box3d.ts')
       .then(({ createBox3D }) => {
         box3d = createBox3D(stage, look, { reducedMotion: reducedMotion(), label });
         box3d.setLogo(logo);
         flat.remove();
-        stage.dataset.ready = '';
+        stage.dataset.tier = '3d';
       })
       .catch(() => {
-        stage.dataset.tier = '2d';
+        upgrading = false;
       });
-  }
+  };
+  const intent = ['pointerdown', 'focusin', 'pointerenter'] as const;
+  intent.forEach((t) => root.addEventListener(t, upgrade, { once: true, passive: true }));
+  if (new URLSearchParams(location.search).get('tier') === '3d') upgrade();
 
   const refresh = () => {
     if (box3d) box3d.setLogo(logo);
@@ -119,6 +127,7 @@ export function mount(island: HTMLElement) {
     }
   };
   file.addEventListener('change', () => {
+    upgrade();
     pending = file.files?.[0] ?? null;
     loadLogo();
   });

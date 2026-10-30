@@ -11,8 +11,8 @@
   assign kalam_400 = 'kuki-kalam-400.woff2' | asset_url
   assign kalam_700 = 'kuki-kalam-700.woff2' | asset_url
 -%}
-<link rel="preload" as="font" type="font/woff2" href="{{ rozha }}" crossorigin>
-<link rel="preload" as="font" type="font/woff2" href="{{ mukta_400 }}" crossorigin>
+{{ 'kuki-rozha-400.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
+{{ 'kuki-mukta-400.woff2' | asset_url | preload_tag: as: 'font', type: 'font/woff2', crossorigin: 'anonymous' }}
 <style>
   @font-face { font-family: 'Rozha One'; src: url('{{ rozha }}') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
   @font-face { font-family: 'Mukta'; src: url('{{ mukta_400 }}') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }

@@ -176,9 +176,15 @@
   transform: rotate(-14deg);
 }
 
+/* Desktop shows only the bag; the words stay for screen readers (they're its name). */
 .bag__info,
 .bag__cta {
-  display: none;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 /* ---------- Phones: the bottom bar ---------- */
@@ -237,10 +243,20 @@
     display: none;
   }
 
+  .bag__info,
+  .bag__cta {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip-path: none;
+  }
+
   .bag__info {
     display: grid;
     line-height: 1.2;
     min-width: 0;
+    white-space: normal;
   }
 
   .bag__total {

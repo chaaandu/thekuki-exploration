@@ -11,7 +11,7 @@
       <h2 class="section-head__title" id="textures-{{ section.id }}">{{ section.settings.heading }}</h2>
       {%- if section.settings.intro != blank -%}<p class="section-head__intro">{{ section.settings.intro }}</p>{%- endif -%}
     </div>
-    <ul class="textures__strip" role="list">
+    <ul class="textures__strip" role="list" tabindex="0" aria-labelledby="textures-{{ section.id }}">
       {%- if use_story -%}
         {%- for photo in story.texture_photos.value -%}
           <li class="textures__item">

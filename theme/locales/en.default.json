@@ -75,9 +75,9 @@
   },
   "bag": {
     "title": "Your bag",
-    "button_label": {
-      "one": "Open bag, {{ count }} item, {{ total }}",
-      "other": "Open bag, {{ count }} items, {{ total }}"
+    "button_count": {
+      "one": "{{ count }} item,",
+      "other": "{{ count }} items,"
     },
     "button_empty": "Your bag is empty",
     "close": "Close the bag",

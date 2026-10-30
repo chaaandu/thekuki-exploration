@@ -1,8 +1,8 @@
-{%- doc -%}
+{%- comment -%}
   /cart: the paper bag as a full page. This is what the bag link opens when JavaScript is
   off (or before kuki-core loads), so it has everything: meter, one-tap suggestion,
   quantities, gift note and checkout, all as plain forms.
-{%- enddoc -%}
+{%- endcomment -%}
 {%- capture total_text -%}{%- render 'price', amount: cart.total_price -%}{%- endcapture -%}
 <section class="cart-page section" aria-labelledby="cart-title-{{ section.id }}">
   <div class="cart-page__inner">

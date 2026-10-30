@@ -31,6 +31,9 @@ export function primeSound() {
 
 export function buzz(ms = 8) {
   if (!window.KUKI?.settings?.haptics) return;
+  // Only after the visitor has tapped (an auto-twist on page load shouldn't buzz, and
+  // Chrome logs an error for it).
+  if (navigator.userActivation && !navigator.userActivation.hasBeenActive) return;
   try {
     navigator.vibrate?.(ms);
   } catch {

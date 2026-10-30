@@ -1,6 +1,7 @@
 // Small HTTP helpers: bodies (JSON, urlencoded, multipart) with Rails-style bracket keys,
 // cookies, and responses.
 import type { IncomingMessage, ServerResponse } from 'node:http';
+import { gzipSync } from 'node:zlib';
 
 export type Body = Record<string, unknown>;
 
@@ -91,6 +92,13 @@ export function cookies(req: IncomingMessage): Record<string, string> {
 }
 
 export function send(res: ServerResponse, status: number, body: string | Buffer, type = 'text/html; charset=utf-8', headers: Record<string, string> = {}) {
+  // Compress HTML/JSON like Shopify does (only when the client asks and it's worth it).
+  const accepts = /\bgzip\b/.test(String(res.req?.headers['accept-encoding'] ?? ''));
+  if (accepts && /html|json|javascript/.test(type) && Buffer.byteLength(body) > 1024 && !headers['Content-Encoding']) {
+    res.writeHead(status, { 'Content-Type': type, 'Cache-Control': 'no-store', 'Content-Encoding': 'gzip', Vary: 'Accept-Encoding', ...headers });
+    res.end(gzipSync(body, { level: 6 }));
+    return;
+  }
   res.writeHead(status, { 'Content-Type': type, 'Cache-Control': 'no-store', ...headers });
   res.end(body);
 }

@@ -10,6 +10,7 @@
 import { createServer, type IncomingMessage, type ServerResponse } from 'node:http';
 import { createReadStream, existsSync, mkdirSync, readFileSync, statSync, watch, writeFileSync } from 'node:fs';
 import { extname, join, resolve } from 'node:path';
+import { createGzip } from 'node:zlib';
 import sharp from 'sharp';
 import { Theme } from './lib/theme.ts';
 import { Renderer, type Route } from './lib/render.ts';
@@ -319,7 +320,14 @@ async function handle(req: IncomingMessage, res: ServerResponse) {
       send(res, 404, 'Not found', 'text/plain');
       return done(404);
     }
-    res.writeHead(200, { 'Content-Type': MIME[extname(name).slice(1)] ?? 'application/octet-stream', 'Cache-Control': 'no-cache', 'Content-Length': String(statSync(file).size) });
+    const type = MIME[extname(name).slice(1)] ?? 'application/octet-stream';
+    // Shopify's CDN compresses text assets; do the same so local Lighthouse runs are fair.
+    if (/svg|javascript|css|json/.test(type) && /\bgzip\b/.test(String(req.headers['accept-encoding'] ?? ''))) {
+      res.writeHead(200, { 'Content-Type': type, 'Cache-Control': 'no-cache', 'Content-Encoding': 'gzip', Vary: 'Accept-Encoding' });
+      createReadStream(file).pipe(createGzip({ level: 6 })).pipe(res);
+      return done(200, 'gzip');
+    }
+    res.writeHead(200, { 'Content-Type': type, 'Cache-Control': 'no-cache', 'Content-Length': String(statSync(file).size) });
     createReadStream(file).pipe(res);
     return done(200);
   }

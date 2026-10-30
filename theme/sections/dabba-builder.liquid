@@ -28,7 +28,10 @@
 
   <div class="dabba__layout" data-dabba-ui>
     <div class="dabba__box" data-dabba-box data-size="3">
-      <ol class="dabba__slots" role="list" aria-label="{{ 'dabba.slots_label' | t }}" data-dabba-slots></ol>
+      <ol class="dabba__slots" role="list" aria-label="{{ 'dabba.slots_label' | t }}" data-dabba-slots>
+        {%- comment -%} Empty compartments drawn up front so the box doesn't grow when JS starts. {%- endcomment -%}
+        {%- for i in (1..3) -%}<li><span class="dabba__slot">{{ i }}</span></li>{%- endfor -%}
+      </ol>
       <p class="dabba__tag" aria-hidden="true">{{ section.settings.box_label }}</p>
     </div>
 

@@ -1,7 +1,7 @@
-{%- doc -%}
+{%- comment -%}
   A festive offer / announcement banner the team can drop on any page. It can show only
   between two dates (India time). Checked by Liquid and again in the browser.
-{%- enddoc -%}
+{%- endcomment -%}
 {%- liquid
   assign today = 'now' | date: '%Y%m%d' | plus: 0
   assign starts = section.settings.starts | remove: '-' | plus: 0

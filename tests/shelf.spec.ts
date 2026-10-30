@@ -67,7 +67,7 @@ test('buying from the tag: size switch, add, then the lid screws back on', async
   await expect(panel.locator('button.btn--add')).toContainText('Add 250g · ₹449');
   await panel.locator('button.btn--add').click();
   await expect(panel.locator('button.btn--add')).toHaveAttribute('data-state', 'added');
-  await expect(page.locator('[data-bag-open]')).toHaveAttribute('aria-label', /1 item, ₹449/);
+  await expect(page.locator('[data-bag-open]')).toHaveAccessibleName(/1 item,\s*₹449/);
   await expect(blueberry).toHaveAttribute('data-state', 'closed', { timeout: 3000 });
   const names = (await analytics(page)).map((e) => e.name);
   expect(names).toEqual(expect.arrayContaining(['kuki_twist', 'kuki_size_switch', 'kuki_add_to_bag']));
