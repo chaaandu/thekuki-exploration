@@ -20,12 +20,16 @@
         },
         "gloss": {
           "type": "gloss"
+        },
+        "send": {
+          "type": "twist_send"
         }
       },
       "block_order": [
         "title",
         "memory",
         "buy",
+        "send",
         "pairing",
         "gloss"
       ],

@@ -5,7 +5,7 @@
  */
 import type { Aroma } from '../shelf-core/types.ts';
 
-const SHAPES = {
+export const SHAPES = {
   leaf: '<svg viewBox="-6 -3 12 6"><path d="M-6 0Q0-3.6 6 0Q0 3.6-6 0Z" fill="#2f5323"/><path d="M-5 0H5" stroke="#5a8a3c" stroke-width=".6"/></svg>',
   seed: '<svg viewBox="-2 -1.2 4 2.4"><ellipse rx="1.9" ry="1" fill="#7a6a3a"/></svg>',
   petal: '<svg viewBox="-5 -5 10 10"><path d="M0-5C4.2-3 4.2 3 0 5C-4.2 3-4.2-3 0-5Z" fill="#e58aa5"/><path d="M0-3.5V3.5" stroke="#f3b9ca" stroke-width=".6"/></svg>',
@@ -15,9 +15,9 @@ const SHAPES = {
   ribbon: '<svg viewBox="0 0 40 90"><path d="M20 90C2 72 38 60 20 44S4 18 22 4" fill="none" stroke="#5a3218" stroke-width="7" stroke-linecap="round"/><path d="M20 90C2 72 38 60 20 44S4 18 22 4" fill="none" stroke="#a8724a" stroke-width="2" stroke-linecap="round" opacity=".6"/></svg>',
 } as const;
 
-type ShapeName = keyof typeof SHAPES;
+export type ShapeName = keyof typeof SHAPES;
 
-interface Particle {
+export interface Particle {
   shape: ShapeName;
   size: number;
   /** returns x, y (jar units, y up from the mouth), rotation (deg), opacity for time t (s) */

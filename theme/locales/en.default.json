@@ -171,5 +171,17 @@
     "opened": "WhatsApp opened in a new tab.",
     "mockup_boxes": "%quantity% boxes",
     "mockup_by": "Needed by %date%"
+  },
+  "send": {
+    "loading": "Taking the jar down from the shelf…",
+    "making": "Making your video… %percent%%",
+    "ready": "Your video's ready.",
+    "error": "This browser couldn't make the video. Try Chrome, or another phone.",
+    "preview_label": "Preview: the {{ flavour }} jar twisting open with your tag",
+    "format": "Shape",
+    "story": "Story (9:16)",
+    "square": "Square (1:1)",
+    "share": "Share",
+    "save": "Save video"
   }
 }

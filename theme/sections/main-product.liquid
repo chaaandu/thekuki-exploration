@@ -77,6 +77,55 @@
               <p class="pdp__gloss" {{ block.shopify_attributes }}>{{ story.local_name_gloss.value }}</p>
             {%- endif -%}
 
+          {%- when 'twist_send' -%}
+            <div class="pdp__send" data-twist-send-root data-handle="{{ product.handle }}" {{ block.shopify_attributes }}>
+              <button type="button" class="btn btn--ghost" data-twist-send-open hidden>
+                <svg class="icon" aria-hidden="true"><use href="#kuki-icon-send"/></svg>{{ block.settings.button }}
+              </button>
+              <dialog
+                class="send"
+                data-twist-send
+                aria-labelledby="{{ group }}-send-title"
+                data-for-template="{{ block.settings.for_template | escape }}"
+                data-default-name="{{ block.settings.default_name | escape }}"
+                data-end-line="{{ block.settings.end_line | escape }}"
+                data-strap="{{ block.settings.strap | escape }}"
+                data-share-text="{{ block.settings.share_text | escape }}"
+                data-loading="{{ 'send.loading' | t }}"
+                data-making="{{ 'send.making' | t }}"
+                data-ready="{{ 'send.ready' | t }}"
+                data-error="{{ 'send.error' | t }}"
+              >
+                <form method="dialog" class="send__inner">
+                  <div class="send__head">
+                    <h2 class="send__title" id="{{ group }}-send-title">{{ block.settings.heading }}</h2>
+                    <button class="btn btn--icon" value="close" aria-label="{{ 'general.close' | t }}"><svg class="icon" aria-hidden="true"><use href="#kuki-icon-close"/></svg></button>
+                  </div>
+                  {%- if block.settings.intro != blank -%}<p class="send__intro">{{ block.settings.intro }}</p>{%- endif -%}
+                  <div class="send__frame" data-send-frame><canvas data-send-canvas role="img" aria-label="{{ 'send.preview_label' | t: flavour: tag_name }}"></canvas></div>
+                  <div class="send__fields">
+                    <div class="field">
+                      <label class="field__label" for="{{ group }}-send-name">{{ block.settings.name_label }}</label>
+                      <input class="field__input" id="{{ group }}-send-name" maxlength="24" autocomplete="off" placeholder="{{ block.settings.name_placeholder | escape }}" data-send-name>
+                    </div>
+                    <fieldset class="send__formats">
+                      <legend class="field__label">{{ 'send.format' | t }}</legend>
+                      <label><input type="radio" name="{{ group }}-send-format" value="story" checked data-send-format> {{ 'send.story' | t }}</label>
+                      <label><input type="radio" name="{{ group }}-send-format" value="square" data-send-format> {{ 'send.square' | t }}</label>
+                    </fieldset>
+                  </div>
+                  <p class="send__status" data-send-status role="status"></p>
+                  <div class="send__progress" data-send-progress hidden><span></span></div>
+                  <div class="send__actions">
+                    <button type="button" class="btn btn--add" data-send-make><svg class="icon" aria-hidden="true"><use href="#kuki-icon-play"/></svg>{{ block.settings.make_label }}</button>
+                    <button type="button" class="btn btn--primary" data-send-share hidden><svg class="icon" aria-hidden="true"><use href="#kuki-icon-send"/></svg>{{ 'send.share' | t }}</button>
+                    <a class="btn btn--ghost" data-send-save hidden><svg class="icon" aria-hidden="true"><use href="#kuki-icon-download"/></svg>{{ 'send.save' | t }}</a>
+                  </div>
+                </form>
+              </dialog>
+              <kuki-island data-island="twistSend" data-load="idle"></kuki-island>
+            </div>
+
           {%- when 'text' -%}
             {%- if block.settings.text != blank -%}
               <div class="pdp__text rte" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
@@ -112,10 +161,28 @@
       ]
     },
     { "type": "gloss", "name": "Local name note", "limit": 1 },
+    {
+      "type": "twist_send",
+      "name": "Twist & send",
+      "limit": 1,
+      "settings": [
+        { "type": "text", "id": "button", "label": "Button", "default": "Twist & send" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Send this jar to someone" },
+        { "type": "text", "id": "intro", "label": "Intro", "default": "Type a name. You get a five-second video of their jar twisting open, ready for WhatsApp or Stories." },
+        { "type": "text", "id": "name_label", "label": "Name question", "default": "Who's it for?" },
+        { "type": "text", "id": "name_placeholder", "label": "Name example", "default": "Amma" },
+        { "type": "text", "id": "default_name", "label": "Name when left empty", "default": "you" },
+        { "type": "text", "id": "for_template", "label": "Tag text", "info": "%name% is replaced with the name.", "default": "For %name%" },
+        { "type": "text", "id": "strap", "label": "Line under the jar", "default": "Twist your tastebuds." },
+        { "type": "text", "id": "end_line", "label": "End card", "default": "thekuki.in · @getkuki" },
+        { "type": "text", "id": "make_label", "label": "Make button", "default": "Make the video" },
+        { "type": "text", "id": "share_text", "label": "Text sent with the video", "default": "Twist your tastebuds. thekuki.in" }
+      ]
+    },
     { "type": "text", "name": "Text", "settings": [{ "type": "richtext", "id": "text", "label": "Text" }] }
   ],
   "presets": [
-    { "name": "Product: jar and buy box", "blocks": [{ "type": "title" }, { "type": "memory" }, { "type": "buy" }, { "type": "pairing" }, { "type": "gloss" }] }
+    { "name": "Product: jar and buy box", "blocks": [{ "type": "title" }, { "type": "memory" }, { "type": "buy" }, { "type": "pairing" }, { "type": "gloss" }, { "type": "twist_send" }] }
   ]
 }
 {% endschema %}

@@ -480,3 +480,8 @@ textarea.field__input {
   animation-iteration-count: 1 !important;
   transition-duration: 0.01ms !important;
 }
+
+/* `hidden` always wins, even over components that set display (buttons, grids). */
+[hidden] {
+  display: none !important;
+}
