@@ -1,0 +1,207 @@
+/* Taste map, compact flavour cards, "Twist this next". */
+
+.taste {
+  background: var(--paper-2);
+}
+
+.taste__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  align-items: start;
+}
+
+.taste__map {
+  position: relative;
+  aspect-ratio: 1;
+  max-width: 34rem;
+  border-radius: var(--r-l);
+  background:
+    linear-gradient(var(--line), var(--line)) 50% 0 / 1.5px 100% no-repeat,
+    linear-gradient(var(--line), var(--line)) 0 50% / 100% 1.5px no-repeat,
+    var(--card);
+  box-shadow: var(--shadow-paper);
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.taste__axis {
+  position: absolute;
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: var(--step--1);
+  color: var(--ink-2);
+  pointer-events: none;
+}
+
+.taste__axis--left { left: 0.75rem; top: 50%; translate: 0 -150%; }
+.taste__axis--right { right: 0.75rem; top: 50%; translate: 0 -150%; }
+.taste__axis--top { top: 0.6rem; left: 50%; translate: 0.5rem 0; }
+.taste__axis--bottom { bottom: 0.6rem; left: 50%; translate: 0.5rem 0; }
+
+.taste__dots {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.taste__jar {
+  position: absolute;
+  left: calc(8% + var(--x) * 0.84%);
+  top: calc(8% + var(--y) * 0.84%);
+  translate: -50% -50%;
+  transition: scale var(--dur-2) var(--ease-spring);
+}
+
+.taste__jar-link {
+  display: grid;
+  justify-items: center;
+  gap: 0.15rem;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0.25rem;
+  text-decoration: none;
+}
+
+.taste__lid {
+  width: 2rem;
+  height: 0.9rem;
+  border-radius: 0.3rem;
+  background: var(--flavour);
+  box-shadow: inset 0 -3px 0 rgb(0 0 0 / 0.2), 0 0 0 1.5px var(--ink);
+}
+
+.taste__name {
+  font-family: var(--font-hand);
+  font-weight: 700;
+  font-size: var(--step--1);
+  line-height: 1.1;
+  white-space: nowrap;
+  padding: 0 0.3rem;
+  border-radius: 4px;
+}
+
+.taste__jar[data-near] {
+  scale: 1.18;
+  z-index: 2;
+}
+
+.taste__jar[data-near] .taste__lid {
+  box-shadow: inset 0 -3px 0 rgb(0 0 0 / 0.2), 0 0 0 2px var(--ink), 0 0 0 7px rgb(232 101 10 / 0.35);
+}
+
+.taste__jar[data-near] .taste__name {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.taste__you {
+  position: absolute;
+  z-index: 3;
+  left: calc(8% + var(--x) * 0.84%);
+  top: calc(8% + var(--y) * 0.84%);
+  width: 2.75rem;
+  height: 2.75rem;
+  translate: -50% -50%;
+  border: 3px solid var(--card);
+  border-radius: 50%;
+  background: var(--orange);
+  box-shadow: 0 0 0 2px var(--ink), 0 6px 14px rgb(59 26 12 / 0.35);
+  cursor: grab;
+  touch-action: none;
+}
+
+.taste__you:active {
+  cursor: grabbing;
+}
+
+.taste__result {
+  display: grid;
+  gap: var(--space-s);
+}
+
+.taste__hint {
+  font-family: var(--font-hand);
+  color: var(--ink-2);
+}
+
+.taste__picks,
+.next__list {
+  display: grid;
+  gap: var(--space-s);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.next__list {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 18rem), 1fr));
+}
+
+/* Compact flavour card */
+.mini {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr);
+  grid-template-areas: 'photo body' 'buy buy';
+  gap: 0.75rem 1rem;
+  padding: 1rem;
+  border-radius: var(--r-l);
+  background: var(--card);
+  box-shadow: var(--shadow-paper);
+  border-top: 5px solid var(--flavour);
+}
+
+.mini__photo {
+  grid-area: photo;
+  overflow: hidden;
+  border-radius: var(--r-m);
+  aspect-ratio: 1;
+  background: var(--paper-2);
+}
+
+.mini__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mini__body {
+  grid-area: body;
+  display: grid;
+  align-content: center;
+  gap: 0.25rem;
+}
+
+.mini__title {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--step-2);
+}
+
+.mini__title a {
+  text-decoration: none;
+}
+
+.mini__memory {
+  font-family: var(--font-hand);
+}
+
+.mini__desc {
+  font-size: var(--step--1);
+  color: var(--ink-2);
+}
+
+.mini .buy {
+  grid-area: buy;
+}
+
+@media (max-width: 47.99rem) {
+  .taste__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .taste__map {
+    max-width: none;
+  }
+}

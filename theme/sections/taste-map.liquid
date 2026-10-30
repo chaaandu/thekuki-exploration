@@ -1,0 +1,84 @@
+{%- liquid
+  assign source = section.settings.collection
+  if source == blank
+    assign source = collections.all
+  endif
+  assign uid = 'map-' | append: section.id
+-%}
+<section class="taste section" {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %} aria-labelledby="{{ uid }}-title" data-taste-map>
+  <div class="section-head">
+    {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+    <h2 class="section-head__title" id="{{ uid }}-title">{{ section.settings.heading }}</h2>
+    {%- if section.settings.intro != blank -%}<div class="section-head__intro rte">{{ section.settings.intro }}</div>{%- endif -%}
+  </div>
+
+  <div class="taste__layout">
+    <div class="taste__map" data-taste-board>
+      <span class="taste__axis taste__axis--left">{{ section.settings.label_sweet }}</span>
+      <span class="taste__axis taste__axis--right">{{ section.settings.label_savoury }}</span>
+      <span class="taste__axis taste__axis--top">{{ section.settings.label_curious }}</span>
+      <span class="taste__axis taste__axis--bottom">{{ section.settings.label_comfort }}</span>
+      <ul class="taste__dots" role="list">
+        {%- for product in source.products -%}
+          {%- assign s = product.metafields.custom.flavour_story.value -%}
+          {%- if s.taste_sweet_savoury != blank and s.taste_comfort_curious != blank -%}
+            {%- liquid
+              assign x = s.taste_sweet_savoury.value
+              assign y = 100 | minus: s.taste_comfort_curious.value
+              assign name = product.title
+              if s.tag_name != blank
+                assign name = s.tag_name.value
+              endif
+            -%}
+            <li class="taste__jar" style="--x: {{ x }}; --y: {{ y }}; --flavour: {% if s.colour != blank %}{{ s.colour.value }}{% else %}#c89b68{% endif %};" data-taste-jar data-handle="{{ product.handle }}" data-x="{{ s.taste_sweet_savoury.value }}" data-y="{{ s.taste_comfort_curious.value }}">
+              <a class="taste__jar-link" href="{{ product.url }}">
+                <span class="taste__lid" aria-hidden="true"></span>
+                <span class="taste__name">{{ name }}</span>
+              </a>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      <button class="taste__you" type="button" data-taste-you style="--x: 45; --y: 55;" hidden>
+        <span class="visually-hidden">{{ 'taste.you_label' | t }}</span>
+      </button>
+    </div>
+
+    <div class="taste__result" data-taste-result>
+      <p class="taste__hint">{{ section.settings.hint }}</p>
+      <p class="visually-hidden" aria-live="polite" data-taste-live></p>
+      <ul class="taste__picks" role="list">
+        {%- for product in source.products -%}
+          {%- assign s = product.metafields.custom.flavour_story.value -%}
+          {%- if s.taste_sweet_savoury != blank -%}
+            <li class="taste__pick" data-taste-pick="{{ product.handle }}" hidden>
+              {%- render 'flavour-card-mini', product: product, story: s, source: 'taste-map' -%}
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+    </div>
+  </div>
+  <kuki-island data-island="tastemap" data-load="visible"></kuki-island>
+</section>
+
+{% schema %}
+{
+  "name": "Taste map",
+  "tag": "div",
+  "class": "section-taste",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Small heading", "default": "Not sure which jar?" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Find your flavour on the map" },
+    { "type": "richtext", "id": "intro", "label": "Intro", "default": "<p>Drag the dot to where your tastebuds are today. The nearest jars light up.</p>" },
+    { "type": "text", "id": "hint", "label": "Before the dot moves", "default": "Move the dot to see your two closest flavours." },
+    { "type": "text", "id": "label_sweet", "label": "Left label", "default": "Sweet" },
+    { "type": "text", "id": "label_savoury", "label": "Right label", "default": "Savoury" },
+    { "type": "text", "id": "label_comfort", "label": "Bottom label", "default": "Comfort" },
+    { "type": "text", "id": "label_curious", "label": "Top label", "default": "Curious" },
+    { "type": "collection", "id": "collection", "label": "Collection", "info": "Empty = every flavour. Positions come from each product's Flavour story." },
+    { "type": "text", "id": "anchor", "label": "Anchor", "default": "taste-map" }
+  ],
+  "presets": [{ "name": "Taste map" }]
+}
+{% endschema %}

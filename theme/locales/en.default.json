@@ -136,5 +136,8 @@
   "date_formats": {
     "abbreviated_date": "%-d %b %Y",
     "trays_date": "%A, %-d %B"
+  },
+  "taste": {
+    "you_label": "Your tastebuds today. Use the arrow keys to move."
   }
 }

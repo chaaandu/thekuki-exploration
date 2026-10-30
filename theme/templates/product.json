@@ -3,18 +3,68 @@
     "main": {
       "type": "main-product",
       "blocks": {
-        "title": { "type": "title" },
-        "memory": { "type": "memory" },
-        "buy": { "type": "buy", "settings": { "show_delivery": true } },
-        "pairing": { "type": "pairing" },
-        "gloss": { "type": "gloss" }
+        "title": {
+          "type": "title"
+        },
+        "memory": {
+          "type": "memory"
+        },
+        "buy": {
+          "type": "buy",
+          "settings": {
+            "show_delivery": true
+          }
+        },
+        "pairing": {
+          "type": "pairing"
+        },
+        "gloss": {
+          "type": "gloss"
+        }
       },
-      "block_order": ["title", "memory", "buy", "pairing", "gloss"],
-      "settings": { "enable_3d": true }
+      "block_order": [
+        "title",
+        "memory",
+        "buy",
+        "pairing",
+        "gloss"
+      ],
+      "settings": {
+        "enable_3d": true
+      }
     },
-    "story": { "type": "product-story", "settings": { "heading": "From the tray" } },
-    "textures": { "type": "texture-strip", "settings": { "heading": "Up close" } },
-    "facts": { "type": "product-facts", "settings": { "heading": "Good to know" } }
+    "story": {
+      "type": "product-story",
+      "settings": {
+        "heading": "From the tray"
+      }
+    },
+    "textures": {
+      "type": "texture-strip",
+      "settings": {
+        "heading": "Up close"
+      }
+    },
+    "facts": {
+      "type": "product-facts",
+      "settings": {
+        "heading": "Good to know"
+      }
+    },
+    "next": {
+      "type": "twist-next",
+      "settings": {
+        "heading": "Twist this next",
+        "intro": "Its closest neighbours on the taste map.",
+        "count": 3
+      }
+    }
   },
-  "order": ["main", "story", "textures", "facts"]
+  "order": [
+    "main",
+    "story",
+    "textures",
+    "facts",
+    "next"
+  ]
 }

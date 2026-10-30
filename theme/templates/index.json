@@ -3,19 +3,59 @@
     "shelf": {
       "type": "shelf-hero",
       "blocks": {
-        "jar-rose": { "type": "jar", "settings": { "product": "rose-gulkand" } },
-        "jar-boost": { "type": "jar", "settings": { "product": "boost-cookies" } },
-        "jar-masala": { "type": "jar", "settings": { "product": "masala-cookies" } },
-        "jar-blueberry": { "type": "jar", "settings": { "product": "blueberry-cookies" } },
-        "jar-omam": { "type": "jar", "settings": { "product": "omam-cookies" } },
-        "jar-nutella": { "type": "jar", "settings": { "product": "nutella-cookies" } }
+        "jar-rose": {
+          "type": "jar",
+          "settings": {
+            "product": "rose-gulkand"
+          }
+        },
+        "jar-boost": {
+          "type": "jar",
+          "settings": {
+            "product": "boost-cookies"
+          }
+        },
+        "jar-masala": {
+          "type": "jar",
+          "settings": {
+            "product": "masala-cookies"
+          }
+        },
+        "jar-blueberry": {
+          "type": "jar",
+          "settings": {
+            "product": "blueberry-cookies"
+          }
+        },
+        "jar-omam": {
+          "type": "jar",
+          "settings": {
+            "product": "omam-cookies"
+          }
+        },
+        "jar-nutella": {
+          "type": "jar",
+          "settings": {
+            "product": "nutella-cookies"
+          }
+        }
       },
-      "block_order": ["jar-rose", "jar-boost", "jar-masala", "jar-blueberry", "jar-omam", "jar-nutella"],
+      "block_order": [
+        "jar-rose",
+        "jar-boost",
+        "jar-masala",
+        "jar-blueberry",
+        "jar-omam",
+        "jar-nutella"
+      ],
       "settings": {
         "headline": "Twist your tastebuds.",
         "subline": "Small batch. Big bite.",
         "hint": "Drag a lid round, or tap a jar to twist it open.",
-        "chai_picks": ["masala-cookies", "omam-cookies"],
+        "chai_picks": [
+          "masala-cookies",
+          "omam-cookies"
+        ],
         "chai_tag": "chai-time picks",
         "enable_3d": true,
         "show_controls": true
@@ -49,29 +89,112 @@
     "day": {
       "type": "day-strip",
       "blocks": {
-        "m1": { "type": "moment", "settings": { "when": "Morning", "title": "Dough", "text": "Mixed, then portioned and shaped by hand." } },
-        "m2": { "type": "moment", "settings": { "when": "Through the day", "title": "Trays", "text": "Baked in small trays, one batch at a time." } },
-        "m3": { "type": "moment", "settings": { "when": "Once they've cooled", "title": "Packed", "text": "Into jars, by flavour and size." } },
-        "m4": { "type": "moment", "settings": { "when": "Then", "title": "Out the door", "text": "On their way to you. Nothing waits in a freezer." } }
+        "m1": {
+          "type": "moment",
+          "settings": {
+            "when": "Morning",
+            "title": "Dough",
+            "text": "Mixed, then portioned and shaped by hand."
+          }
+        },
+        "m2": {
+          "type": "moment",
+          "settings": {
+            "when": "Through the day",
+            "title": "Trays",
+            "text": "Baked in small trays, one batch at a time."
+          }
+        },
+        "m3": {
+          "type": "moment",
+          "settings": {
+            "when": "Once they've cooled",
+            "title": "Packed",
+            "text": "Into jars, by flavour and size."
+          }
+        },
+        "m4": {
+          "type": "moment",
+          "settings": {
+            "when": "Then",
+            "title": "Out the door",
+            "text": "On their way to you. Nothing waits in a freezer."
+          }
+        }
       },
-      "block_order": ["m1", "m2", "m3", "m4"],
+      "block_order": [
+        "m1",
+        "m2",
+        "m3",
+        "m4"
+      ],
       "settings": {
         "eyebrow": "Small batch, proven",
         "heading": "One day on the trays",
         "intro": "<p>Never frozen, never sitting around. Here's how a day of baking goes.</p>"
       }
     },
-    "trays": { "type": "todays-trays", "settings": { "heading": "Today's trays" } },
+    "trays": {
+      "type": "todays-trays",
+      "settings": {
+        "heading": "Today's trays"
+      }
+    },
     "about": {
       "type": "about-story",
       "blocks": {
-        "t1": { "type": "text", "settings": { "large": true, "text": "<p>Boost after school. Masala and omam with evening chai. Rose gulkand like the sweet paan after dinner. Each Kuki tastes like a moment you already know.</p>" } },
-        "facts": { "type": "facts", "settings": { "fact_1": "100% veg", "fact_2": "Shaped by hand", "fact_3": "Baked through the day", "fact_4": "Never frozen" } },
-        "more": { "type": "link", "settings": { "label": "Read the whole story", "url": "/pages/about" } }
+        "t1": {
+          "type": "text",
+          "settings": {
+            "large": true,
+            "text": "<p>Boost after school. Masala and omam with evening chai. Rose gulkand like the sweet paan after dinner. Each Kuki tastes like a moment you already know.</p>"
+          }
+        },
+        "facts": {
+          "type": "facts",
+          "settings": {
+            "fact_1": "100% veg",
+            "fact_2": "Shaped by hand",
+            "fact_3": "Baked through the day",
+            "fact_4": "Never frozen"
+          }
+        },
+        "more": {
+          "type": "link",
+          "settings": {
+            "label": "Read the whole story",
+            "url": "/pages/about"
+          }
+        }
       },
-      "block_order": ["t1", "facts", "more"],
-      "settings": { "eyebrow": "About Kuki", "heading": "Six flavours. Each one a memory.", "anchor": "about" }
+      "block_order": [
+        "t1",
+        "facts",
+        "more"
+      ],
+      "settings": {
+        "eyebrow": "About Kuki",
+        "heading": "Six flavours. Each one a memory.",
+        "anchor": "about"
+      }
+    },
+    "taste": {
+      "type": "taste-map",
+      "settings": {
+        "eyebrow": "Not sure which jar?",
+        "heading": "Find your flavour on the map",
+        "hint": "Move the dot to see your two closest flavours.",
+        "anchor": "taste-map"
+      }
     }
   },
-  "order": ["shelf", "flavours", "gifting", "day", "trays", "about"]
+  "order": [
+    "shelf",
+    "flavours",
+    "taste",
+    "gifting",
+    "day",
+    "trays",
+    "about"
+  ]
 }

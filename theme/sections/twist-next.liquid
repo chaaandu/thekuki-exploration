@@ -1,0 +1,58 @@
+{%- doc -%}
+  "Twist this next": the flavours nearest this one on the taste map (not generic
+  "related products"). Distances come from the Flavour story positions.
+{%- enddoc -%}
+{%- liquid
+  assign story = product.metafields.custom.flavour_story.value
+  assign ranked = ''
+  if story.taste_sweet_savoury != blank and story.taste_comfort_curious != blank
+    assign x0 = story.taste_sweet_savoury.value
+    assign y0 = story.taste_comfort_curious.value
+    for p in collections.all.products
+      if p.id == product.id
+        continue
+      endif
+      assign s = p.metafields.custom.flavour_story.value
+      if s.taste_sweet_savoury == blank or s.taste_comfort_curious == blank
+        continue
+      endif
+      assign dx = s.taste_sweet_savoury.value | minus: x0
+      assign dy = s.taste_comfort_curious.value | minus: y0
+      assign d = dx | times: dx
+      assign d2 = dy | times: dy
+      assign d = d | plus: d2 | plus: 100000
+      assign ranked = ranked | append: d | append: ':' | append: p.handle | append: ','
+    endfor
+  endif
+  assign picks = ranked | split: ',' | sort
+-%}
+{%- if picks.size > 0 -%}
+  <section class="next section" aria-labelledby="next-{{ section.id }}">
+    <div class="section-head">
+      <h2 class="section-head__title" id="next-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {%- if section.settings.intro != blank -%}<p class="section-head__intro">{{ section.settings.intro }}</p>{%- endif -%}
+    </div>
+    <ul class="next__list" role="list">
+      {%- for entry in picks limit: section.settings.count -%}
+        {%- assign handle = entry | split: ':' | last -%}
+        {%- assign p = all_products[handle] -%}
+        <li>{%- render 'flavour-card-mini', product: p, story: p.metafields.custom.flavour_story.value, source: 'twist-next' -%}</li>
+      {%- endfor -%}
+    </ul>
+  </section>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product: twist this next",
+  "tag": "div",
+  "class": "section-next",
+  "enabled_on": { "templates": ["product"] },
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Twist this next" },
+    { "type": "text", "id": "intro", "label": "Line under the heading", "default": "Its closest neighbours on the taste map." },
+    { "type": "range", "id": "count", "label": "How many", "min": 1, "max": 4, "step": 1, "default": 3 }
+  ],
+  "presets": [{ "name": "Product: twist this next" }]
+}
+{% endschema %}

@@ -1,0 +1,35 @@
+{%- doc -%}
+  A compact flavour: lid colour, name, memory (or description), size toggle and add.
+  Used by the taste map, "Twist this next" and the dabba.
+
+  @param {object} product
+  @param {object} [story]
+  @param {string} source - Analytics source label
+{%- enddoc -%}
+{%- liquid
+  assign name = product.title
+  if story.tag_name != blank
+    assign name = story.tag_name.value
+  endif
+  assign colour = '#c89b68'
+  if story.colour != blank
+    assign colour = story.colour.value
+  endif
+  assign photo = product.media[2] | default: product.featured_media
+-%}
+<article class="mini" style="--flavour: {{ colour }};">
+  {%- if photo != blank -%}
+    <a class="mini__photo" href="{{ product.url }}" tabindex="-1" aria-hidden="true">
+      {%- render 'image', image: photo, widths: '160,240,320', sizes: '6rem', ratio: 1, decorative: true -%}
+    </a>
+  {%- endif -%}
+  <div class="mini__body">
+    <h3 class="mini__title"><a href="{{ product.url }}">{{ name }}</a> {% render 'veg-mark', size: 'sm' %}</h3>
+    {%- if story.memory_line != blank -%}
+      <p class="mini__memory">{{ story.memory_line.value | escape }}</p>
+    {%- else -%}
+      <p class="mini__desc">{{ product.description | strip_html | truncatewords: 12 }}</p>
+    {%- endif -%}
+  </div>
+  {%- render 'buy-form', product: product, story: story, source: source, id_prefix: source, compact: true -%}
+</article>

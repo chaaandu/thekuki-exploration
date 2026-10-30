@@ -99,3 +99,13 @@
 .size-toggle--compact .size-toggle__price {
   font-size: var(--step-0);
 }
+
+/* Cookie-count visual: one dot per cookie (only when the Flavour story has the count). */
+.size-toggle__dots {
+  display: block;
+  height: 0.55rem;
+  width: calc(var(--n) * 0.62rem);
+  max-width: 100%;
+  margin-top: 0.15rem;
+  background: radial-gradient(circle at 0.27rem 50%, var(--kraft-2) 0.22rem, transparent 0.24rem) 0 0 / 0.62rem 100% repeat-x;
+}

@@ -67,6 +67,7 @@
         </span>
         {%- if count != blank -%}
           <span class="size-toggle__count">{{ 'product.cookie_count' | t: count: count }}</span>
+          <span class="size-toggle__dots" style="--n: {{ count | at_most: 30 }};" aria-hidden="true"></span>
         {%- endif -%}
         {%- unless variant.available -%}
           <span class="size-toggle__sold">{{ 'product.sold_out' | t }}</span>
